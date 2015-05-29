@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>设计模式之单例模式</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>设计模式之单例模式 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 05 月 01 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#designpatterns-ref">
+      designpatterns 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<h2 id="section">单例模式解释</h2>
+
+<p>单例模式是一种对象创建性模式，使用单例模式，可以保证为一个类只生成唯一的实例对象。也就是说，在整个程序空间中，该类只存在一个实例对象。</p>
+
+<p>单例模式的要点有三个：一是某个类只能有一个实例；而是必须自行创建整个实例；三是它必须自行向整个系统提供整个实例。</p>
+
+<p>英文定义为：Ensure a class only has one instance, and provide a global point of access to it.</p>
+
+<h2 id="section-1">单例模式深入分析</h2>
+
+<p>单例模式适合一个类只有一个实例的情况， 比如窗口管理器，打印缓冲池和文件系统，它们都是原型的例子。典型的情况是，那些对象的类型被遍及一个软件系统的不同对象访问，因此需要一个全局的访问指针，这便是总所周知的单例模式的应用。当然这只有在你确信你不再需要任何多于一个的实例的情况下。</p>
+
+<h2 id="section-2">使用场景及代码实现</h2>
+
+<p>下面就举例来说明下：</p>
+
+<p>单例模式的第一个版本，“饿汉式”，也就是当类加载进来的就立即实例化对象，但是这种方式比较的消耗计算机资源。如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+    <span class="sr">//</span> <span class="err">在类被加载进入内存的时候就创建单一的</span><span class="no">Foo</span><span class="err">对象</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="no">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Foo</span><span class="p">();</span>
+
+    <span class="sr">//</span> <span class="err">构造函数私有化</span>
+    <span class="kp">private</span> <span class="no">Foo</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">提供一个全局的静态方法</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">getFoo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>单例模式的第二个版本，“懒汉式”，在单线程下能够非常好的工作，但是在多线程下存在线程安全问题，如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="err">这种方式在需要使用的时候才实例化</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">foo</span><span class="p">;</span>
+
+    <span class="sr">//</span> <span class="err">构造函数私有化</span>
+    <span class="kp">private</span> <span class="no">Foo</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">提供一个全局的静态方法</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">getFoo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">foo</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Foo</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>单例模式的第三个版本，为解决多线程问题，采用了对函数进行同步的方式，但是比较浪费资源，因为每次都要进行同步检查，而实际中真正需要检查只是第一次实例化的时候，如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">foo</span><span class="p">;</span>
+
+    <span class="sr">//</span> <span class="err">构造函数私有化</span>
+    <span class="kp">private</span> <span class="no">Foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">提供一个全局的静态方法，使用同步方法</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">synchronized</span> <span class="no">Foo</span> <span class="n">getFoo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">foo</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Foo</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>单例模式的第四个版本，既解决了”懒汉式“的多线程问题，又解决了资源浪费的现象，看上去是一种不错的选择，如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">foo</span><span class="p">;</span>
+
+    <span class="sr">//</span> <span class="err">构造函数私有化</span>
+    <span class="kp">private</span> <span class="no">Foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">提供一个全局的静态方法</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">getFoo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">synchronized</span> <span class="p">(</span><span class="no">Foo</span><span class="o">.</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            	    <span class="n">foo</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Foo</span><span class="p">();</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-3">单例模式的优缺点分析</h2>
+
+<p>优点：客户端使用单例模式的实例的时候，只需要调用一个单一的方法即可生成一个唯一的实例，有利于节约资源。</p>
+
+<p>缺点：首先单例模式很难实现序列化，这就导致采用单例模式的类很难被持久化，当然也很难通过网络传输；其次由于单例采用静态方法，无法在继承结构中使用。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Singleton">Singleton <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/04/17/android-gesture-listener" title="Android手势">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/06/02/android-achartengine" title="Android AChartEngine">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/designpatterns/2013/05/01/singleton" data-title="设计模式之单例模式" data-url="/designpatterns/2013/05/01/singleton"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

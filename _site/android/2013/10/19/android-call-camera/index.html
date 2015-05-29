@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android调用系统相机拍照</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android调用系统相机拍照 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 10 月 19 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>在这次的开发中用到了拍照上传图片的功能，还好Android中调用系统相机很方便，代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">cameraBtn</span><span class="o">.</span><span class="n">setOnClickListener</span><span class="p">(</span><span class="kp">new</span> <span class="no">OnClickListener</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onClick</span><span class="p">()</span> <span class="p">{</span>
+		<span class="no">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="no">MediaStore</span><span class="o">.</span><span class="n">ACTION_IMAGE_CAPTURE</span><span class="p">);</span>
+		<span class="n">startActivityForResult</span><span class="p">(</span><span class="n">intent</span><span class="p">,</span> <span class="no">TAKE_PHOTO_REQUEST_CODE</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<p>获取拍照后图片数据，代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">void</span> <span class="n">onActivityResult</span><span class="p">(</span><span class="n">int</span> <span class="n">requestCode</span><span class="p">,</span> <span class="n">int</span> <span class="n">resultCode</span><span class="p">,</span> <span class="no">Intent</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="o">.</span><span class="n">onActivityResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">,</span> <span class="n">resultCode</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+		<span class="n">switch</span> <span class="p">(</span><span class="n">requestCode</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="ss">TAKE_PHOTO_REQUEST_CODE</span><span class="p">:</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">data!</span><span class="o">=</span><span class="n">null</span><span class="p">){</span>
+                <span class="no">Bundle</span> <span class="n">extras</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">getExtras</span><span class="p">();</span>
+                <span class="no">Bitmap</span> <span class="n">bmp</span> <span class="o">=</span> <span class="p">(</span><span class="no">Bitmap</span><span class="p">)</span> <span class="n">extras</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">);</span>
+        
+                <span class="n">imageView</span><span class="o">.</span><span class="n">setImageBitmap</span><span class="p">(</span><span class="n">bmp</span><span class="p">);</span>  <span class="sr">//</span><span class="err">设置照片现实在界面上</span>
+            <span class="p">}</span>  
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span></code></pre></div>
+
+<p>此时便遇到了问题，测试发现不同手机调用系统相机拍照时，有些并不会把照片存储起来，导致返回时无法获取照片数据，使用Log打印数据之后发现Bitmap bmp = (Bitmap) extras.get(“data”); 处出现异常。Android的兼容性真是一个头大的难题，但是问题依然是要解决，google了有了解决方案。就是拍照时会把数据指定存储在SDcard上，然后读取SDcard上的图片数据显示在ImageView上。下面就看下解决问题的代码：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">cameraBtn</span><span class="o">.</span><span class="n">setOnClickListener</span><span class="p">(</span><span class="kp">new</span> <span class="no">OnClickListener</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onClick</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isHasSdCard</span><span class="p">())</span> <span class="p">{</span>
+			<span class="no">Helper</span><span class="o">.</span><span class="n">showToast</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">sdcard_no_avaiable</span><span class="p">);</span>
+			<span class="k">return</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="no">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="no">MediaStore</span><span class="o">.</span><span class="n">ACTION_IMAGE_CAPTURE</span><span class="p">);</span>
+		<span class="sr">//</span> <span class="err">指定存储照片的路径</span>
+		<span class="no">Uri</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="no">Uri</span><span class="o">.</span><span class="n">fromFile</span><span class="p">(</span><span class="n">getTempImage</span><span class="p">());</span>
+		<span class="n">intent</span><span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="no">MediaStore</span><span class="o">.</span><span class="n">EXTRA_OUTPUT</span><span class="p">,</span> <span class="n">imageUri</span><span class="p">);</span>
+		<span class="n">startActivityForResult</span><span class="p">(</span><span class="n">intent</span><span class="p">,</span> <span class="no">TAKE_PHOTO_REQUEST_CODE</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<p>上面代码会指定调用系统相机拍照时图片的存储路径，其中指定了一个临时文件temp.jpg来存储。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">static</span> <span class="no">File</span> <span class="n">getTempImage</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">android</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">Environment</span><span class="o">.</span><span class="n">getExternalStorageState</span><span class="p">()</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span>
+			<span class="n">android</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">Environment</span><span class="o">.</span><span class="n">MEDIA_MOUNTED</span><span class="p">))</span> <span class="p">{</span>
+		<span class="no">File</span> <span class="n">tempFile</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">File</span><span class="p">(</span><span class="no">Environment</span><span class="o">.</span><span class="n">getExternalStorageDirectory</span><span class="p">(),</span> <span class="s2">&quot;temp.jpg&quot;</span><span class="p">);</span>
+		<span class="n">try</span> <span class="p">{</span>
+			<span class="n">tempFile</span><span class="o">.</span><span class="n">createNewFile</span><span class="p">();</span>
+		<span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+		<span class="p">}</span>
+
+		<span class="k">return</span> <span class="n">tempFile</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">null</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这时的onActivityResult的方法是下面这样的：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">void</span> <span class="n">onActivityResult</span><span class="p">(</span><span class="n">int</span> <span class="n">requestCode</span><span class="p">,</span> <span class="n">int</span> <span class="n">resultCode</span><span class="p">,</span> <span class="no">Intent</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">super</span><span class="o">.</span><span class="n">onActivityResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">,</span> <span class="n">resultCode</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+	<span class="n">switch</span> <span class="p">(</span><span class="n">requestCode</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="ss">TAKE_PHOTO</span><span class="p">:</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="no">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+			<span class="no">Bitmap</span> <span class="n">bmp</span> <span class="o">=</span> <span class="no">BitmapFactory</span><span class="o">.</span><span class="n">decodeFile</span><span class="p">(</span><span class="n">getTempImage</span><span class="p">()</span><span class="o">.</span><span class="n">getPath</span><span class="p">());</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">null</span> <span class="o">!=</span> <span class="n">bmp</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">postImage</span><span class="o">.</span><span class="n">setImageBitmap</span><span class="p">(</span><span class="n">bmp</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>兼容性问题终于解决了，不过不幸的是新的问题又出现了。</p>
+
+<p>由于目前Android手机的相机像素普遍已经比较高了，拍出来的照片可能都会达到1-2M，把这么大的一张图片加载进内存里肯定会报出OOM错误。即:</p>
+
+<pre><code>Bitmap bmp = BitmapFactory.decodeFile(getTempImage().getPath());
+</code></pre>
+
+<p>这行代码会报出内存不足的错误。所以解决方案是在拍照后返回的bitmap必须要经过压缩，然后加载进内存从而渲染出来才不会报出内存不足的错误。下面就看代码：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">static</span> <span class="no">Bitmap</span> <span class="n">getScaleBitmap</span><span class="p">(</span><span class="no">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="nb">String</span> <span class="n">filePath</span><span class="p">)</span> <span class="p">{</span>
+	<span class="no">BitmapFactory</span><span class="o">.</span><span class="n">Options</span> <span class="n">opt</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">BitmapFactory</span><span class="o">.</span><span class="n">Options</span><span class="p">();</span>
+	<span class="n">opt</span><span class="o">.</span><span class="n">inJustDecodeBounds</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
+	<span class="no">Bitmap</span> <span class="n">bmp</span> <span class="o">=</span> <span class="no">BitmapFactory</span><span class="o">.</span><span class="n">decodeFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">opt</span><span class="p">);</span>
+
+	<span class="n">int</span> <span class="n">bmpWidth</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">outWidth</span><span class="p">;</span>
+	<span class="n">int</span> <span class="n">bmpHeght</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">outHeight</span><span class="p">;</span>
+
+	<span class="no">WindowManager</span> <span class="n">windowManager</span> <span class="o">=</span> <span class="p">(</span><span class="no">WindowManager</span><span class="p">)</span> <span class="n">ctx</span><span class="o">.</span><span class="n">getSystemService</span><span class="p">(</span><span class="no">Context</span><span class="o">.</span><span class="n">WINDOW_SERVICE</span><span class="p">);</span>
+	<span class="no">Display</span> <span class="nb">display</span> <span class="o">=</span> <span class="n">windowManager</span><span class="o">.</span><span class="n">getDefaultDisplay</span><span class="p">();</span>
+	<span class="n">int</span> <span class="n">screenWidth</span> <span class="o">=</span> <span class="nb">display</span><span class="o">.</span><span class="n">getWidth</span><span class="p">();</span>
+	<span class="n">int</span> <span class="n">screenHeight</span> <span class="o">=</span> <span class="nb">display</span><span class="o">.</span><span class="n">getHeight</span><span class="p">();</span>
+
+	<span class="n">opt</span><span class="o">.</span><span class="n">inSampleSize</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">bmpWidth</span> <span class="o">&gt;</span> <span class="n">bmpHeght</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">bmpWidth</span> <span class="o">&gt;</span> <span class="n">screenWidth</span><span class="p">)</span>
+			<span class="n">opt</span><span class="o">.</span><span class="n">inSampleSize</span> <span class="o">=</span> <span class="n">bmpWidth</span> <span class="o">/</span> <span class="n">screenWidth</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">bmpHeght</span> <span class="o">&gt;</span> <span class="n">screenHeight</span><span class="p">)</span>
+			<span class="n">opt</span><span class="o">.</span><span class="n">inSampleSize</span> <span class="o">=</span> <span class="n">bmpHeght</span> <span class="o">/</span> <span class="n">screenHeight</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="n">opt</span><span class="o">.</span><span class="n">inJustDecodeBounds</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+
+	<span class="n">bmp</span> <span class="o">=</span> <span class="no">BitmapFactory</span><span class="o">.</span><span class="n">decodeFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">opt</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">bmp</span><span class="p">;</span>
+	<span class="p">}</span></code></pre></div>
+
+<p>上述代码的关键在于inJustDecodeBounds属性。如果设置inJustDecodeBounds为true，仍可以获取到bitmap信息，但完全不用分配内存，因为没有获取像素，所以我们可以利用得到的Bitmap的大小，重新压缩图片，然后在内存中生成一个更小的Bitmap，这样即便是一个4MB的JPG，我们也可以随心所欲地把他压缩到任意大小，从而节省了内存。</p>
+
+<p>下面看下更改后的代码:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">void</span> <span class="n">onActivityResult</span><span class="p">(</span><span class="n">int</span> <span class="n">requestCode</span><span class="p">,</span> <span class="n">int</span> <span class="n">resultCode</span><span class="p">,</span> <span class="no">Intent</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">super</span><span class="o">.</span><span class="n">onActivityResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">,</span> <span class="n">resultCode</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+	<span class="n">switch</span> <span class="p">(</span><span class="n">requestCode</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="ss">TAKE_PHOTO</span><span class="p">:</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="no">RESULT_OK</span><span class="p">)</span> <span class="p">{</span>
+			<span class="no">Bitmap</span> <span class="n">bmp</span> <span class="o">=</span> <span class="n">getScaleBitmap</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">getTempImage</span><span class="p">()</span><span class="o">.</span><span class="n">getPath</span><span class="p">());</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">null</span> <span class="o">!=</span> <span class="n">bmp</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">postImage</span><span class="o">.</span><span class="n">setImageBitmap</span><span class="p">(</span><span class="n">bmp</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Camera">Camera <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/other/2013/10/16/github-multiply-ssh-key" title="多个github帐号的SSH key切换">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/10/22/android-select-system-photos" title="Android调用系统图库">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/10/19/android-call-camera" data-title="Android调用系统相机拍照" data-url="/android/2013/10/19/android-call-camera"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

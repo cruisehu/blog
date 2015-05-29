@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Studio系列教程二--基本设置与运行</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Studio系列教程二--基本设置与运行 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 11 月 28 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<blockquote>
+  <blockquote>
+    <p>本文为个人原创，欢迎转载，但请务必在明显位置注明出处！</p>
+  </blockquote>
+</blockquote>
+
+<p>上面一篇博客，介绍了Studio的优点与1.0 RC的安装与上手体验，没想到google的更新速度这么快，已经出了RC 2版本，主要是修复一些bug。那么今天就带大家预览下Stduio的界面与基本功能。</p>
+
+<h2 id="section">项目结构</h2>
+
+<p>当我们新建一个项目的目录结构默认是这样的</p>
+
+<p><img src="/image/summary1.png" /></p>
+
+<p>可以看到和Eclipse的目录结构有很大区别，Studio一个窗口只能有一个项目，而Eclipse则可以同时存在很多项目，如果你看着不习惯可以点击左上角进行切换</p>
+
+<p><img src="/image/summary2.png" /></p>
+
+<p>切换到“project”模式下的目录结构是这样的，我个人也更习惯这种格式</p>
+
+<p><img src="/image/summary3.png" /></p>
+
+<p>和Eclipse的区别有如下：</p>
+
+<ul>
+  <li>
+    <p>1、Studio中有Project和Module的概念，前面说到Studio中一个窗口只能有一个项目，即Project，代表一个workspace，但是一个Project可以包含多个Module，比如你项目引用的Android Library, Java Library等，这些都可以看做是一个Module;</p>
+  </li>
+  <li>
+    <p>2、上述目录中将java代码和资源文件（图片、布局文件等）全部归结为src，在src目录下有一个main的分组，同时划分出java和res两个文件夹，java文件夹则相当于Eclipse下的src文件夹，res目录结构则一样.</p>
+  </li>
+</ul>
+
+<h2 id="section-1">偏好设置</h2>
+
+<p>进入后你也许发现字体大小或者样式不符合你的习惯，比如我是觉得代码太小看起来伤眼，Darcular主题默认的字体是12，我个人更习惯14的字体大小。没关系，到 <strong>Preferences</strong> (设置)页面搜索 <strong>Font</strong> 找到 <strong>Colors&amp;Fonts</strong> 下的 <strong>Font</strong> 选项，我们可以看到默认字体大小是12，但是无法修改，需要先保存才可以修改，点击 <strong>Save as</strong> 输入一个名字，比如 <strong>MyDarcular</strong>，然后就可以修改字体大小和字体样式了.</p>
+
+<p><img src="/image/preference_font1.png" /></p>
+
+<p>点击确定之后再回到页面发现字体是变大了，但是Studio默认的一些字体大小如侧边栏等确没有变化，看起来很不协调，如下图</p>
+
+<p><img src="/image/preference_font2.png" /></p>
+
+<p>强迫症的你肯定无法忍受，没关系，这里也同样可以设置，到 <strong>Preferences</strong> -&gt; <strong>Appearance</strong> 修改如图所示就ok，这里同样不仅可以更改字体大小，也可以选择不同的字体,点击OK，这次页面字体就完全对你胃口了。</p>
+
+<p><img src="/image/preference_font3.png" /></p>
+
+<p>调整之后再看下效果</p>
+
+<p><img src="/image/preference_font4.png" /></p>
+
+<h2 id="section-2">运行</h2>
+
+<p>接下来运行程序，运行和 <strong>Eclipse</strong> 中比较像，点击菜单栏的绿色箭头直接运行</p>
+
+<p><img src="/image/menu1.png" /></p>
+
+<p><strong>Studio</strong> 默认安装会启动模拟器，如果想让安装到真机上可以配置一下。在下拉菜单中选择 <strong>Edit Configurations</strong> 选择提示或者是USB设备。</p>
+
+<p><img src="/image/menu2.png" /></p>
+
+<p><img src="/image/menu3.png" /></p>
+
+<h2 id="section-3">常用功能</h2>
+
+<p>在Studio菜单栏的右边有这样几个常用的功能，如图分别是 <strong>Gradle同步</strong>、<strong>AVD Manager</strong>、<strong>SDK Manager</strong>、<strong>DDMS</strong></p>
+
+<p><img src="/image/menu4.png" /></p>
+
+<p><strong>Gradle同步</strong> 在你项目运行或者更改Gradle配置的时候都要点击下这个按钮，会下载相应的依赖</p>
+
+<p><strong>AVD Manager</strong> 模拟器管理</p>
+
+<p><strong>SDK Manager</strong> 就是管理你的SDK版本</p>
+
+<p><strong>DDMS</strong> 即 Dalvik Debug Monitor Service，Dalvik调试监控服务。</p>
+
+<h2 id="section-4">创建模拟器</h2>
+
+<p>建议在创建模拟器前把 <strong>SDK Manager</strong> 中的 <strong>Tools</strong>、<strong>Extras</strong> 都更新到最新。</p>
+
+<p>点击 <strong>AVD Manager</strong> 按钮</p>
+
+<p><img src="/image/avd1.png" /></p>
+
+<p>点击图中的创建按钮</p>
+
+<p><img src="/image/avd2.png" /></p>
+
+<p>选择一个设备，这里我选择 Nexus 5，然后Next</p>
+
+<p><img src="/image/avd3.png" /></p>
+
+<p>这里选择一个系统版本，这里以5.0为例，然后Next</p>
+
+<p><img src="/image/avd4.png" /></p>
+
+<p>由于各位的屏幕尺寸不一样，建议这里Scale一栏选择Auto，然后点击Finish接着可以看到我们已经创建好一个5.0的模拟器了</p>
+
+<p><img src="/image/avd5.png" /></p>
+
+<p>这次我们再运行，选择模拟器启动看下最终效果（模拟器的启动很慢，大家耐心等待）</p>
+
+<p><img src="/image/select_avd.png" /></p>
+
+<p><img src="/image/avd6.png" /></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#AndroidStudio">AndroidStudio <span>8</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/devtools/2014/11/25/android-studio-tutorial1" title="Android Studio系列教程一--下载与安装">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/devtools/2014/12/09/android-studio-tutorial3" title="Android Studio系列教程三--快捷键">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2014/11/28/android-studio-tutorial2" data-title="Android Studio系列教程二--基本设置与运行" data-url="/devtools/2014/11/28/android-studio-tutorial2"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

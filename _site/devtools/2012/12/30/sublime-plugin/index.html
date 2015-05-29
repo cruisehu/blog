@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Sublime Text 2 Plugin</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Sublime Text 2 Plugin </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2012 年 12 月 30 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>之前做android开发一直用eclipse做编辑器，之后接触ruby之后便开始用Sublime Text 2，渐渐的才发现此等编辑器的好处，也越来越依赖它。</p>
+
+<p>Sublime Text 2是一个轻量、简洁、高效、跨平台的编辑器，方便的配色以及兼容vim快捷键等各种优点博得了很多前端开发人员的喜爱。之前也不并知道它有这么多插件的扩展与支持，直到vincent问到有没有在用cTags插件，才知道原来Sublime通过插件也可以实现一些大型IDE的功能，遂google一下，本篇Blog就来介绍下Sublime下经常使用的插件。</p>
+
+<h2 id="package-control">安装包控制（Package Control）</h2>
+
+<p>打开Sublime Text 2，点击 Tools -&gt; Command Palette 调出控制台Console；</p>
+
+<p>将以下代码粘贴进命令行中并回车：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">import</span> <span class="n">urllib2</span><span class="p">,</span><span class="n">os</span><span class="p">;</span><span class="n">pf</span><span class="o">=</span><span class="s1">&#39;Package Control.sublime-package&#39;</span><span class="p">;</span><span class="n">ipp</span><span class="o">=</span><span class="n">sublime</span><span class="o">.</span><span class="n">installed_packages_path</span><span class="p">();</span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">else</span> <span class="no">None</span><span class="p">;</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipp</span><span class="p">,</span><span class="n">pf</span><span class="p">),</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://sublime.wbond.net/&#39;</span><span class="o">+</span><span class="n">pf</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;%20&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></code></pre></div>
+
+<p>重启 Sublime Text 2，如果在 Preferences -&gt; Package Settings中见到Package Control这一项，就说明安装成功了。</p>
+
+<h2 id="alignment">安装Alignment插件</h2>
+
+<p>对于某些喜欢整齐的程序员来说，看到下面这种情况可能是让其无法忍受的：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">var</span> <span class="n">joe</span> <span class="o">=</span> <span class="s1">&#39;joe&#39;</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">johnny</span> <span class="o">=</span> <span class="s1">&#39;johnny&#39;</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">quaid</span> <span class="o">=</span> <span class="s1">&#39;quaid&#39;</span><span class="p">;</span></code></pre></div>
+
+<p>一定要改成这样才会安心：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">var</span> <span class="n">joe</span>    <span class="o">=</span> <span class="s1">&#39;joe&#39;</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">johnny</span> <span class="o">=</span> <span class="s1">&#39;johnny&#39;</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">quaid</span>  <span class="o">=</span> <span class="s1">&#39;quaid&#39;</span><span class="p">;</span></code></pre></div>
+
+<p>Sublime Text 2 之中，一个 Sublime Alignment 插件也可以轻松实现。</p>
+
+<p>1.按下 Ctrl + Shift + P 调出命令面板。</p>
+
+<p>2.输入 install 调出 Package Control: Install Package 选项，按下回车。</p>
+
+<p>3.在列表中找到 Alignment，按下回车进行安装。</p>
+
+<p>4.重启 Sublime Text 2 使之生效。现在通过选中文本并按 Ctrl + Shift + A  就可以进行对齐操作了。</p>
+
+<h2 id="vim">Vim模式</h2>
+
+<p>是的，Sublime Text 2已经支持 Vim 的编辑模式了，如果更喜欢 Vim 的编辑模式，可以通过以下方法来激活 Vintage mode：</p>
+
+<p>1.按下 Ctrl + Shift + P 调出命令面板。</p>
+
+<p>2.输入 settings user 调出 Preferences：Settings - User，并按下回车。</p>
+
+<p>3.这时会打开一个 Preferences.sublime-settings 的文件， 如果是第一次修改，它应该是个空文件，把以下文本粘贴进去：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">{</span>
+  <span class="s2">&quot;ignored_packages&quot;</span><span class="p">:</span> <span class="o">[]</span>
+<span class="p">}</span></code></pre></div>
+
+<p>4.保存这个文件，这时按下 ESC 键，再按下一些你熟悉的 Vim 命令，是不是很有亲切感？</p>
+
+<h2 id="soda-">安装 Soda 主题</h2>
+
+<p>这里所讲的主题不同于针对代码的 Color Scheme，是指针对 Sublime 程序本身的主题，目前可以安装的是 Ian Hill 的 Soda。</p>
+
+<p>因为源中已经添加，所以这款主题的安装同样可以通过 Package Control，非常方便。目前 Soda 主题提供了明暗两种风格。</p>
+
+<p>激活方法，同样要修改 Preferences：Settings - User：</p>
+
+<p>1.按下 Ctrl + Shift + P 调出命令面板。</p>
+
+<p>2.输入 user settings 调出 Preferences：Settings - User，并按下回车。</p>
+
+<p>3.添加以下代码激活 Soda Light 主题：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">{</span>
+  <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;Soda Light.sublime-theme&quot;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>添加以下代码激活 Soda Dark 主题：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">{</span>
+  <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;Soda Dark.sublime-theme&quot;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>4.保存生效。</p>
+
+<h2 id="ctags">安装cTags插件</h2>
+
+<p>这个插件能跨文件跳转，实现像eclipse可那样以追踪函数的功能，从此更喜欢上Sublime了。安装方法:</p>
+
+<p>1.按下 Ctrl + Shift + P 调出命令面板。</p>
+
+<p>2.输入 install 调出 Package Control: Install Package 选项，按下回车。</p>
+
+<p>3.在列表中找到 ctags，按下回车进行安装。</p>
+
+<p>4.ubuntu下安装运行命令：sudo apt-get install exuberant-ctags。</p>
+
+<p>5.在sublime项目文件夹右键， 会出现Ctag:Rebuild Tags 的菜单。点击它，然后会生成.tags的文件。</p>
+
+<p>然后在你代码中， 光标放在某个函数上， 点击ctrl+shift+鼠标左键 就可以跳转到函数声明的地方。</p>
+
+<h2 id="zen-coding">Zen Coding</h2>
+
+<p>如果经常要写一些前端的代码，这个插件也是必不可少的，还不知道ZenCoding的同学推荐去看一下：<a href="http://www.qianduan.net/zen-coding-a-new-way-to-write-html-code.html">《Zen Coding: 一种快速编写HTML/CSS代码的方法》</a></p>
+
+<h2 id="git">Git</h2>
+
+<p>一个整合GIT和Sublime Text的插件，执行了很多你需要使用的命令。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Sublime">Sublime <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/rubyonrails/2012/12/20/ruby-eval-and-binding" title="Ruby: eval && binding">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/other/2013/01/01/my-2012" title="我的2012">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2012/12/30/sublime-plugin" data-title="Sublime Text 2 Plugin" data-url="/devtools/2012/12/30/sublime-plugin"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

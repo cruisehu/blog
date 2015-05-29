@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android手势</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android手势 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 04 月 17 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>之前做的App是完全没有任何手势支持的，对于现在的程序来说，如果没有一些手势的支持，感觉实在是有点落后了，支持手势的App才叫cool。于是在这次重新搭建ifood for android框架的同时下决心让自己的App完全支持手势。下面就来看下自己实现的一个全局滑动切换窗口的例子。</p>
+
+<p>在android系统中，手势的识别是通过 GestureDetector.OnGestureListener接口来实现的。如果要自定义手势需要重写这个接口里的一些方法，废话不多说，下面上代码：</p>
+
+<p>自定义的一个GestureLisntener:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MyGestureListener</span><span class="o">.</span><span class="n">java</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">MyGestureListener</span> <span class="n">implements</span> <span class="no">OnGestureListener</span> <span class="p">{</span>
+
+	<span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="s2">&quot;MyGestureListener&quot;</span><span class="p">;</span>
+
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">SWIPE_MAX_OFF_PATH</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">SWIPE_MIN_DISTANCE</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">SWIPE_THRESHOLD_VELOCITY</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+	
+	<span class="kp">public</span> <span class="no">Context</span> <span class="n">context</span><span class="p">;</span>
+	
+	<span class="kp">public</span> <span class="no">MyGestureListener</span><span class="p">(</span><span class="no">Context</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">this</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onDown</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+		<span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onShowPress</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+		<span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onShowPress&quot;</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onSingleTapUp</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+		<span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onScroll</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e1</span><span class="p">,</span> <span class="no">MotionEvent</span> <span class="n">e2</span><span class="p">,</span> <span class="n">float</span> <span class="n">distanceX</span><span class="p">,</span>
+			<span class="n">float</span> <span class="n">distanceY</span><span class="p">)</span> <span class="p">{</span>
+		<span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+		<span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onLongPress</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+		<span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onLongPress&quot;</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onFling</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e1</span><span class="p">,</span> <span class="no">MotionEvent</span> <span class="n">e2</span><span class="p">,</span> <span class="n">float</span> <span class="n">velocityX</span><span class="p">,</span>
+			<span class="n">float</span> <span class="n">velocityY</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="no">Math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">getY</span><span class="p">()</span> <span class="o">-</span> <span class="n">e2</span><span class="o">.</span><span class="n">getY</span><span class="p">())</span> <span class="o">&gt;</span> <span class="no">SWIPE_MAX_OFF_PATH</span><span class="p">)</span>
+			<span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">((</span><span class="n">e1</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">-</span> <span class="n">e2</span><span class="o">.</span><span class="n">getX</span><span class="p">())</span> <span class="o">&gt;</span> <span class="no">SWIPE_MIN_DISTANCE</span>
+				<span class="o">&amp;&amp;</span> <span class="no">Math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">velocityX</span><span class="p">)</span> <span class="o">&gt;</span> <span class="no">SWIPE_THRESHOLD_VELOCITY</span><span class="p">)</span> <span class="p">{</span>
+			<span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onFling left&quot;</span><span class="p">);</span>
+
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="n">e2</span><span class="o">.</span><span class="n">getX</span><span class="p">()</span> <span class="o">-</span> <span class="n">e1</span><span class="o">.</span><span class="n">getX</span><span class="p">())</span> <span class="o">&gt;</span> <span class="no">SWIPE_MIN_DISTANCE</span>
+				<span class="o">&amp;&amp;</span> <span class="no">Math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">velocityX</span><span class="p">)</span> <span class="o">&gt;</span> <span class="no">SWIPE_THRESHOLD_VELOCITY</span><span class="p">)</span> <span class="p">{</span>
+			<span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onFling right&quot;</span><span class="p">);</span>
+			<span class="p">((</span><span class="no">Activity</span><span class="p">)</span> <span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">finish</span><span class="p">();</span>
+			
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">}</span></code></pre></div>
+
+<p>在这个类中的onFling()方法中从左向右滑动时实现了界面的切换，如果有更复杂的手势支持，同样可以在这个基类中进行添加。</p>
+
+<p>接下来新建一个GestureActivity实现Gesture滑动切换界面，让支持手势的Activity继承它，这样就继承了它的手势支持功能，提高代码复用。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">GestureActivity</span><span class="o">.</span><span class="n">java</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">GestureActivity</span> <span class="n">extends</span> <span class="no">ActivityBase</span> <span class="p">{</span>
+
+	<span class="no">MyGestureListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">MyGestureListener</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+	<span class="kp">protected</span> <span class="no">GestureDetector</span> <span class="n">gestureDetector</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">GestureDetector</span><span class="p">(</span><span class="n">listener</span><span class="p">);</span>
+	
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onTouchEvent</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">gestureDetector</span><span class="o">.</span><span class="n">onTouchEvent</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+        <span class="k">else</span>  
+            <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+    <span class="p">}</span>
+	
+<span class="p">}</span></code></pre></div>
+
+<p>这样就实现了一个简单的滑动切换页面的框架，如果想支持更多的手势，只需要重写MyGestureListener的方法就可以了。</p>
+
+<p>不过不要高兴的太早，在一般的Activity手势支持是正常的，可是碰到一些包含ScrollView或者ListView的Activity时，手势就不相应了。原因是因为这些滑动的组件本身就已经具有了手势的支持，这样就会产生了冲突，导致自定义的手势没有被识别到。google了很久，似乎也没个具体的方法，后来看到说用dispatchTouchEvent(MotionEvent ev) 的方法，果然可以。于是在GestureActivity里就多了这样一个方法：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">boolean</span> <span class="n">dispatchTouchEvent</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">ev</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">gestureDetector</span><span class="o">.</span><span class="n">onTouchEvent</span><span class="p">(</span><span class="n">ev</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">super</span><span class="o">.</span><span class="n">dispatchTouchEvent</span><span class="p">(</span><span class="n">ev</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>此时再试一下，果然所有Activity都实现了自定义的手势事件。但是为什么加上这个方法就可以了呢，必须要搞明白。</p>
+
+<p>android中的事件类型分为按键事件和屏幕触摸事件，Touch事件是屏幕触摸事件的基础事件，有必要对它进行深入的了解。</p>
+
+<p>一个最简单的屏幕触摸动作触发了一系列Touch事件：ACTION_DOWN-&gt;ACTION_MOVE-&gt;ACTION_MOVE-&gt;ACTION_MOVE…-&gt;ACTION_MOVE-&gt;ACTION_UP</p>
+
+<p>当屏幕中包含一个ViewGroup，而这个ViewGroup又包含一个子view，这个时候android系统如何处理Touch事件呢？到底是ViewGroup来处理Touch事件，还是子view来处理Touch事件呢？答案是：不一定。</p>
+
+<p>android系统中的每个View的子类都具有下面三个和TouchEvent处理密切相关的方法：</p>
+
+<p>1.public boolean dispatchTouchEvent(MotionEvent ev)  这个方法用来分发TouchEvent</p>
+
+<p>2.public boolean onInterceptTouchEvent(MotionEvent ev) 这个方法用来拦截TouchEvent</p>
+
+<p>3.public boolean onTouchEvent(MotionEvent ev) 这个方法用来处理TouchEvent</p>
+
+<p>当TouchEvent发生时，首先Activity将TouchEvent传递给最顶层的View， TouchEvent最先到达最顶层 view 的 dispatchTouchEvent ，然后由  dispatchTouchEvent 方法进行分发，如果dispatchTouchEvent返回true ，则交给这个view的onTouchEvent处理，如果dispatchTouchEvent返回 false ，则交给这个 view 的 interceptTouchEvent 方法来决定是否要拦截这个事件，如果 interceptTouchEvent 返回 true ，也就是拦截掉了，则交给它的 onTouchEvent 来处理，如果 interceptTouchEvent 返回 false ，那么就传递给子 view ，由子 view 的 dispatchTouchEvent 再来开始这个事件的分发。如果事件传递到某一层的子 view 的 onTouchEvent 上了，这个方法返回了 false ，那么这个事件会从这个 view 往上传递，都是 onTouchEvent 来接收。而如果传递到最上面的 onTouchEvent 也返回 false 的话，这个事件就会“消失”，而且接收不到下一次事件。</p>
+
+<p>看到这终于清楚了上面的疑问，dispatchTouchEvent()方法直接将触摸事件交给了gestureDetector的触摸事件，这样就解决了冲突问题。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Gesture">Gesture <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/04/07/android-activity-group" title="Android ActivityGroup">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/designpatterns/2013/05/01/singleton" title="设计模式之单例模式">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/04/17/android-gesture-listener" data-title="Android手势" data-url="/android/2013/04/17/android-gesture-listener"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android OnTouchListener OnGestureListener</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android OnTouchListener OnGestureListener </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 07 月 14 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>Android事件处理机制是基于Listener实现的，比如触摸屏相关的事件，是通过OnTouchListener实现的；而手势是通过OnGestureListener实现的，那么这两者有什么关联呢？</p>
+
+<h2 id="ontouchlistener">OnTouchListener</h2>
+
+<p>OnTouchListener接口中包含一个onTouch()方法，直接看一个例子：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MainActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="n">implements</span> <span class="no">OnTouchListener</span> <span class="p">{</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">outState</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">outState</span><span class="p">);</span>
+    	<span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">main</span><span class="p">);</span>
+    	<span class="no">TextView</span> <span class="n">tv</span> <span class="o">=</span> <span class="p">(</span><span class="no">TextView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">tv</span><span class="p">);</span>
+    	<span class="n">tv</span><span class="o">.</span><span class="n">setOnTouchListener</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">onTouch</span><span class="p">(</span><span class="no">View</span> <span class="n">v</span><span class="p">,</span> <span class="no">MotionEvent</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span>  <span class="s2">&quot;Touch Touch&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_SHORT</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+		<span class="k">return</span> <span class="kp">false</span> <span class="p">;</span> 
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>我们可以通过MotionEvent的getAction()方法来获取Touch事件的类型，包括 ACTION_DOWN（按下触摸屏）, ACTION_MOVE（按下触摸屏后移动受力点）, ACTION_UP（松开触摸屏）和ACTION_CANCEL（不会由用户直接触发）。借助对于用户不同操作的判断，结合getRawX()、 getRawY()、getX()和getY()等方法来获取坐标后，我们可以实现诸如拖动某一个按钮，拖动滚动条等功能。</p>
+
+<p>可以看到OnTouchListener只能监听到三种触摸事件，即按下，移动，松开，如果想要监听到双击、滑动、长按等复杂的手势操作，这个时候就必须得用到OnGestureListener了。</p>
+
+<h2 id="ongesturelistener">OnGestureListener</h2>
+
+<p>接着上面的例子，这次加入手势监听：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MainActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="n">implements</span> <span class="no">OnTouchListener</span><span class="p">,</span> <span class="no">OnGestureListener</span> <span class="p">{</span>
+	<span class="kp">private</span>  <span class="no">GestureDetector</span> <span class="n">mGestureDetector</span><span class="p">;</span> 
+
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">outState</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">outState</span><span class="p">);</span>
+    	<span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">main</span><span class="p">);</span>
+
+    	<span class="n">mGestureDetector</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">GestureDetector</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    	<span class="no">TextView</span> <span class="n">tv</span> <span class="o">=</span> <span class="p">(</span><span class="no">TextView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">tv</span><span class="p">);</span>
+    	<span class="n">tv</span><span class="o">.</span><span class="n">setOnTouchListener</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">onTouch</span><span class="p">(</span><span class="no">View</span> <span class="n">v</span><span class="p">,</span> <span class="no">MotionEvent</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="k">return</span> <span class="n">mGestureDetector</span><span class="o">.</span><span class="n">onTouchEvent</span><span class="p">(</span><span class="n">event</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">用户轻触触摸屏，由</span><span class="mi">1</span><span class="err">个</span><span class="no">MotionEvent</span> <span class="no">ACTION_DOWN</span><span class="err">触发</span>  
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">onDown</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">arg0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="s2">&quot;MyGesture&quot;</span><span class="p">,</span> <span class="s2">&quot;onDown&quot;</span><span class="p">);</span>
+		<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;onDown&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_SHORT</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>      
+		<span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sr">//</span> <span class="err">用户轻触触摸屏，尚未松开或拖动，由一个</span><span class="mi">1</span><span class="err">个</span><span class="no">MotionEvent</span> <span class="no">ACTION_DOWN</span><span class="err">触发</span><span class="p">,</span> <span class="err">注意和</span><span class="n">onDown</span><span class="p">()</span><span class="err">的区别，强调的是没有松开或者拖动的状态</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onShowPress</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="s2">&quot;MyGesture&quot;</span><span class="p">,</span>  <span class="s2">&quot;onShowPress&quot;</span><span class="p">);</span>           
+		<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;onShowPress&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_SHORT</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="sr">//</span> <span class="err">用户（轻触触摸屏后）松开，由一个</span><span class="mi">1</span><span class="err">个</span><span class="no">MotionEvent</span> <span class="no">ACTION_UP</span><span class="err">触发</span>
+
+	<span class="kp">public</span>   <span class="n">boolean</span>  <span class="n">onSingleTapUp</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="s2">&quot;MyGesture&quot;</span><span class="p">,</span> <span class="s2">&quot;onSingleTapUp&quot;</span><span class="p">);</span>
+		<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;onSingleTapUp&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_SHORT</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+		<span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sr">//</span> <span class="err">用户按下触摸屏、快速移动后松开，由</span><span class="mi">1</span><span class="err">个</span><span class="no">MotionEvent</span> <span class="no">ACTION_DOWN</span><span class="p">,</span> <span class="err">多个</span><span class="no">ACTION_MOVE</span><span class="p">,</span> <span class="mi">1</span><span class="err">个</span><span class="no">ACTION_UP</span><span class="err">触发</span>        
+
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onFling</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e1</span><span class="p">,</span> <span class="no">MotionEvent</span> <span class="n">e2</span><span class="p">,</span> <span class="n">float</span> <span class="n">velocityX</span><span class="p">,</span> <span class="n">float</span> <span class="n">velocityY</span><span class="p">)</span> <span class="p">{</span>    
+		<span class="no">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="s2">&quot;MyGesture&quot;</span><span class="p">,</span> <span class="s2">&quot;onFling&quot;</span><span class="p">);</span>
+		<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;onFling&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_LONG</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>     
+		<span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+	<span class="p">}</span>
+
+  	<span class="sr">//</span> <span class="err">用户按下触摸屏，并拖动，由</span><span class="mi">1</span><span class="err">个</span><span class="no">MotionEvent</span> <span class="no">ACTION_DOWN</span><span class="p">,</span> <span class="err">多个</span><span class="no">ACTION_MOVE</span><span class="err">触发</span>
+
+	<span class="kp">public</span> <span class="n">boolean</span> <span class="n">onScroll</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e1</span><span class="p">,</span> <span class="no">MotionEvent</span> <span class="n">e2</span><span class="p">,</span> <span class="n">float</span> <span class="n">distanceX</span><span class="p">,</span> <span class="n">float</span> <span class="n">distanceY</span><span class="p">)</span> <span class="p">{</span>            
+		<span class="no">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="s2">&quot;MyGesture&quot;</span><span class="p">,</span> <span class="s2">&quot;onScroll&quot;</span><span class="p">);</span>
+ 		<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;onScroll&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_LONG</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+		<span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+ 	<span class="p">}</span>
+
+  	<span class="sr">//</span> <span class="err">用户长按触摸屏，由多个</span><span class="no">MotionEvent</span> <span class="no">ACTION_DOWN</span><span class="err">触发</span>
+
+	<span class="kp">public</span>   <span class="n">void</span>  <span class="n">onLongPress</span><span class="p">(</span><span class="no">MotionEvent</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="s2">&quot;MyGesture&quot;</span><span class="p">,</span> <span class="s2">&quot;onLongPress&quot;</span><span class="p">);</span>
+		<span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;onLongPress&quot;</span><span class="p">,</span> <span class="no">Toast</span><span class="o">.</span><span class="n">LENGTH_LONG</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+ 	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>本示例中，用到了OnGestureListener接口的onScroll()和OnFling()方法，涉及到了Android系统坐标及触摸MotionEvent e1和e2、速度velocityX、velocityY等值,那么这里就顺便补充下Android屏幕坐标系如下图：</p>
+
+<p><img src="http://my.csdn.net/uploads/201206/13/1339581389_3855.png" /></p>
+
+<p>（1）MotionEvent中 e1是手指第一次按上屏幕的起点，e2是抬起手指离开屏幕的终点，根据上图Android屏幕坐标系可知：</p>
+
+<p>手指向右滑动，终点（e2）在起点（e1）的右侧，有e2.getX() - e1.getX() 大于0
+手指向左滑动，终点（e2）在起点（e1）的左侧，有e2.getX() - e1.getX() 小于0
+手指向下滑动，终点（e2）在起点（e1）的下侧，有e2.getY() - e1.getY() 大于0
+手指向上滑动，终点（e2）在起点（e1）的上侧，有e2.getY() - e1.getY() 小于0</p>
+
+<p>（2）onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)</p>
+
+<p>distanceX，是前后两次call的X距离，不是e2与e1的水平距离
+distanceX，是前后两次call的Y距离，不是e2与e1的垂直距离
+具体数值的方向，请详见上图（中）</p>
+
+<p>（3）onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)</p>
+
+<p>velocityX，是X轴的每秒速度
+velocityY，是Y轴的每秒速度
+具体数值的方向，请详见上图（右）
+仔细观察可以发现：velocityX、velocityY的方向与distanceX、distanceY方向正好相反</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Gesture">Gesture <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/07/07/eight-android-develop-tools" title="8个常用的Android开发工具">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/java/2013/07/20/java-coding-standards" title="Java编程规范">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/07/14/android-ontouchlistener-and-ongesturelistener" data-title="Android OnTouchListener OnGestureListener" data-url="/android/2013/07/14/android-ontouchlistener-and-ongesturelistener"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

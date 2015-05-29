@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Single Sqlite Connection</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Single Sqlite Connection </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 08 月 16 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#sqlite-ref">
+      sqlite 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>最近在做数据同步的功能，其中在用户第一次同步时会下载数据，如果数据量比较大的话会比较耗时，十几秒的时间很是正常，但是下载数据的时候让用户在那干等不让他进行任何操作用户体验是很差的，那这个时候就只有新开一个线程，让下载数据的一系列动作在后台进行。</p>
+
+<p>所谓下载数据就是把数据从网络取回来的时候把输入insert到本地sqlite数据库中，这时候问题就来了，如果在下载数据的同时用户也在进行数据库的操作（如记录等），这个时候就会有冲突并报出异常，解决的办法是始终让整个Application保持一个database连接，这样的话即使多线程同时访问sqlite，database对象使用java锁会保持访问的序列化。那么如果保持Application是一个database连接呢？</p>
+
+<p>我们一般都是用SqliteOpenHelper来管理数据库，而一个Helper实例会产生一个database连接，所以我们只需要让整个Application产生一个SqliteOpenHelper的实例就ok了，没错，就是单例模式，废话不多说，看代码：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">DBHelper</span> <span class="n">extends</span> <span class="no">SQLiteOpenHelper</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">DB_NAME</span> <span class="o">=</span> <span class="s2">&quot;food.db&quot;</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">DB_VERSION</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="no">DBHelper</span> <span class="n">helper</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">synchronized</span> <span class="no">DBHelper</span> <span class="n">getInstance</span><span class="p">(</span><span class="no">Context</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">helper</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">helper</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">DBHelper</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kp">private</span> <span class="no">DBHelper</span><span class="p">(</span><span class="no">Context</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="no">DB_NAME</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="no">DB_VERSION</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>接下来就是在你的Application类或者Activity类调用了。值得一说的是下面这个代码是不正确的：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyApplication</span> <span class="n">extends</span> <span class="no">Application</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="no">Context</span> <span class="n">context</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="no">DBHelper</span> <span class="n">dbHelper</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">();</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">getApplicationContext</span><span class="p">();</span>
+        <span class="n">dbHelper</span> <span class="o">=</span> <span class="no">DBHelper</span><span class="o">.</span><span class="n">getInstance</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onTerminate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onTerminate</span><span class="p">();</span>
+        <span class="n">dbHelper</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>因为onTerminate()方法并不会一直执行，在由于异常退出的时候这个方法就不会执行。所以我的解决方案是在主ActivityGroup的onDestroy方法里也会执行一次数据库的关闭，确保万无一失。</p>
+
+<p>参考资料:
+<a href="http://stackoverflow.com/questions/2493331/what-are-the-best-practices-for-sqlite-on-android">http://stackoverflow.com/questions/2493331/what-are-the-best-practices-for-sqlite-on-android</a></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#SqliteConnection">SqliteConnection <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/sqlite/2013/08/11/android-sqlite-database-upgrade" title="Android Sqlite Database Upgrade">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/sqlite/2013/08/19/android-insert-performance-optimization" title="Android批量插入数据性能优化">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/sqlite/2013/08/16/android-single-sqlite-connection" data-title="Android Single Sqlite Connection" data-url="/android/sqlite/2013/08/16/android-single-sqlite-connection"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

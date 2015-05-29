@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Studio系列教程一--下载与安装</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Studio系列教程一--下载与安装 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 11 月 25 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<blockquote>
+  <blockquote>
+    <p>本文为个人原创，欢迎转载，但请务必在明显位置注明出处！</p>
+  </blockquote>
+</blockquote>
+
+<h2 id="section">背景</h2>
+
+<p>相信大家对Android Studio已经不陌生了，Android Studio是Google于2013 I/O大会针对Android开发推出的新的开发工具，目前很多开源项目都已经在采用，Google的更新速度也很快，明显能感觉到这是Android开发的未来，那么我们还有什么理由不去拥抱未来呢？</p>
+
+<p>虽然推出了很久，但是国内貌似普及的程度并不高，鉴于很多朋友求studio的详细教程，那么今天我就手把手教大家下载、安装、使用，Studio之路从这里开始。</p>
+
+<h2 id="android-studio-vs-eclipse">Android Studio VS Eclipse</h2>
+
+<p>相信目前国内用Eclipse的还是大多数，那么首先就来说一下Studio的一些优点，比较才能更有说服力，才能说明为什么我们要从Eclipse迁移到Studio。</p>
+
+<ul>
+  <li>1、Google推出的</li>
+</ul>
+
+<p>毫无疑问，这个是它的最大优势，Android Stuido是Google推出，专门为Android“量身订做”的，是Google大力支持的一款基于IntelliJ IDEA改造的IDE，这个应该能说明为什么它是Android的未来</p>
+
+<ul>
+  <li>2、速度更快</li>
+</ul>
+
+<p>Eclipse的启动速度、响应速度、内存占用一直被诟病，相信大家这点应该深有体会，而且经常遇到卡死状态。Studio不管哪一个方面都全面领先Eclipse</p>
+
+<ul>
+  <li>3、UI更漂亮</li>
+</ul>
+
+<p>I/O上演示的那款黑色主题真是太棒了，极客范，Stuido自带的Darcula主题的炫酷黑界面实在是高大上，相比而言Eclipse下的黑色主题太low了</p>
+
+<ul>
+  <li>4、更加智能</li>
+</ul>
+
+<p>提示补全对于开发来说意义重大， Studio则更加智能，智能保存，从此再也不用每次都 Ctrl + S了。熟悉Studio以后效率会大大提升。</p>
+
+<ul>
+  <li>5、整合了Gradle构建工具</li>
+</ul>
+
+<p>Gradle是一个新的构建工具，自Studio亮相之处就支持Gradle，可以说Gradle集合了Ant和Maven的优点，不管是配置、编译、打包都非常棒。</p>
+
+<ul>
+  <li>6、强大的UI编辑器</li>
+</ul>
+
+<p>Android Studio的编辑器非常的智能，除了吸收Eclipse+ADT的优点之外，还自带了多设备的实时预览，相对这对Android开发者来说简直是神器啊。</p>
+
+<ul>
+  <li>7、内置终端</li>
+</ul>
+
+<p>Studio内置终端，这对于习惯命令行操作的人来说简直是福音啊，再也不用来回切换了，一个Studio全部搞定。</p>
+
+<ul>
+  <li>8、更完善的插件系统</li>
+</ul>
+
+<p>Studio下支持各种插件，如Git、Markdown、Gradle等等，你想要什么插件，直接搜索下载。</p>
+
+<ul>
+  <li>9、完美整合版本控制系统</li>
+</ul>
+
+<p>安装的时候就自带了如GitHub, Git, SVN等流行的版本控制系统，可以直接check out你的项目。</p>
+
+<p>大家看完以上是不是很动心呢，优点是很多，但是大家学习的时候会遇到很多问题，如Studio和Eclipse的目录结构、快捷键等等完全不一样，需要适应一段时间，Gradle同样增加了学习成本，虽然Google的更新速度已经相当快了，但是目前最新的是1.0RC版本，仍未推出正式版，说明可能会有一些小问题等，Studio官方解释暂未支持NDK，所以如果你的项目用到了NDK最好也不要使用Studio。</p>
+
+<p>但是相信Google会越来越完善的，学习成本与适应阶段是我们做技术一直要保持的心态，一旦上手相信你要离不开它了。</p>
+
+<p>最后这里先上一张我本地Studio的截图：</p>
+
+<p><img src="/image/studio_preview.png" /></p>
+
+<h2 id="section-1">准备</h2>
+
+<p>因为Google Android的一些官方网站在国内访问有限制，原因你懂得。所以在开始下载安装Studio之前，你需要自备梯子，关于如何翻墙有很多种方法，这里就不做过多介绍，私以为作为一个Android开发者，不懂翻墙基本没法做下去。所以这点投入是值得的，这里推荐大家直接购买VPN吧，因为我曾经折腾了很多翻墙的玩意，要么不稳定，要么速度慢，后来想通了，凡是花点钱能解决的问题都不是问题，这里推荐<a href="https://www.ytvpn.com/?r=a9b90a505050781a">云梯VPN</a>，价格算是很便宜的了，别再问我速度、稳定性如何，我已经使用并续费快两年了。（通过这个链接购买的，你的账户可以优惠10元）</p>
+
+<h2 id="section-2">下载</h2>
+
+<p>官方下载有两个地方，均需要翻墙。</p>
+
+<ul>
+  <li><a href="http://developer.android.com/sdk/installing/studio.html">Android Developer官网</a></li>
+</ul>
+
+<p>Android开发者官网的网站，可直接下载，但是这个网站貌似只更新Beta和正式版，目前只更新到Beta 0.8.14版本。</p>
+
+<ul>
+  <li><a href="http://tools.android.com/download/studio/canary">Android Tools Project Site</a></li>
+</ul>
+
+<p>Android开发工具的网站，上面链接是Studio的canary渠道，列出了Studio各种实时预览版等，目前最新的是1.0RC版本。</p>
+
+<h2 id="helloworld">创建HelloWorld项目</h2>
+
+<p>至于安装就没什么可说的了，点击直接运行了。这里我以Mac系统的1.0RC版本为例，来创建第一个HelloWorld项目。其他平台基本上差不多，在这之前假设你已经配置好了JDK和Android SDK环境，并且你是第一次安装Studio。</p>
+
+<ul>
+  <li>1、首先运行时的欢迎画面</li>
+</ul>
+
+<p><img src="/image/studio_splash.png" /></p>
+
+<ul>
+  <li>2、之后第一次的话会进入到设置向导页</li>
+</ul>
+
+<p><img src="/image/studio_wizard1.png" /></p>
+
+<p>点击Next进入选择设置类型向导页</p>
+
+<p><img src="/image/studio_wizard2.png" /></p>
+
+<p>这里有两个选项“Standard”和“Custom”，即标准和自定义，如果你本机的Android SDK没有配置过，那么建议直接选择“Standard”, 点击“Finish”按钮</p>
+
+<p>因为我本地已经下载SDK并配置好了环境变量，所以我选择”Custom”，然后到下一步：</p>
+
+<p><img src="/image/studio_wizard3.png" /></p>
+
+<p>这一步选择你本地SDK的位置，可以看到有个2.25GB的SDK要下载，那是因为Studio 1.0默认要下载5.0的SDK以及一些Tools之类的，然后点击”Finish”按钮</p>
+
+<p>（PS: 这个选择并下载2.25G的组件是studio的一个bug，评论里有人提醒，感谢这位同学。如果网速不行想跳过这步的可以在bin目录的idea.properties增加一行：disable.android.first.run=true就行了，mac平台的右键安装包-&gt;Show Package Contents 就找到bin目录了。）</p>
+
+<ul>
+  <li>3、下载依赖组件</li>
+</ul>
+
+<p><img src="/image/studio_wizard4.png" /></p>
+
+<p>之后便到下载组件页面，这个过程需要翻墙，而且依赖你的网速，时间有点久，大家耐心等待…</p>
+
+<p><img src="/image/studio_wizard5.png" /></p>
+
+<p>下载完成后点击”Finish”按钮</p>
+
+<ul>
+  <li>4、新建项目</li>
+</ul>
+
+<p><img src="/image/studio_wizard6.png" /></p>
+
+<p>在这个页面我们可以新建项目，也可以导入项目本地或者GitHub上的项目等，左边可以查看最近打开的项目等，这里我直接新建项目</p>
+
+<p>然后到如下界面</p>
+
+<p><img src="/image/studio_wizard7.png" /></p>
+
+<p>我们填上项目名称和报名以及项目路径等然后”Next”</p>
+
+<p><img src="/image/studio_wizard8.png" /></p>
+
+<p>这个页面支持你适配TV、Wear、Glass等，我们只选择第一项就ok，选好最小SDK然后”Next”</p>
+
+<p><img src="/image/studio_wizard9.png" /></p>
+
+<p>这个页面选择一个Activity模板，和Eclipse很像，我们直接选择一个Blank Activity好了</p>
+
+<p><img src="/image/studio_wizard10.png" /></p>
+
+<p>点击”Finish”后等一会出来如下一个进度条，很多人容易卡在这里，这里需要下载Gradle，只第一次会下载，有点慢，需要翻墙，大家也耐心等待下</p>
+
+<p><img src="/image/studio_wizard11.png" /></p>
+
+<p>下载成功后变看到如下完整的项目界面</p>
+
+<p><img src="/image/setup.png" /></p>
+
+<p>至此一个简单的Studio项目就完成了，图片中也可以看到默认是一个白色主题，不够酷炫？Studio默认自带一款高大上的黑色主题，只需要简单修改下就OK。</p>
+
+<p>到Preference -&gt; Appearance下更改主题到Darcula</p>
+
+<p><img src="/image/studio_theme.png" /></p>
+
+<p>之后我们再来看一下更改后的主题</p>
+
+<p><img src="/image/setup2.png" /></p>
+
+<p>很酷炫有木有？至此第一期的Studio简单介绍就到这里，后面会介绍目录结构、快捷键、导入项目、集成GitHub、Gradle等等，敬请期待。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#AndroidStudio">AndroidStudio <span>8</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/git/2014/11/16/github-cheat-sheet" title="GitHub秘籍">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/devtools/2014/11/28/android-studio-tutorial2" title="Android Studio系列教程二--基本设置与运行">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2014/11/25/android-studio-tutorial1" data-title="Android Studio系列教程一--下载与安装" data-url="/devtools/2014/11/25/android-studio-tutorial1"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

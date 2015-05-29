@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android ViewFinder</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android ViewFinder </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 08 月 24 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#androidtips-ref">
+      androidtips 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>在Android获取一个View一般都是通过如下方式：</p>
+
+<pre><code>TextView textView = (TextView) findViewById(R.id.textview);
+</code></pre>
+
+<p>相信大家都写过无数次findViewById了吧，每次都要Cast一下是否很不爽啊。今天就来介绍三种简便的方法避免这种Cast</p>
+
+<h2 id="section">第一种</h2>
+
+<p>在项目基类BaseActivity中添加如下函数:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@SuppressWarnings</span><span class="p">(</span><span class="err">“</span><span class="n">unchecked</span><span class="err">”</span><span class="p">)</span>
+<span class="kp">public</span> <span class="n">final</span> <span class="o">&lt;</span><span class="n">E</span> <span class="n">extends</span> <span class="no">View</span><span class="o">&gt;</span> <span class="n">E</span> <span class="n">getView</span> <span class="p">(</span><span class="n">int</span> <span class="nb">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">try</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">E</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="nb">id</span><span class="p">);</span>
+    <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">ClassCastException</span> <span class="n">ex</span><span class="p">)</span> <span class="p">{</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="err">“</span><span class="no">Could</span> <span class="ow">not</span> <span class="n">cast</span> <span class="no">View</span> <span class="n">to</span> <span class="n">concrete</span> <span class="n">class</span><span class="o">.</span><span class="err">”</span><span class="p">,</span> <span class="n">ex</span><span class="p">);</span>
+        <span class="kp">throw</span> <span class="n">ex</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>然后就可以通过如下方式获取View了:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">TextView</span> <span class="n">textView</span> <span class="o">=</span> <span class="n">getView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">textview</span><span class="p">);</span>
+<span class="no">Button</span> <span class="n">button</span> <span class="o">=</span> <span class="n">getView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">button</span><span class="p">);</span>
+<span class="no">ImageView</span> <span class="n">image</span> <span class="o">=</span> <span class="n">getView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">imageview</span><span class="p">);</span>
+<span class="err">注意：如果级联调用</span><span class="n">getView</span> <span class="err">函数，则还是需要</span><span class="no">Cast</span><span class="err">的，如下示例：</span>
+<span class="kp">private</span> <span class="n">static</span> <span class="n">void</span> <span class="n">myMethod</span> <span class="p">(</span><span class="no">ImageView</span> <span class="n">img</span><span class="p">)</span> <span class="p">{</span>
+    <span class="sr">//</span><span class="no">Do</span> <span class="n">nothing</span>
+<span class="p">}</span>
+<span class="vi">@Override</span>
+<span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span> <span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+    <span class="n">myMethod</span><span class="p">(</span><span class="n">getView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">imageview</span><span class="p">));</span> <span class="sr">//</span><span class="err">这样无法通过编译</span>
+    <span class="n">myMethod</span><span class="p">((</span><span class="no">ImageView</span><span class="p">)</span> <span class="n">getView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">imageview</span><span class="p">));</span> <span class="sr">//</span><span class="err">需要</span><span class="no">Cast</span><span class="err">才可以</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-1">第二种</h2>
+
+<p>第一种方法只在Activity里有效，其实我们经常在其他View或者Fragment里也常用findViewById方法，当然你可以把上述方法copy一遍，但是这违反了面向对象基本的封装原则，有大神封装了一个ViewFinder类，具体代码可以见我Gist上的文件<a href="https://gist.github.com/stormzhang/37dc0b94be61eb6c015c">ViewFinder.java</a>, 使用的时候你只需要在你的Activity或者View里这样使用:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ViewFinder</span> <span class="n">finder</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">ViewFinder</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+<span class="no">TextView</span> <span class="n">textView</span> <span class="o">=</span> <span class="n">finder</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">textview</span><span class="p">);</span></code></pre></div>
+
+<h2 id="section-2">第三种</h2>
+
+<p>前两种方法本质上是利用了泛型，还有一种利用注解的方式，使用起来更方便，不仅省事的处理了findViewById，甚至包括setOnClickListener这种方法也能很方便的调用，具体见我这篇博客<a href="http://stormzhang.github.io/openandroid/android/2014/01/12/android-butterknife/">ButterKnife–View注入框架</a>。</p>
+
+<p>注意：如果你是使用的Eclipse引用该library，你需要参考这里<a href="http://jakewharton.github.io/butterknife/ide-eclipse.html">Eclipse Configuration</a>做一些配置，否则会运行出错。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ViewFinder">ViewFinder <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/other/2014/08/17/invited-by-facebook" title="被Facebook邀请的前因后果">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2014/08/27/adb-over-wifi" title="Android通过Wifi来调试你的应用">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/androidtips/2014/08/24/android-viewfinder" data-title="Android ViewFinder" data-url="/android/androidtips/2014/08/24/android-viewfinder"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

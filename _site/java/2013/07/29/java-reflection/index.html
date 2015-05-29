@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>java反射机制</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>java反射机制 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 07 月 29 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#java-ref">
+      java 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>Java 反射是Java语言的一个很重要的特征，它使得Java具体了“动态性”。</p>
+
+<p>在Java运行时环境中，对于任意一个类，能否知道这个类有哪些属性和方法？对于任意一个对象，能否调用它的任意一个方法？答案是肯定的。这种动态获取类的信息以及动态调用对象的方法的功能来自于Java 语言的反射（Reflection）机制。</p>
+
+<p>Java 反射机制主要提供了以下功能：</p>
+
+<ul>
+  <li>在运行时判断任意一个对象所属的类。</li>
+  <li>在运行时构造任意一个类的对象。</li>
+  <li>在运行时判断任意一个类所具有的成员变量和方法。</li>
+  <li>在运行时调用任意一个对象的方法。</li>
+</ul>
+
+<p>Reflection 是Java被视为动态（或准动态）语言的一个关键性质。这个机制允许程序在运行时透过Reflection APIs取得任何一个已知名称的class的内部信息，包括其modifiers（诸如public, static 等等）、superclass（例如Object）、实现之interfaces（例如Serializable），也包括fields和methods的所有信息，并可于运行时改变fields内容或调用methods。</p>
+
+<p>一般而言，开发者社群说到动态语言，大致认同的一个定义是：“程序运行时，允许改变程序结构或变量类型，这种语言称为动态语言”。从这个观点看，Perl，Python，Ruby是动态语言，C++，Java，C#不是动态语言。</p>
+
+<p>尽管在这样的定义与分类下Java不是动态语言，它却有着一个非常突出的动态相关机制：Reflection。这个字的意思是“反射、映象、倒影”，用在Java身上指的是我们可以于运行时加载、探知、使用编译期间完全未知的classes。换句话说，Java程序可以加载一个运行时才得知名称的class，获悉其完整构造（但不包括methods定义），并生成其对象实体、或对其fields设值、或唤起其methods。这种“看透class”的能力（the ability of the program to examine itself）被称为introspection（内省、内观、反省）。Reflection和introspection是常被并提的两个术语。</p>
+
+<p>在JDK中，主要由以下类来实现Java反射机制，这些类都位于java.lang.reflect包中：</p>
+
+<ul>
+  <li>Class类：代表一个类。</li>
+  <li>Field 类：代表类的成员变量（成员变量也称为类的属性）。</li>
+  <li>Method类：代表类的方法。</li>
+  <li>Constructor 类：代表类的构造方法。</li>
+  <li>Array类：提供了动态创建数组，以及访问数组的元素的静态方法。</li>
+</ul>
+
+<p>下面给出几个例子看看Reflection API的实际运用：</p>
+
+<h2 id="section">1.得到某个对象的属性</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">Object</span> <span class="n">getProperty</span><span class="p">(</span><span class="no">Object</span> <span class="n">owner</span><span class="p">,</span> <span class="nb">String</span> <span class="n">fieldName</span><span class="p">)</span> <span class="n">throws</span> <span class="no">Exception</span> <span class="p">{</span>  
+     <span class="no">Class</span> <span class="n">ownerClass</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="n">getClass</span><span class="p">();</span>  
+     <span class="no">Field</span> <span class="n">field</span> <span class="o">=</span> <span class="n">ownerClass</span><span class="o">.</span><span class="n">getField</span><span class="p">(</span><span class="n">fieldName</span><span class="p">);</span>  
+     <span class="no">Object</span> <span class="n">property</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">owner</span><span class="p">);</span>  
+     <span class="k">return</span> <span class="n">property</span><span class="p">;</span>  
+<span class="p">}</span></code></pre></div>
+
+<p>Class ownerClass = owner.getClass()：得到该对象的Class。</p>
+
+<p>Field field = ownerClass.getField(fieldName)：通过Class得到类声明的属性。</p>
+
+<p>Object property = field.get(owner)：通过对象得到该属性的实例，如果这个属性是非公有的，这里会报IllegalAccessException。</p>
+
+<h2 id="section-1">2.得到某个类的静态属性</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">Object</span> <span class="n">getStaticProperty</span><span class="p">(</span><span class="nb">String</span> <span class="n">className</span><span class="p">,</span> <span class="nb">String</span> <span class="n">fieldName</span><span class="p">)</span>  
+             <span class="n">throws</span> <span class="no">Exception</span> <span class="p">{</span>  
+     <span class="no">Class</span> <span class="n">ownerClass</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">forName</span><span class="p">(</span><span class="n">className</span><span class="p">);</span>  
+     <span class="no">Field</span> <span class="n">field</span> <span class="o">=</span> <span class="n">ownerClass</span><span class="o">.</span><span class="n">getField</span><span class="p">(</span><span class="n">fieldName</span><span class="p">);</span>  
+     <span class="no">Object</span> <span class="n">property</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ownerClass</span><span class="p">);</span>  
+     <span class="k">return</span> <span class="n">property</span><span class="p">;</span>  
+<span class="p">}</span></code></pre></div>
+
+<p>Class ownerClass = Class.forName(className) ：首先得到这个类的Class。</p>
+
+<p>Field field = ownerClass.getField(fieldName)：和上面一样，通过Class得到类声明的属性。</p>
+
+<p>Object property = field.get(ownerClass) ：这里和上面有些不同，因为该属性是静态的，所以直接从类的Class里取。</p>
+
+<h2 id="section-2">3.执行某对象的方法</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">Object</span> <span class="n">invokeMethod</span><span class="p">(</span><span class="no">Object</span> <span class="n">owner</span><span class="p">,</span> <span class="nb">String</span> <span class="n">methodName</span><span class="p">,</span> <span class="no">Object</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="n">throws</span> <span class="no">Exception</span> <span class="p">{</span>  
+     <span class="no">Class</span> <span class="n">ownerClass</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="n">getClass</span><span class="p">();</span>  
+     <span class="no">Class</span><span class="o">[]</span> <span class="n">argsClass</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Class</span><span class="o">[</span><span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="o">]</span><span class="p">;</span>  
+     <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  
+         <span class="n">argsClass</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="n">getClass</span><span class="p">();</span>  
+     <span class="p">}</span>  
+     <span class="no">Method</span> <span class="nb">method</span> <span class="o">=</span> <span class="n">ownerClass</span><span class="o">.</span><span class="n">getMethod</span><span class="p">(</span><span class="n">methodName</span><span class="p">,</span><span class="n">argsClass</span><span class="p">);</span>  
+     <span class="k">return</span> <span class="nb">method</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>  
+<span class="p">}</span></code></pre></div>
+
+<p>Class owner_class = owner.getClass() ：首先还是必须得到这个对象的Class。</p>
+
+<p>5～9行：配置参数的Class数组，作为寻找Method的条件。</p>
+
+<p>Method method = ownerClass.getMethod(methodName, argsClass)：通过methodName和参数的argsClass（方法中的参数类型集合）数组得到要执行的Method。</p>
+
+<p>method.invoke(owner, args)：执行该Method.invoke方法的参数是执行这个方法的对象owner，和参数数组args，可以这么理解：owner对象中带有参数args的method方法。返回值是Object，也既是该方法的返回值。</p>
+
+<h2 id="section-3">4.执行某个类的静态方法</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">Object</span> <span class="n">invokeStaticMethod</span><span class="p">(</span><span class="nb">String</span> <span class="n">className</span><span class="p">,</span> <span class="nb">String</span> <span class="n">methodName</span><span class="p">,</span>  
+             <span class="no">Object</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="n">throws</span> <span class="no">Exception</span> <span class="p">{</span>  
+     <span class="no">Class</span> <span class="n">ownerClass</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">forName</span><span class="p">(</span><span class="n">className</span><span class="p">);</span>  
+     <span class="no">Class</span><span class="o">[]</span> <span class="n">argsClass</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Class</span><span class="o">[</span><span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="o">]</span><span class="p">;</span>  
+     <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  
+         <span class="n">argsClass</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="n">getClass</span><span class="p">();</span>  
+     <span class="p">}</span>  
+     <span class="no">Method</span> <span class="nb">method</span> <span class="o">=</span> <span class="n">ownerClass</span><span class="o">.</span><span class="n">getMethod</span><span class="p">(</span><span class="n">methodName</span><span class="p">,</span><span class="n">argsClass</span><span class="p">);</span>  
+     <span class="k">return</span> <span class="nb">method</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">null</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>  
+ <span class="p">}</span></code></pre></div>
+
+<p>基本的原理和实例3相同，不同点是最后一行，invoke的一个参数是null，因为这是静态方法，不需要借助实例运行。</p>
+
+<h2 id="section-4">5.新建实例</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">Object</span> <span class="n">newInstance</span><span class="p">(</span><span class="nb">String</span> <span class="n">className</span><span class="p">,</span> <span class="no">Object</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="n">throws</span> <span class="no">Exception</span> <span class="p">{</span>  
+     <span class="no">Class</span> <span class="n">newoneClass</span> <span class="o">=</span> <span class="no">Class</span><span class="o">.</span><span class="n">forName</span><span class="p">(</span><span class="n">className</span><span class="p">);</span>  
+     <span class="no">Class</span><span class="o">[]</span> <span class="n">argsClass</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Class</span><span class="o">[</span><span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="o">]</span><span class="p">;</span>  
+     <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>  
+         <span class="n">argsClass</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="n">getClass</span><span class="p">();</span>  
+     <span class="p">}</span>  
+     <span class="no">Constructor</span> <span class="n">cons</span> <span class="o">=</span> <span class="n">newoneClass</span><span class="o">.</span><span class="n">getConstructor</span><span class="p">(</span><span class="n">argsClass</span><span class="p">);</span>  
+     <span class="k">return</span> <span class="n">cons</span><span class="o">.</span><span class="n">newInstance</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>  
+<span class="p">}</span></code></pre></div>
+
+<p>这里说的方法是执行带参数的构造函数来新建实例的方法。如果不需要参数，可以直接使用newoneClass.newInstance()来实现。</p>
+
+<p>Class newoneClass = Class.forName(className)：第一步，得到要构造的实例的Class。</p>
+
+<p>第5～第9行：得到参数的Class数组。</p>
+
+<p>Constructor cons = newoneClass.getConstructor(argsClass)：得到构造子。</p>
+
+<p>cons.newInstance(args)：新建实例。</p>
+
+<h2 id="section-5">6.判断是否为某个类的实例</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">boolean</span> <span class="n">isInstance</span><span class="p">(</span><span class="no">Object</span> <span class="n">obj</span><span class="p">,</span> <span class="no">Class</span> <span class="n">cls</span><span class="p">)</span> <span class="p">{</span>  
+     <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">isInstance</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>  
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-6">7.得到数组中的某个元素</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">Object</span> <span class="n">getByArray</span><span class="p">(</span><span class="no">Object</span> <span class="n">array</span><span class="p">,</span> <span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>  
+     <span class="k">return</span> <span class="nb">Array</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">index</span><span class="p">);</span>  
+<span class="p">}</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Reflection">Reflection <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/07/27/android-scrollview-nested-webview" title="Android中ScrollView嵌套WebView">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/07/30/android-custome-attribute-format" title="Android中自定义属性格式详解">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/java/2013/07/29/java-reflection" data-title="java反射机制" data-url="/java/2013/07/29/java-reflection"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

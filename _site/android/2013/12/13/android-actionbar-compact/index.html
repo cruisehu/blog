@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android ActionBar Compact</title>
+    <meta name="keywords" content="actionbar">
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android ActionBar Compact </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 12 月 13 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<h2 id="section">介绍</h2>
+
+<p>自Action Bar设计概念在Android 3.0(API 11) 中被Google引入以后，在4.0版本之后更是被Google纳入设计规范中，从Google的各大App中都可以看到这种设计。</p>
+
+<p>但Action Bar虽好，它出现之初Android官方版本的ActionBar 只支持Android 3.0 (API 11)及以后的系统版本。而由于Android众所周知的碎片化问题，当开发者试图在minSdkVersion小于11的系统上使用Action Bar时只好使用大名鼎鼎的JakeWharton发布的<a href="https://github.com/JakeWharton/ActionBarSherlock">ActionBarSherlock</a>。</p>
+
+<p>还好，在Google I/O 2013后，官方版本的兼容 Android 2.1(API 7)及其以后版本的ActionBarCompat终于发布了 （包含在Support Library v7 r18中）。原本使用ActionBarSherlock的一众应用们也开始了升级至ActionBarCompat的工作。这篇博客就来分享下如何使用ActionBarCompat实现Action Bar。</p>
+
+<!-- more -->
+
+<p>首先确认了开发环境中Android SDK已经安装了Support Library r18或以上，目前最新的是19, 接下来，开始实际建立一个ActionBar的开发实例。实现一个含有Action Bar Icon, Title, Action Item 以及Action Overflow的ActionBar Hello World应用。效果如下</p>
+
+<p><img src="http://bcs.duapp.com/mobiletuts//blog/201310//actionbar_sample.png" /></p>
+
+<p>Eclipse+Android ADT环境下:</p>
+
+<h2 id="create-a-blank-android-project">1. Create a blank Android Project</h2>
+
+<p>创建一个空的Android项目，这里具体就不再赘述。</p>
+
+<h2 id="support-v7-appcompat-library">2. 将Support V7 appcompat Library添加至工程</h2>
+
+<p>a. 导入ActionBarCompat工程(这个工程是个Library)</p>
+
+<pre><code>ActionBarCompat的source code位置是:&lt;Android SDK目录&gt;/extras/android/support/v7/appcompat
+</code></pre>
+
+<p>这样我们就得到一个名叫android-support-v7-appcompat 的library project</p>
+
+<p>b. 接着在自己新建的project点击右键-&gt;选择Properties-&gt;选择Android选项</p>
+
+<p><img src="http://bcs.duapp.com/mobiletuts//blog/201310//add_library_eclipse.png" /></p>
+
+<p>点Add, 然后选择 android-support-v7-appcompat</p>
+
+<p><img src="http://bcs.duapp.com/mobiletuts//blog/201310//android-support-v7-appcompat.png" /></p>
+
+<p>点击OK 搞定。</p>
+
+<h2 id="update-style-resources">3. Update Style Resources</h2>
+
+<p>刚才说了ActionBarCompat在使用中会调用一些资源文件，尤其是基于Theme.AppCompat的主题(Theme)用来规范Action Bar的显示。如果使用Action Bar的Activity没有使用基于Theme.AppCompat的主题，程序就不知道该如何配置Action Bar的显示，就会报错导致程序退出。</p>
+
+<p>在AndroidManifest中讲Application的 android:theme属性设置为Theme.AppCompat系列Theme。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">application</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;@string/app_name&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">icon</span><span class="o">=</span><span class="s2">&quot;@drawable/ic_launcher&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">theme</span><span class="o">=</span><span class="s2">&quot;@style/Theme.AppCompat.Light&quot;</span><span class="o">&gt;</span></code></pre></div>
+
+<p>如果你在使用自定义的Theme，则该Theme的parent应设置为Theme.AppCompat系列Theme.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;!--</span> <span class="no">Application</span> <span class="n">theme</span><span class="o">.</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">style</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;AppTheme&quot;</span> <span class="n">parent</span><span class="o">=</span><span class="s2">&quot;@style/Theme.AppCompat.Light&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">item</span> <span class="nb">name</span><span class="o">=</span><span class="s2">&quot;android:windowNoTitle&quot;</span><span class="o">&gt;</span><span class="kp">true</span><span class="o">&lt;</span><span class="sr">/item&gt;</span>
+<span class="sr">    &lt;item name=&quot;android:windowBackground&quot;&gt;@color/</span><span class="n">global_main_bg</span><span class="o">&lt;</span><span class="sr">/item&gt;</span>
+<span class="sr">&lt;/s</span><span class="n">tyle</span><span class="o">&gt;</span></code></pre></div>
+
+<h2 id="extend-actionbaractivity">4. Extend ActionBarActivity</h2>
+
+<p>当要在Activity中使用ActionBar，并要求兼容Android 2.1~3.0之间的系统时，我们不能像往常那样extend Activity，而应extend ActionBarActivity（原因如上所属，Android 3.0以前的系统中Activity API里是没有ActionBar接口的 自然也就无法调用。为了向下兼容，必须使用ActionBarActivity）。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">Bundle</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">v7</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">ActionBar</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">v7</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">ActionBarActivity</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">Menu</span><span class="p">;</span>
+
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">MainActivity</span> <span class="n">extends</span> <span class="no">ActionBarActivity</span> <span class="p">{</span>
+
+    <span class="kp">private</span> <span class="no">ActionBar</span> <span class="n">actionBar</span><span class="p">;</span>
+    <span class="vi">@Override</span>
+    <span class="kp">protected</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+        <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">activity_main</span><span class="p">);</span>
+        <span class="n">actionBar</span><span class="o">=</span><span class="n">getSupportActionBar</span><span class="p">();</span>
+        <span class="sr">//</span><span class="n">actionBar</span> <span class="n">operation</span>
+        <span class="n">actionBar</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;ActionBar&quot;</span><span class="p">);</span>
+        <span class="sr">//</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">.</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">onCreateOptionsMenu</span><span class="p">(</span><span class="no">Menu</span> <span class="n">menu</span><span class="p">)</span> <span class="p">{</span>
+        <span class="sr">//</span> <span class="no">Inflate</span> <span class="n">the</span> <span class="n">menu</span><span class="p">;</span> <span class="n">this</span> <span class="n">adds</span> <span class="n">items</span> <span class="n">to</span> <span class="n">the</span> <span class="n">action</span> <span class="n">bar</span> <span class="k">if</span> <span class="n">it</span> <span class="n">is</span> <span class="n">present</span><span class="o">.</span>
+        <span class="n">getMenuInflater</span><span class="p">()</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">main</span><span class="p">,</span> <span class="n">menu</span><span class="p">);</span>
+        <span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="menumainxml-action-baraction-items">5. 修改menu/main.xml (也就是Action Bar中的Action Items)</h2>
+
+<p>你的project中会有一个默认的main.xml，为了向Action Bar中添加几个功能按钮(也就是Action Items)，我们需要对menu/main.xml进行些修改：</p>
+
+<ul>
+  <li>
+    <p>在root element中添加一个attribute</p>
+  </li>
+  <li>
+    <p>添加新的item项</p>
+  </li>
+</ul>
+
+<p>如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">menu</span>
+    <span class="ss">xmlns</span><span class="p">:</span><span class="n">app</span><span class="o">=</span><span class="s2">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="ss">xmlns</span><span class="p">:</span><span class="n">android</span><span class="o">=</span><span class="s2">&quot;http://schemas.android.com/apk/res/android&quot;</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">item</span> <span class="ss">android</span><span class="p">:</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;@+id/action_settings&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;@string/action_settings&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">orderInCategory</span><span class="o">=</span><span class="s2">&quot;100&quot;</span>
+        <span class="ss">app</span><span class="p">:</span><span class="n">showAsAction</span><span class="o">=</span><span class="s2">&quot;always&quot;</span> <span class="sr">/&gt;</span>
+<span class="sr">    &lt;item android:id=&quot;@+id/</span><span class="n">action_search</span><span class="s2">&quot;</span>
+<span class="s2">        android:title=&quot;</span><span class="vi">@string</span><span class="o">/</span><span class="n">action_search</span><span class="s2">&quot;</span>
+<span class="s2">        android:orderInCategory=&quot;</span><span class="mi">1</span><span class="s2">&quot;</span>
+<span class="s2">        android:icon=&quot;</span><span class="vi">@drawable</span><span class="o">/</span><span class="n">action_search</span><span class="s2">&quot;</span>
+<span class="s2">        app:showAsAction=&quot;</span><span class="n">always</span><span class="s2">&quot; /&gt;</span>
+<span class="s2">&lt;/menu&gt;</span></code></pre></div>
+
+<p>Action Items广泛使用的一些icon，你可以从<a href="http://commondatastorage.googleapis.com/androiddevelopers/design/Android_Design_Icons_20130926.zip">Download the Action Bar Icon Pack</a>下载到。</p>
+
+<p><img src="http://bcs.duapp.com/mobiletuts//blog/201310//action_bar_icons.png" /></p>
+
+<p>最后，如果需要在程序中对ActionBar进行操作，可以通过getSupportActionBar()来实现。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">actionBar</span> <span class="o">=</span> <span class="n">getSupportActionBar</span><span class="p">();</span>
+<span class="sr">//</span><span class="n">actionBar</span> <span class="n">operation</span>
+<span class="n">actionBar</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s2">&quot;ActionBar&quot;</span><span class="p">);</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ActionBar">ActionBar <span>1</span></a></li>
+   
+    <li><a href="/posts.html#IO2013">IO2013 <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/java/2013/12/09/osx-open-eclipse-you-need-a-java-se-6-runtime-problem" title="Mac OS X "open Eclipse, you need a Java SE 6 runtime"">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/openandroid/android/sqlite/2013/12/20/android-orm-tools-activeandroid" title="ActiveAndroid--Android轻量级ORM框架">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/12/13/android-actionbar-compact" data-title="Android ActionBar Compact" data-url="/android/2013/12/13/android-actionbar-compact"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Ruby Range</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Ruby Range </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2012 年 12 月 13 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#rubyonrails-ref">
+      rubyonrails 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>最近一直在做“生理周期”，不过不要担心，这里只会探讨技术领域，不会涉及到神圣的MC领域。在做生理周期指数预测、周期日报的时候大量用到了Range对象，所以干脆就把Range对象系统的学习下，在这里记录并分享出来。</p>
+
+<h2 id="ruby-range">Ruby Range</h2>
+
+<p>Range在概念上很直观，即范围，但是在实际使用中可能会遇到一些容易混淆的东西，看下面代码：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># 注意：..操作符将包含上限，而...不包含上限。</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">.</span><span class="n">.</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>      <span class="c1">#=&gt; []</span>
+<span class="p">(</span><span class="o">-</span><span class="mi">5</span> <span class="o">.</span><span class="n">.</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>      <span class="c1">#=&gt; [-5, -4, -3, -2, -1]</span>
+<span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">.</span><span class="n">.</span> <span class="s1">&#39;e&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>    <span class="c1">#=&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span>
+<span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="s1">&#39;e&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>   <span class="c1">#=&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]</span></code></pre></div>
+
+<h2 id="beginend-firstlast">begin/end first/last</h2>
+
+<p>使用first和last方法(或同义方法begin和end)，可以获取一个Range的开始和结束元素：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">r1</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">.</span><span class="n">.</span> <span class="mi">6</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="mi">6</span>
+<span class="n">r1a</span><span class="p">,</span> <span class="n">r1b</span> <span class="o">=</span> <span class="n">r1</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="n">r1</span><span class="o">.</span><span class="n">last</span>    <span class="c1">#=&gt; 3, 6</span>
+<span class="n">r1c</span><span class="p">,</span> <span class="n">r1d</span> <span class="o">=</span> <span class="n">r1</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">r1</span><span class="o">.</span><span class="n">end</span>     <span class="c1">#=&gt; 3, 6</span>
+<span class="n">r2a</span><span class="p">,</span> <span class="n">r2b</span> <span class="o">=</span> <span class="n">r2</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">r2</span><span class="o">.</span><span class="n">end</span>     <span class="c1">#=&gt; 3, 6 (注意：不是3和5)</span>
+<span class="n">r1</span><span class="o">.</span><span class="n">first</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                     <span class="c1">#=&gt; [3, 4]</span></code></pre></div>
+
+<h2 id="excludeend">exclude_end?</h2>
+<p>exclude_end?方法可以得到Range是否排除上限项(即是否是…的Range)</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">r1</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">.</span><span class="n">.</span> <span class="mi">6</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="mi">6</span>
+<span class="n">r1</span><span class="o">.</span><span class="n">exclude_end?</span>   <span class="c1">#=&gt; false</span>
+<span class="n">r2</span><span class="o">.</span><span class="n">exclude_end?</span>   <span class="c1">#=&gt; true</span></code></pre></div>
+
+<h2 id="includecover">include?/cover?</h2>
+
+<p>include?方法（同义方法member?）或者cover?方法可以判断一个值是否处在当前的Range中：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">.</span><span class="n">.</span> <span class="mi">5</span>
+<span class="n">r</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="c1">#=&gt; true</span>
+<span class="n">r</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="c1">#=&gt; false</span>
+<span class="n">r</span><span class="o">.</span><span class="n">cover?</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>       <span class="c1">#=&gt; true</span>
+<span class="n">r</span><span class="o">.</span><span class="n">cover?</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="c1">#=&gt; false</span></code></pre></div>
+
+<p>区别：include?方法是把Range的元素迭代取出进行比较，而cover?方法只是把给出的值和该Range的上下限做比较得出的，所以cover?性能比include?要好。</p>
+
+<h2 id="step">step</h2>
+
+<p>如果我们想要从0 .. 20中取出这样的元素0，5，10，20怎么办？这时候step方法就用到了</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">.</span><span class="n">.</span> <span class="mi">20</span>
+<span class="n">r</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>     <span class="c1">#=&gt; [0, 5, 10, 15, 20]</span></code></pre></div>
+
+<h2 id="range">浮点数的Range</h2>
+
+<p>浮点数的Range可以进行迭代么？我们来看一下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">fr</span> <span class="o">=</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">fr</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>   <span class="c1">#=&gt; TypeError: can&#39;t iterate from Float</span></code></pre></div>
+
+<p>为什么浮点数不可以迭代呢？是因为不能实现么？理论上，这是没有问题的，但是，实际上，如果浮点数Range迭代，这有可能出现：很小的一个范围，将产生非常庞大的迭代量。这对语言的实现有非常高的要求。况且，这样的功能，极少有用到。</p>
+
+<h2 id="range-1">反向的Range</h2>
+
+<p>我们讨论下限大于上限的Range，如：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">r</span> <span class="o">=</span> <span class="mi">6</span><span class="o">.</span><span class="n">.</span><span class="mi">3</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">begin</span>              <span class="c1">#=&gt; 6</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">end</span>                <span class="c1">#=&gt; 3</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">end_excluded?</span>   <span class="c1">#=&gt; false</span></code></pre></div>
+
+<p>它确实是个合法的Range，但是，它包含的内容却并不是我们想像的那样：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">arr</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to_a</span>       <span class="c1">#=&gt; []</span>
+<span class="n">r</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">p</span> <span class="n">x</span><span class="p">}</span>   <span class="c1">#=&gt; 无结果</span>
+<span class="n">r</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>      <span class="c1">#=&gt; false</span></code></pre></div>
+
+<p>那么说反向Range是没有什么用处的咯？那倒不是，我们可以在字符串和数组中使用反向Range：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;flowery&quot;</span>
+<span class="n">str1</span>   <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">2</span><span class="o">]</span>   <span class="c1">#=&gt; &quot;flower&quot;</span>
+<span class="n">str2</span>   <span class="o">=</span> <span class="n">string</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">2</span><span class="o">]</span>   <span class="c1">#=&gt; &quot;lower&quot;</span>
+<span class="n">str3</span>   <span class="o">=</span> <span class="n">string</span><span class="o">[-</span><span class="mi">5</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">3</span><span class="o">]</span>  <span class="c1">#=&gt; &quot;owe&quot; (其实这是个正向的Range)</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Ruby">Ruby <span>3</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/rubyonrails/2012/11/25/be-a-better-developer" title="Become a Better Developer You Can">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/rubyonrails/2012/12/19/ruby-closure" title="Ruby闭包: Block, Proc, lambda">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/rubyonrails/2012/12/13/ruby-range" data-title="Ruby Range" data-url="/rubyonrails/2012/12/13/ruby-range"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

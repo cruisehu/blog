@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ButterKnife--View注入框架</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>ButterKnife--View注入框架 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 01 月 12 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#openandroid-ref">
+      openandroid 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>俗话说：“不会偷懒的程序员不是好的程序员！”。作为一名Android开发，是不是经常厌烦了大量的findViewById以及setOnClickListener代码，而<a href="https://github.com/JakeWharton/butterknife">ButterKnife</a>是一个专注于Android系统的View注入框架，让你从此从这些烦人臃肿的代码中解脱出来。先来看一段代码示例说明下ButterKnife是如何简化代码的：</p>
+
+<p>注意：如果你是使用的Eclipse引用该library，你需要参考这里<a href="http://jakewharton.github.io/butterknife/ide-eclipse.html">Eclipse Configuration</a>做一些配置，否则会运行出错。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ExampleActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="p">{</span>
+  <span class="no">TextView</span> <span class="n">title</span><span class="p">;</span>
+  <span class="no">TextView</span> <span class="n">subtitle</span><span class="p">;</span>
+  <span class="no">TextView</span> <span class="n">footer</span><span class="p">;</span>
+
+  <span class="vi">@Override</span> <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+    <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">simple_activity</span><span class="p">);</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">(</span><span class="no">TextView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">title</span><span class="p">);</span>
+    <span class="n">subtitle</span> <span class="o">=</span> <span class="p">(</span><span class="no">TextView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">subtitle</span><span class="p">);</span>
+    <span class="n">footer</span> <span class="o">=</span> <span class="p">(</span><span class="no">TextView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">footer</span><span class="p">);</span>
+
+    <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Use</span> <span class="n">views</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>而用ButterKnife之后的代码是这样的：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ExampleActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="p">{</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">title</span><span class="p">;</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">subtitle</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">subtitle</span><span class="p">;</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">footer</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">footer</span><span class="p">;</span>
+
+  <span class="vi">@Override</span> <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+    <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">simple_activity</span><span class="p">);</span>
+    <span class="no">ButterKnife</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Use</span> <span class="s2">&quot;injected&quot;</span> <span class="n">views</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>是不是非常简洁易用？下面就来系统的介绍下ButterKnife的用法。</p>
+
+<h2 id="butter-knife-">Butter Knife 的特性</h2>
+
+<ol>
+  <li>
+    <p>支持 Activity 中的 View 注入</p>
+  </li>
+  <li>
+    <p>支持 View 中的 View 注入</p>
+  </li>
+  <li>
+    <p>支持 View 事件回调函数注入</p>
+  </li>
+</ol>
+
+<p>目前支持如下事件回调函数：</p>
+
+<ul>
+  <li>
+    <p>View: @OnLongClick and @OnFocusChanged.</p>
+  </li>
+  <li>
+    <p>TextView: @OnEditorAction.</p>
+  </li>
+  <li>
+    <p>AdapterView: @OnItemClick and @OnItemLongClick.</p>
+  </li>
+  <li>
+    <p>CompoundButton: @OnCheckedChanged.</p>
+  </li>
+</ul>
+
+<p>下面来看一些注入的示例代码：</p>
+
+<h2 id="activity-">在Activity 中注入</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ExampleActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="p">{</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">title</span><span class="p">;</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">subtitle</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">subtitle</span><span class="p">;</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">footer</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">footer</span><span class="p">;</span>
+ 
+  <span class="vi">@Override</span> <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+    <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">simple_activity</span><span class="p">);</span>
+    <span class="no">ButterKnife</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Use</span> <span class="s2">&quot;injected&quot;</span> <span class="n">views</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="fragment-">在 Fragment 中注入</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">FancyFragment</span> <span class="n">extends</span> <span class="no">Fragment</span> <span class="p">{</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">button1</span><span class="p">)</span> <span class="no">Button</span> <span class="n">button1</span><span class="p">;</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">button2</span><span class="p">)</span> <span class="no">Button</span> <span class="n">button2</span><span class="p">;</span>
+ 
+  <span class="vi">@Override</span> <span class="no">View</span> <span class="n">onCreateView</span><span class="p">(</span><span class="no">LayoutInflater</span> <span class="n">inflater</span><span class="p">,</span> <span class="no">ViewGroup</span> <span class="n">container</span><span class="p">,</span> <span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="no">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">fancy_fragment</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="kp">false</span><span class="p">);</span>
+    <span class="no">ButterKnife</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Use</span> <span class="s2">&quot;injected&quot;</span> <span class="n">views</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="k">return</span> <span class="n">view</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="viewholder-">在 ViewHolder 模式中注入</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyAdapter</span> <span class="n">extends</span> <span class="no">BaseAdapter</span> <span class="p">{</span>
+  <span class="vi">@Override</span> <span class="kp">public</span> <span class="no">View</span> <span class="n">getView</span><span class="p">(</span><span class="n">int</span> <span class="n">position</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">,</span> <span class="no">ViewGroup</span> <span class="n">parent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="no">ViewHolder</span> <span class="n">holder</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">view</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">holder</span> <span class="o">=</span> <span class="p">(</span><span class="no">ViewHolder</span><span class="p">)</span> <span class="n">view</span><span class="o">.</span><span class="n">getTag</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">whatever</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="kp">false</span><span class="p">);</span>
+      <span class="n">holder</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">ViewHolder</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+      <span class="n">view</span><span class="o">.</span><span class="n">setTag</span><span class="p">(</span><span class="n">holder</span><span class="p">);</span>
+    <span class="p">}</span>
+ 
+    <span class="n">holder</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;John Doe&quot;</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="n">etc</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+ 
+    <span class="k">return</span> <span class="n">convertView</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="n">static</span> <span class="k">class</span> <span class="nc">ViewHolder</span> <span class="p">{</span>
+    <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="no">TextView</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">job_title</span><span class="p">)</span> <span class="no">TextView</span> <span class="n">jobTitle</span><span class="p">;</span>
+ 
+    <span class="kp">public</span> <span class="no">ViewHolder</span><span class="p">(</span><span class="no">View</span> <span class="n">view</span><span class="p">)</span> <span class="p">{</span>
+      <span class="no">ButterKnife</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section">注入回调函数</h2>
+
+<p>下面是几种注入回调函数的方法示例:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="err">带有</span> <span class="no">Button</span> <span class="err">参数</span>
+<span class="vi">@OnClick</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">submit</span><span class="p">)</span>
+<span class="kp">public</span> <span class="n">void</span> <span class="n">sayHi</span><span class="p">(</span><span class="no">Button</span> <span class="n">button</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">button</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+ 
+<span class="sr">//</span> <span class="err">不带参数</span>
+<span class="vi">@OnClick</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">submit</span><span class="p">)</span>
+<span class="kp">public</span> <span class="n">void</span> <span class="n">submit</span><span class="p">()</span> <span class="p">{</span>
+  <span class="sr">//</span> <span class="no">TODO</span> <span class="n">submit</span> <span class="n">data</span> <span class="n">to</span> <span class="n">server</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="p">}</span>
+ 
+<span class="sr">//</span> <span class="err">同时注入多个</span> <span class="no">View</span> <span class="err">事件</span>
+<span class="vi">@OnClick</span><span class="p">({</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">door1</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">door2</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">door3</span> <span class="p">})</span>
+<span class="kp">public</span> <span class="n">void</span> <span class="n">pickDoor</span><span class="p">(</span><span class="no">DoorView</span> <span class="n">door</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">door</span><span class="o">.</span><span class="n">hasPrizeBehind</span><span class="p">())</span> <span class="p">{</span>
+    <span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;You win!&quot;</span><span class="p">,</span> <span class="no">LENGTH_SHORT</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="no">Toast</span><span class="o">.</span><span class="n">makeText</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;Try again&quot;</span><span class="p">,</span> <span class="no">LENGTH_SHORT</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="reset">Reset函数</h2>
+
+<p>如果需要在 界面 销毁的时候，把注入的 View 设置为 Null， 则可以用 reset 函数：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">FancyFragment</span> <span class="n">extends</span> <span class="no">Fragment</span> <span class="p">{</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">button1</span><span class="p">)</span> <span class="no">Button</span> <span class="n">button1</span><span class="p">;</span>
+  <span class="vi">@InjectView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">button2</span><span class="p">)</span> <span class="no">Button</span> <span class="n">button2</span><span class="p">;</span>
+ 
+  <span class="vi">@Override</span> <span class="no">View</span> <span class="n">onCreateView</span><span class="p">(</span><span class="no">LayoutInflater</span> <span class="n">inflater</span><span class="p">,</span> <span class="no">ViewGroup</span> <span class="n">container</span><span class="p">,</span> <span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="no">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">fancy_fragment</span><span class="p">,</span> <span class="n">container</span><span class="p">,</span> <span class="kp">false</span><span class="p">);</span>
+    <span class="no">ButterKnife</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Use</span> <span class="s2">&quot;injected&quot;</span> <span class="n">views</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="k">return</span> <span class="n">view</span><span class="p">;</span>
+  <span class="p">}</span>
+ 
+  <span class="vi">@Override</span> <span class="n">void</span> <span class="n">onDestroyView</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="n">onDestroyView</span><span class="p">();</span>
+    <span class="no">Views</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>另外 还支持 可选的 View 注入，如果该 View 没有，就没有吧：</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml">@Optional @InjectView(R.id.might_not_be_there) TextView mightNotBeThere;
+ 
+@Optional @OnClick(R.id.maybe_missing) void onMaybeMissingClicked() {
+  // TODO ...
+}</code></pre></div>
+
+<p>还有两个 findViewById 函数来简化查找 View 的方式，如果上面都满足不了你的需求，你可以用用他们：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">View</span> <span class="n">view</span> <span class="o">=</span> <span class="no">LayoutInflater</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">thing</span><span class="p">,</span> <span class="n">null</span><span class="p">);</span>
+<span class="no">TextView</span> <span class="n">firstName</span> <span class="o">=</span> <span class="no">Views</span><span class="o">.</span><span class="n">findById</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">first_name</span><span class="p">);</span>
+<span class="no">TextView</span> <span class="n">lastName</span> <span class="o">=</span> <span class="no">Views</span><span class="o">.</span><span class="n">findById</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">last_name</span><span class="p">);</span>
+<span class="no">ImageView</span> <span class="n">photo</span> <span class="o">=</span> <span class="no">Views</span><span class="o">.</span><span class="n">findById</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">photo</span><span class="p">);</span></code></pre></div>
+
+<p>最后，如果你是用Android Studio来作为IDE的话，那么有一个ButterKnife的插件<a href="https://github.com/inmite/android-butterknife-zelezny">android-butterknife-zelezny</a>, 该插件可以让你手动生成上述注入代码，从此让自己成为一个更懒惰的程序员，上张截图吧。</p>
+
+<p><img src="https://raw2.github.com/inmite/android-butterknife-zelezny/master/img/zelezny_animated.gif" /></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ButterKnife">ButterKnife <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2014/01/06/android-memory-leak-with-handler" title="Handler引起的内存泄露">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2014/01/19/android-animation" title="Android Animation">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/openandroid/android/2014/01/12/android-butterknife" data-title="ButterKnife--View注入框架" data-url="/openandroid/android/2014/01/12/android-butterknife"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

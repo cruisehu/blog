@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Builder Pattern In Android</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Builder Pattern In Android </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 11 月 05 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#designpatterns-ref">
+      designpatterns 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>看到一篇个人感觉不错的文章，分享出来。</p>
+
+<p>When I started with android, I almost always asked Google how to do the smallest things. I want to highlight the examples I found for starting an activity.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="no">SomeOtherActivity</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+<span class="n">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">);</span></code></pre></div>
+
+<p>I always wondered why many examples used a variable called intent. You could easily create the Intent on-the-fly in the startActivity() parameter. Maybe it looks better, if you need to add some parameters to the intent like this?</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="no">SomeOtherActivity</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="s2">&quot;param1&quot;</span><span class="p">,</span> <span class="n">extraInfo1</span><span class="p">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="s2">&quot;param2&quot;</span><span class="p">,</span> <span class="n">extraInfo2</span><span class="p">);</span>
+<span class="n">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">);</span></code></pre></div>
+
+<p>But then again, the method putExtra() returns an Intent. As described in the <a href="http://unreleased.de/code/example-for-method-chaining">example for method-chaining</a>, such chaining can be relatively useful. Androids call to startActivity() could be rewritten to this:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">startActivity</span><span class="p">(</span><span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="no">SomeOtherActivity</span><span class="o">.</span><span class="n">class</span><span class="p">)</span>
+       <span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="s2">&quot;param1&quot;</span><span class="p">,</span> <span class="n">extraInfo1</span><span class="p">)</span>
+       <span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="s2">&quot;param2&quot;</span><span class="p">,</span> <span class="n">extraInfo2</span><span class="p">));</span></code></pre></div>
+
+<p>Since this doesn’t need a variable, I like that approach more. In Android, this pattern is used quite often. The so called builder-pattern is used with AlertDialog for example. When built, you use the create() method in order to show the dialog itself (equals the build() method of the builder-pattern). To create URIs one can use the buildUpon() method to get a Uri.Builder. There are tons of other examples where Android uses such builders. Intents seem to be an exception, since there is no startActivity() function or similar to it. Returning the object itself was not even done consequently, to make chaining of some methods impossible. Examples for these are setSourceBounds() or setExtrasClassLoader().</p>
+
+<p>I see two options to address these problems:</p>
+
+<ul>
+  <li>Creation of a sub-class of Intent, which provides a startAsActivity() function. It needs to return its own type in every putExtra() method, to preserve the startAsActivity() method. This class could look like this:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">BuilderIntent</span> <span class="n">extends</span> <span class="no">Intent</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">Context</span> <span class="n">context</span><span class="p">;</span>
+ 
+    <span class="kp">public</span> <span class="no">BuilderIntent</span><span class="p">(</span><span class="no">Context</span> <span class="n">ctx</span><span class="p">,</span> <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">cls</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">cls</span><span class="p">);</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="no">BuilderIntent</span> <span class="n">putExtra</span><span class="p">(</span><span class="nb">String</span> <span class="nb">name</span><span class="p">,</span> <span class="nb">String</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="sr">//</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="n">more</span> <span class="n">putExtra</span><span class="o">-</span><span class="nb">methods</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+ 
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">startAsActivity</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">startActivity</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+ 
+<span class="sr">//</span> <span class="ss">Usage</span><span class="p">:</span>
+<span class="kp">new</span> <span class="no">BuilderIntent</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="no">SomeOtherActivity</span><span class="o">.</span><span class="n">class</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="s2">&quot;param1&quot;</span><span class="p">,</span> <span class="s2">&quot;info1&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="s2">&quot;param2&quot;</span><span class="p">,</span> <span class="s2">&quot;info2&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">startAsActivity</span><span class="p">();</span></code></pre></div>
+
+<p>The problem with this class is, that methods like public void setExtrasClassLoader() cannot be changed to return the BuilderIntent type.</p>
+
+<ul>
+  <li>An alternative would be the usage of an external builder, which uses its own Intent internally. Take all functions you want to provide and change them for your requirements, somehow similar to the Decorator-Pattern.</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">static</span> <span class="k">class</span> <span class="nc">ActivityBuilder</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">Context</span> <span class="n">context</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">Intent</span> <span class="n">intent</span><span class="p">;</span>
+ 
+    <span class="kp">private</span> <span class="no">ActivityBuilder</span><span class="p">(</span><span class="no">Context</span> <span class="n">context</span><span class="p">,</span> <span class="no">Class</span><span class="o">&lt;</span><span class="p">?</span> <span class="n">extends</span> <span class="no">Activity</span><span class="o">&gt;</span> <span class="n">activity</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span><span class="p">;</span>
+        <span class="n">intent</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">activity</span><span class="p">);</span>
+    <span class="p">}</span>
+ 
+    <span class="kp">public</span> <span class="no">ActivityBuilder</span> <span class="n">put</span><span class="p">(</span><span class="nb">String</span> <span class="n">param</span><span class="p">,</span> <span class="no">Long</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">intent</span><span class="o">.</span><span class="n">putExtra</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="sr">//</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="n">more</span> <span class="n">required</span> <span class="nb">methods</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+ 
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>The advantage is that you can setup a public ActivityBuilder setExtrasClassLoader() method without hassle. The problem is, that you cannot use methods from Intent at all. With the first option, that would be cumbersome but at least possible.</p>
+
+<p>What I wanted to say is that a method like startAsActivity() seems to be missing. However, you can create your own builders around existing classes.</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Builder">Builder <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/designpatterns/java/2013/11/02/java-builder-pattern" title="设计模式之建造者模式">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/java/2013/11/08/java-thread-pool" title="Java Thread Pool">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/designpatterns/android/2013/11/05/builder-pattern-in-android" data-title="Builder Pattern In Android" data-url="/designpatterns/android/2013/11/05/builder-pattern-in-android"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

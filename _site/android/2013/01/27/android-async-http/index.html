@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Asynchronous Http Client</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Asynchronous Http Client </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 01 月 27 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>在Android的SDK中封装一些请求http的包，其中最常用的便是使用HttpClient了，我们一般都是自己定义一个http的工具类，然后把get和post方法封装起来，然后自己手动处理一些http的异常，值得注意的是http请求在android中是阻碍UI主线程的，所以必须开启新的线程在后台请求，所以这一来，发现只是发起一个http的请求就必须要做这么多事，而且自己封装的工具类也不一定是最好用的。</p>
+
+<p>上面便是我以前的做法，本周在做moya的app时，重新审视了以前的代码，进行了一些重构。其中的一个地方便是使用了一个比较成熟的组件android-async-http来代替自己封装的http工具类，使用起来非常方便，省去了一些臃肿的代码，使代码总体看起来比较清晰。</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>android-async-http是基于Apache的HttpClient异步Http请求封装类，全部request都是脱离UI主线程的。这个包已经非常成熟了，国外有名的Instagram，Pinterest等apps都在使用。</p>
+
+<h2 id="installation--basic-usage">Installation &amp; Basic Usage</h2>
+
+<p>下载最新的.jar文件，在自己的android app中引用。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">import</span> <span class="n">com</span><span class="o">.</span><span class="n">loopj</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">*</span><span class="p">;</span></code></pre></div>
+
+<p>创建一个新的AsyncHttpClient实例并发起一个请求:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">AsyncHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">AsyncHttpClient</span><span class="p">();</span>
+<span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://www.google.com&quot;</span><span class="p">,</span> <span class="kp">new</span> <span class="no">AsyncHttpResponseHandler</span><span class="p">()</span> <span class="p">{</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onSuccess</span><span class="p">(</span><span class="nb">String</span> <span class="n">response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">response</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<h2 id="http-client">建议的用法：创建一个静态基类Http Client</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">import</span> <span class="n">com</span><span class="o">.</span><span class="n">loopj</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">*</span><span class="p">;</span>
+
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">BooheeClient</span> <span class="p">{</span>
+  <span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;http://www.boohee.com/api/&quot;</span><span class="p">;</span>
+
+  <span class="kp">private</span> <span class="n">static</span> <span class="no">AsyncHttpClient</span> <span class="n">client</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">AsyncHttpClient</span><span class="p">();</span>
+
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">get</span><span class="p">(</span><span class="nb">String</span> <span class="n">url</span><span class="p">,</span> <span class="no">RequestParams</span> <span class="n">params</span><span class="p">,</span> <span class="no">AsyncHttpResponseHandler</span> <span class="n">responseHandler</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">getAbsoluteUrl</span><span class="p">(</span><span class="n">url</span><span class="p">),</span> <span class="n">params</span><span class="p">,</span> <span class="n">responseHandler</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">post</span><span class="p">(</span><span class="nb">String</span> <span class="n">url</span><span class="p">,</span> <span class="no">RequestParams</span> <span class="n">params</span><span class="p">,</span> <span class="no">AsyncHttpResponseHandler</span> <span class="n">responseHandler</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">getAbsoluteUrl</span><span class="p">(</span><span class="n">url</span><span class="p">),</span> <span class="n">params</span><span class="p">,</span> <span class="n">responseHandler</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kp">private</span> <span class="n">static</span> <span class="nb">String</span> <span class="n">getAbsoluteUrl</span><span class="p">(</span><span class="nb">String</span> <span class="n">relativeUrl</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="no">BASE_URL</span> <span class="o">+</span> <span class="n">relativeUrl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>然后在整个工程的其他地方便很方便的调用:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">import</span> <span class="n">org</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">*</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">com</span><span class="o">.</span><span class="n">loopj</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">*</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">BooheeClientUsage</span> <span class="p">{</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">getPublicTimeline</span><span class="p">()</span> <span class="n">throws</span> <span class="no">JSONException</span> <span class="p">{</span>
+        <span class="no">BooheeClient</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;moya_video&quot;</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="kp">new</span> <span class="no">JsonHttpResponseHandler</span><span class="p">()</span> <span class="p">{</span>
+            <span class="vi">@Override</span>
+            <span class="kp">public</span> <span class="n">void</span> <span class="n">onSuccess</span><span class="p">(</span><span class="no">JSONObject</span> <span class="n">video</span><span class="p">)</span> <span class="p">{</span>
+                <span class="sr">//</span> <span class="no">Pull</span> <span class="n">out</span> <span class="n">the</span> <span class="n">first</span> <span class="n">event</span> <span class="n">on</span> <span class="n">the</span> <span class="kp">public</span> <span class="n">timeline</span>
+                <span class="nb">String</span> <span class="n">normal_url</span> <span class="o">=</span> <span class="n">video</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="s2">&quot;normal_url&quot;</span><span class="p">);</span>
+
+                <span class="sr">//</span> <span class="no">Do</span> <span class="n">something</span> <span class="n">with</span> <span class="n">the</span> <span class="n">response</span>
+                <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">normal_url</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>上面的例子看到，对于json数据的处理也非常方便。不仅如此，还有其他更多的用法，如处理cookie，上传、下载文件等。github项目地址：<a href="https://github.com/stormzhang/android-async-http">android-async-http</a></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Http Library">Http Library <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/rubyonrails/2013/01/20/rails-route" title="Rails3 Route常用用法">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/02/03/android-catch-global-exception" title="Android全局异常处理">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/01/27/android-async-http" data-title="Android Asynchronous Http Client" data-url="/android/2013/01/27/android-async-http"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

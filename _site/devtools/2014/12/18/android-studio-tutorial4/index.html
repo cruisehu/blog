@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Studio系列教程四--Gradle基础</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Studio系列教程四--Gradle基础 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 12 月 18 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<blockquote>
+  <blockquote>
+    <p>本文为个人原创，欢迎转载，但请务必在明显位置注明出处！</p>
+  </blockquote>
+</blockquote>
+
+<p>其实很早之前也写了一篇Gradle的基础博客，但是时间很久了，现在Gradle已经更新了很多，所以暂且结合Stduio 1.0正式版与最新的Gradle语法来详细讲解下，小伙伴们直接跟我一步步来学习吧。</p>
+
+<h2 id="gradle">什么是Gradle？</h2>
+
+<p>Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主，它抛弃了基于XML的各种繁琐配置，取而代之的是一种基于Groovy的内部领域特定（DSL）语言。</p>
+
+<h2 id="gradle-1">安装Gradle</h2>
+
+<p>在<a href="http://stormzhang.com/devtools/2014/11/25/android-studio-tutorial1/">Android Studio系列教程一–下载与安装</a>中新建项目成功后会下载Gradle，貌似这个过程不翻墙也是可以下载，但是访问特别慢，建议翻墙下载。那么下载的Gradle到什么地方呢？</p>
+
+<ul>
+  <li>
+    <p>Mac上会默认下载到 **/Users/<用户名>/.gradle/wrapper/dists** 目录</用户名></p>
+  </li>
+  <li>
+    <p>Win平台会默认下载到 <strong>C:\Documents and Settings&lt;用户名&gt;.gradle\wrapper\dists</strong> 目录</p>
+  </li>
+</ul>
+
+<p>你会看到这个目录下有个 gradle-x.xx-all 的文件夹, 如果下载实在太慢，但是又不想翻墙的话，可以自己手动到<a href="http://www.gradle.org/downloads">Gradle官网</a>下载对应的版本，然后将下载的.zip文件(也可以解压)复制到上述的gradle-x.xx-all 文件夹下，不过还是建议让它直接下载的好。</p>
+
+<h2 id="gradle-">Gradle 基本概念</h2>
+
+<p>下面就以我的开源项目 <a href="https://github.com/stormzhang/9GAG"><strong>9GAG</strong></a> 来详细讲解下和Gradle相关的知识, 和Gradle相关的几个文件一般有如下几个：</p>
+
+<p><img src="/image/gradle1.png" /></p>
+
+<p>红色标记部分从上到下咱们来一步步分析：</p>
+
+<h4 id="gagappbuildgradle">1. 9GAG/app/build.gradle</h4>
+
+<p>这个文件是app文件夹下这个Module的gradle配置文件，也可以算是整个项目最主要的gradle配置文件，我们来看下这个文件的内容：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="err">声明是</span><span class="no">Android</span><span class="err">程序</span>
+<span class="n">apply</span> <span class="ss">plugin</span><span class="p">:</span> <span class="s1">&#39;com.android.application&#39;</span>
+
+<span class="n">android</span> <span class="p">{</span>
+    <span class="sr">//</span> <span class="err">编译</span><span class="no">SDK</span><span class="err">的版本</span>
+    <span class="n">compileSdkVersion</span> <span class="mi">21</span>
+    <span class="o">//</span> <span class="n">build</span> <span class="n">tools</span><span class="err">的版本</span>
+    <span class="n">buildToolsVersion</span> <span class="s2">&quot;21.1.1&quot;</span>
+
+    <span class="n">defaultConfig</span> <span class="p">{</span>
+    	<span class="sr">//</span> <span class="err">应用的包名</span>
+        <span class="n">applicationId</span> <span class="s2">&quot;me.storm.ninegag&quot;</span>
+        <span class="n">minSdkVersion</span> <span class="mi">14</span>
+        <span class="n">targetSdkVersion</span> <span class="mi">21</span>
+        <span class="n">versionCode</span> <span class="mi">1</span>
+        <span class="n">versionName</span> <span class="s2">&quot;1.0.0&quot;</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="n">java</span><span class="err">版本</span>
+    <span class="n">compileOptions</span> <span class="p">{</span>
+        <span class="n">sourceCompatibility</span> <span class="no">JavaVersion</span><span class="o">.</span><span class="n">VERSION_1_7</span>
+        <span class="n">targetCompatibility</span> <span class="no">JavaVersion</span><span class="o">.</span><span class="n">VERSION_1_7</span>
+    <span class="p">}</span>
+    
+    <span class="n">buildTypes</span> <span class="p">{</span>
+        <span class="n">debug</span> <span class="p">{</span>
+            <span class="sr">//</span> <span class="n">debug</span><span class="err">模式</span>
+        <span class="p">}</span>
+        
+        <span class="n">release</span> <span class="p">{</span>
+            <span class="sr">//</span> <span class="err">是否进行混淆</span>
+            <span class="n">minifyEnabled</span> <span class="kp">false</span>
+            <span class="sr">//</span> <span class="err">混淆文件的位置</span>
+            <span class="n">proguardFiles</span> <span class="n">getDefaultProguardFile</span><span class="p">(</span><span class="s1">&#39;proguard-android.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;proguard-rules.txt&#39;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="sr">//</span> <span class="err">移除</span><span class="n">lint</span><span class="err">检查的</span><span class="n">error</span>
+    <span class="n">lintOptions</span> <span class="p">{</span>
+      <span class="n">abortOnError</span> <span class="kp">false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">dependencies</span> <span class="p">{</span>
+    <span class="sr">//</span> <span class="err">编译</span><span class="n">libs</span><span class="err">目录下的所有</span><span class="n">jar</span><span class="err">包</span>
+    <span class="n">compile</span> <span class="n">fileTree</span><span class="p">(</span><span class="ss">dir</span><span class="p">:</span> <span class="s1">&#39;libs&#39;</span><span class="p">,</span> <span class="kp">include</span><span class="p">:</span> <span class="o">[</span><span class="s1">&#39;*.jar&#39;</span><span class="o">]</span><span class="p">)</span>
+    <span class="n">compile</span> <span class="s1">&#39;com.android.support:support-v4:21.0.2&#39;</span>
+    <span class="n">compile</span> <span class="s1">&#39;com.etsy.android.grid:library:1.0.5&#39;</span>
+    <span class="n">compile</span> <span class="s1">&#39;com.alexvasilkov:foldable-layout:1.0.1&#39;</span>
+    <span class="sr">//</span> <span class="err">编译</span><span class="n">extras</span><span class="err">目录下的</span><span class="no">ShimmerAndroid</span><span class="err">模块</span>
+    <span class="n">compile</span> <span class="n">project</span><span class="p">(</span><span class="s1">&#39;:extras:ShimmerAndroid&#39;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这里需要说明几点：</p>
+
+<ul>
+  <li>
+    <p>文件开头apply plugin是最新gradle版本的写法，以前的写法是apply plugin: ‘android’, 如果还是以前的写法，请改正过来。</p>
+  </li>
+  <li>
+    <p>buildToolsVersion这个需要你本地安装该版本才行，很多人导入新的第三方库，失败的原因之一是build version的版本不对，这个可以手动更改成你本地已有的版本或者打开 <strong>SDK Manager</strong> 去下载对应版本。</p>
+  </li>
+  <li>
+    <p>applicationId代表应用的包名，也是最新的写法，这里就不在多说了。</p>
+  </li>
+  <li>
+    <p>android 5.0开始默认安装jdk1.7才能编译，但是由于mac系统自带jdk的版本是1.6，所以需要手动下载jdk1.7并配置下，具体可以见我这篇博客<a href="http://stormzhang.com/android/2014/06/27/manage-java-on-macosx/">Mac下安装和管理Java</a></p>
+  </li>
+  <li>
+    <p>minifyEnabled也是最新的语法，很早之前是runProguard,这个也需要更新下。</p>
+  </li>
+  <li>
+    <p>proguardFiles这部分有两段，前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，免去了我们很多事，这个文件的目录在 **<sdk目录>/tools/proguard/proguard-android.txt** , 后一部分是我们项目里的自定义的混淆文件，目录就在 **app/proguard-rules.txt** , 如果你用Studio 1.0创建的新项目默认生成的文件名是 **proguard-rules.pro** , 这个名字没关系，在这个文件里你可以声明一些第三方依赖的一些混淆规则，由于是开源项目，9GAG里并未进行混淆，具体混淆的语法也不是本篇博客讨论的范围。最终混淆的结果是这两部分文件共同作用的。</sdk目录></p>
+  </li>
+  <li>
+    <p>compile project(‘:extras:ShimmerAndroid’)这一行是因为9GAG中存在其他Module，不知道Module的概念可以看下这篇博客<a href="http://stormzhang.com/devtools/2014/11/28/android-studio-tutorial2/">Android Studio系列教程二–基本设置与运行</a>, 总之你可以理解成Android Library，由于Gradle的普及以及远程仓库的完善，这种依赖渐渐的会变得非常不常见，但是你需要知道有这种依赖的。</p>
+  </li>
+  <li>
+    <p>以上文件里的内容只是基本配置，其实还有很多自定义部分，如自动打包debug，release，beta等环境，签名，多渠道打包等，后续会单独拿出来讲解。</p>
+  </li>
+</ul>
+
+<h4 id="gagextrasshimmerandroidbuildgradle">2. 9GAG/extras/ShimmerAndroid/build.gradle</h4>
+
+<p>每一个Module都需要有一个gradle配置文件，语法都是一样，唯一不同的是开头声明的是 <strong>apply plugin: ‘com.android.library’</strong></p>
+
+<h4 id="gaggradle">3. 9GAG/gradle</h4>
+
+<p>这个目录下有个 <strong>wrapper</strong> 文件夹，里面可以看到有两个文件，我们主要看下 <strong>gradle-wrapper.properties</strong> 这个文件的内容：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#Thu Dec 18 16:02:24 CST 2014</span>
+<span class="n">distributionBase</span><span class="o">=</span><span class="no">GRADLE_USER_HOME</span>
+<span class="n">distributionPath</span><span class="o">=</span><span class="n">wrapper</span><span class="o">/</span><span class="n">dists</span>
+<span class="n">zipStoreBase</span><span class="o">=</span><span class="no">GRADLE_USER_HOME</span>
+<span class="n">zipStorePath</span><span class="o">=</span><span class="n">wrapper</span><span class="o">/</span><span class="n">dists</span>
+<span class="n">distributionUrl</span><span class="o">=</span><span class="n">https</span><span class="p">\</span><span class="ss">:/</span><span class="o">/</span><span class="n">services</span><span class="o">.</span><span class="n">gradle</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">distributions</span><span class="o">/</span><span class="n">gradle</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">all</span><span class="o">.</span><span class="n">zip</span></code></pre></div>
+
+<p>可以看到里面声明了gradle的目录与下载路径以及当前项目使用的gradle版本，这些默认的路径我们一般不会更改的，这个文件里指明的gradle版本不对也是很多导包不成功的原因之一。</p>
+
+<h2 id="gagbuildgradle">4. 9GAG/build.gradle</h2>
+
+<p>这个文件是整个项目的gradle基础配置文件,我们来看看这里面的内容</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Top</span><span class="o">-</span><span class="n">level</span> <span class="n">build</span> <span class="n">file</span> <span class="n">where</span> <span class="n">you</span> <span class="n">can</span> <span class="n">add</span> <span class="n">configuration</span> <span class="n">options</span> <span class="n">common</span> <span class="n">to</span> <span class="n">all</span> <span class="nb">sub</span><span class="o">-</span><span class="n">projects</span><span class="o">/</span><span class="n">modules</span><span class="o">.</span>
+
+<span class="n">buildscript</span> <span class="p">{</span>
+    <span class="n">repositories</span> <span class="p">{</span>
+        <span class="n">jcenter</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">dependencies</span> <span class="p">{</span>
+        <span class="n">classpath</span> <span class="s1">&#39;com.android.tools.build:gradle:1.0.0&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">allprojects</span> <span class="p">{</span>
+    <span class="n">repositories</span> <span class="p">{</span>
+        <span class="n">jcenter</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>内容主要包含了两个方面：一个是声明仓库的源，这里可以看到是指明的jcenter(), 之前版本则是mavenCentral(), jcenter可以理解成是一个新的中央远程仓库，兼容maven中心仓库，而且性能更优。另一个是声明了android gradle plugin的版本，android studio 1.0正式版必须要求支持gradle plugin 1.0的版本。</p>
+
+<h2 id="gagsettingsgradle">5. 9GAG/settings.gradle</h2>
+
+<p>这个文件是全局的项目配置文件，里面主要声明一些需要加入gradle的module，我们来看看9GAG该文件的内容：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">include</span> <span class="s1">&#39;:app&#39;</span><span class="p">,</span> <span class="s1">&#39;:extras:ShimmerAndroid&#39;</span></code></pre></div>
+
+<p>文件中的 <strong>app</strong>, <strong>extras:ShimmerAndroid</strong> 都是module，如果还有其他module都需要按照如上格式加进去。</p>
+
+<h2 id="section">总结</h2>
+
+<p>关于gradle的基础知识就介绍到这里，接下来会介绍一种我常用的快速方便的编译查看第三方开源项目的方法，如何导入Android Studio，Gradle常用基本命令，多渠道打包配置等。有疑问或者发现错误欢迎大家直接博客留言。</p>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#AndroidStudio">AndroidStudio <span>8</span></a></li>
+   
+    <li><a href="/posts.html#Gradle">Gradle <span>5</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/java/2014/12/14/java-lang-exceptionininitializererror" title="java.lang.ExceptionInInitializerError">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/other/2014/12/24/boohee-jobs" title="高薪招聘Android工程师">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2014/12/18/android-studio-tutorial4" data-title="Android Studio系列教程四--Gradle基础" data-url="/devtools/2014/12/18/android-studio-tutorial4"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

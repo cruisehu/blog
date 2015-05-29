@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Java Thread Pool</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Java Thread Pool </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 11 月 08 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#java-ref">
+      java 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>介绍new Thread的弊端及Java四种线程池的使用，对Android同样适用。</p>
+
+<h2 id="new-thread">new Thread的弊端</h2>
+
+<p>执行一个异步任务我们一般都是这样：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">new</span> <span class="no">Thread</span><span class="p">(</span><span class="kp">new</span> <span class="no">Runnable</span><span class="p">()</span> <span class="p">{</span> 
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+    <span class="p">}</span>
+<span class="p">})</span><span class="o">.</span><span class="n">start</span><span class="p">();</span></code></pre></div>
+
+<p>弊端如下：</p>
+
+<ul>
+  <li>每次new Thread新建对象性能差。</li>
+  <li>线程缺乏统一管理，可能无限制新建线程，相互之间竞争，及可能占用过多系统资源导致死机或oom。</li>
+  <li>缺乏更多功能，如定时执行、定期执行、线程中断。</li>
+</ul>
+
+<p>相比new Thread，Java提供的四种线程池的好处在于：</p>
+
+<ul>
+  <li>重用存在的线程，减少对象创建、消亡的开销，性能佳。</li>
+  <li>可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。</li>
+  <li>提供定时执行、定期执行、单线程、并发数控制等功能。</li>
+</ul>
+
+<!-- more -->
+
+<h2 id="java-">Java 线程池</h2>
+
+<p>Java通过Executors提供四种线程池，分别为：</p>
+
+<ul>
+  <li>newCachedThreadPool: 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。</li>
+  <li>newFixedThreadPool: 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</li>
+  <li>newScheduledThreadPool: 创建一个定长线程池，支持定时及周期性任务执行。</li>
+  <li>newSingleThreadExecutor: 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</li>
+</ul>
+
+<h4 id="newcachedthreadpool">1. newCachedThreadPool</h4>
+
+<p>创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。示例代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ExecutorService</span> <span class="n">chacheThreadPool</span> <span class="o">=</span> <span class="no">Executors</span><span class="o">.</span><span class="n">newCachedThreadPool</span><span class="p">();</span>
+      <span class="k">for</span><span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+           <span class="n">final</span> <span class="n">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+           <span class="n">try</span><span class="p">{</span>
+                <span class="no">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">index</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+           <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">InterruptedException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+           <span class="p">}</span>
+   
+           <span class="n">chacheThreadPool</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="kp">new</span> <span class="no">Runnable</span><span class="p">()</span> <span class="p">{</span>
+    
+            <span class="vi">@Override</span>
+            <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+                 <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+                 <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">index</span><span class="p">);</span> 
+            <span class="p">}</span>
+       <span class="p">});</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。</p>
+
+<h4 id="newfixedthreadpool">2. newFixedThreadPool</h4>
+
+<p>创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。示例代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ExecutorService</span> <span class="n">fixedThreadPool</span> <span class="o">=</span> <span class="no">Executors</span><span class="o">.</span><span class="n">newFixedThreadPool</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">final</span> <span class="n">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+      <span class="n">fixedThreadPool</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="kp">new</span> <span class="no">Runnable</span><span class="p">()</span> <span class="p">{</span>
+   
+          <span class="vi">@Override</span>
+          <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+              <span class="n">try</span> <span class="p">{</span>
+                  <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+                  <span class="no">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+              <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">InterruptedException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="kp">catch</span> <span class="n">block</span>
+                  <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+              <span class="p">}</span>
+          <span class="p">}</span>
+      <span class="p">});</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>因为线程池大小为3，每个任务输出index后sleep 2秒，所以每两秒打印3个数字。
+定长线程池的大小最好根据系统资源进行设置。如Runtime.getRuntime().availableProcessors()。</p>
+
+<h4 id="newscheduledthreadpool">3. newScheduledThreadPool</h4>
+
+<p>创建一个定长线程池，支持定时及周期性任务执行。延迟执行示例代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ScheduledExecutorService</span> <span class="n">scheduledThreadPool</span> <span class="o">=</span> <span class="no">Executors</span><span class="o">.</span><span class="n">newScheduledThreadPool</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+  <span class="n">scheduledThreadPool</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="kp">new</span> <span class="no">Runnable</span><span class="p">()</span> <span class="p">{</span>
+   
+      <span class="vi">@Override</span>
+      <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+       <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;delay 3 seconds&quot;</span><span class="p">);</span>
+      <span class="p">}</span>
+  <span class="p">},</span> <span class="mi">3</span><span class="p">,</span> <span class="no">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">);</span></code></pre></div>
+
+<p>表示延迟3秒执行。</p>
+
+<p>定期执行示例代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">scheduledThreadPool</span><span class="o">.</span><span class="n">scheduleAtFixedRate</span><span class="p">(</span><span class="kp">new</span> <span class="no">Runnable</span><span class="p">()</span> <span class="p">{</span>
+ 
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;delay 1 seconds, and excute every 3 seconds&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">},</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="no">TimeUnit</span><span class="o">.</span><span class="n">SECONDS</span><span class="p">);</span></code></pre></div>
+
+<p>表示延迟1秒后每3秒执行一次。</p>
+
+<p>ScheduledExecutorService比Timer更安全，功能更强大，后面会有一篇单独进行对比。</p>
+
+<h4 id="newsinglethreadexecutor">4. newSingleThreadExecutor</h4>
+
+<p>创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。示例代码如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ExecutorService</span> <span class="n">singleThreadExecutor</span> <span class="o">=</span> <span class="no">Executors</span><span class="o">.</span><span class="n">newSingleThreadExecutor</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">final</span> <span class="n">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+      <span class="n">singleThreadExecutor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="kp">new</span> <span class="no">Runnable</span><span class="p">()</span> <span class="p">{</span>
+   
+          <span class="vi">@Override</span>
+          <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+              <span class="n">try</span> <span class="p">{</span>
+                  <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+                  <span class="no">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+              <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">InterruptedException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="kp">catch</span> <span class="n">block</span>
+                  <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+              <span class="p">}</span>
+          <span class="p">}</span>
+      <span class="p">});</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>结果依次输出，相当于顺序执行各个任务。</p>
+
+<p>现行大多数GUI程序都是单线程的。Android中单线程可用于数据库操作，文件操作，应用批量安装，应用批量删除等不适合并发但可能IO阻塞性及影响UI线程响应的操作。</p>
+
+<p>综上所述的4中方式，主要有以下几种见解:</p>
+
+<ol>
+  <li>
+    <p>第一种方式跟第四种方式，运行了之后，发现结果是一样的，那是不是说这两种线程池的使用是一样的呢？如果是一样的，为什么会有两种而不是一种？其实大家仔细看下一开始这两个方法的介绍就知道了，第一种：newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。这里觉得它可能是并发且是无序的。第四种：newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。是一个单线程的线程池，个人觉得它是有序的，因为有优先级。</p>
+  </li>
+  <li>
+    <p>第二种方式，可指定线程池的大小，并且每隔一段时间执行多少数据。比如上面的例子就是：因为线程池大小为3，每个任务输出index后sleep 2秒，所以每两秒打印3个数字。相信大家都能够理解了。</p>
+  </li>
+  <li>
+    <p>第三种方式就更简单了，这里介绍了两种情况，一种是只执行一次的情况，一种是延迟几秒再每隔几秒执行一次。可能这样说大家不太明白，我举个简单的例子。比如现在很多应用的首页有一个广告部分，每隔几秒后就会自动播放下一张图片，这里用的线程就是此线程。其实很多Android开发遇到这种情况，都会首先想到用定时器(Timer)，其实不然，很多帖子都说明了，这种方式比用Timer更好。</p>
+  </li>
+</ol>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ThreadPool">ThreadPool <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/designpatterns/android/2013/11/05/builder-pattern-in-android" title="Builder Pattern In Android">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/openandroid/2013/11/15/android-custom-loading" title="Android Custom Loading">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/java/2013/11/08/java-thread-pool" data-title="Java Thread Pool" data-url="/java/2013/11/08/java-thread-pool"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

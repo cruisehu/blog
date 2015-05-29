@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android-Universal-Image-Loader</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android-Universal-Image-Loader </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 12 月 01 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#openandroid-ref">
+      openandroid 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>之前项目中用到的图片异步加载库是<a href="https://github.com/thest1/LazyList">LazyList</a>。随着需求的不算增长，需求有点不太能满足，缺少可配置的选项，于是换到了强大的<a href="https://github.com/nostra13/Android-Universal-Image-Loader">UniversalImageLoader</a>。</p>
+
+<h2 id="section">一、介绍</h2>
+
+<p>Android-Universal-Image-Loader是一个开源的图片异步加载库，该项目的目的是提供一个可重复使用的仪器为异步图像加载，缓存和显示。该库非常强大，国内外很多有名的应用程序都有使用，在该类库的默认缓存文件夹中甚至发现了google, instagram, qq, baidu都有在用。</p>
+
+<!-- more -->
+
+<h2 id="section-1">二、特点</h2>
+
+<ul>
+  <li>
+    <p>多线程的图像加载</p>
+  </li>
+  <li>
+    <p>尽可能多的配置选项（线程池，加载器，解析器，内存/磁盘缓存，显示参数等等）</p>
+  </li>
+  <li>
+    <p>图片可以缓存在内存中，或者设备文件目录下，或者SD卡中</p>
+  </li>
+  <li>
+    <p>可以添加图片加载监听器</p>
+  </li>
+  <li>
+    <p>可以自定义显示每一张图片时都带不同参数</p>
+  </li>
+  <li>
+    <p>支持Widget</p>
+  </li>
+  <li>
+    <p>Android 1.5以上支持</p>
+  </li>
+</ul>
+
+<h2 id="section-2">三、使用方法</h2>
+
+<h4 id="android-manifest">1. Android Manifest</h4>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;manifest&gt;</span>
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.INTERNET&quot;</span> <span class="nt">/&gt;</span>
+    <span class="c">&lt;!-- Include next permission if you want to allow UIL to cache images on SD card --&gt;</span>
+    <span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> <span class="nt">/&gt;</span>
+    ...
+    <span class="nt">&lt;application</span> <span class="na">android:name=</span><span class="s">&quot;MyApplication&quot;</span><span class="nt">&gt;</span>
+    ...
+    <span class="nt">&lt;/application&gt;</span>
+<span class="nt">&lt;/manifest&gt;</span></code></pre></div>
+
+<h4 id="application-class">2. Application class</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyApplication</span> <span class="n">extends</span> <span class="no">Application</span> <span class="p">{</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">();</span>
+        <span class="sr">//</span> <span class="no">Create</span> <span class="n">global</span> <span class="n">configuration</span> <span class="ow">and</span> <span class="kp">initialize</span> <span class="no">ImageLoader</span> <span class="n">with</span> <span class="n">this</span> <span class="n">configuration</span>
+        <span class="no">ImageLoaderConfiguration</span> <span class="n">config</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">ImageLoaderConfiguration</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">getApplicationContext</span><span class="p">())</span>
+            <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+            <span class="o">.</span><span class="n">build</span><span class="p">();</span>
+        <span class="no">ImageLoader</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h5 id="configuration">Configuration</h5>
+
+<p>所有的选项都是可选的，只选择你真正想制定的去配置。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">File</span> <span class="n">cacheDir</span> <span class="o">=</span> <span class="no">StorageUtils</span><span class="o">.</span><span class="n">getCacheDirectory</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+<span class="no">ImageLoaderConfiguration</span> <span class="n">config</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">ImageLoaderConfiguration</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="sr">//</span><span class="err">如果图片尺寸大于了这个参数，那么就会这按照这个参数对图片大小进行限制并缓存</span>
+    <span class="o">.</span><span class="n">memoryCacheExtraOptions</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span> <span class="sr">//</span> <span class="n">default</span><span class="o">=</span><span class="n">device</span> <span class="n">screen</span> <span class="n">dimensions</span>
+    <span class="o">.</span><span class="n">discCacheExtraOptions</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="no">CompressFormat</span><span class="o">.</span><span class="n">JPEG</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">taskExecutor</span><span class="p">(</span><span class="no">AsyncTask</span><span class="o">.</span><span class="n">THREAD_POOL_EXECUTOR</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">taskExecutorForCachedImages</span><span class="p">(</span><span class="no">AsyncTask</span><span class="o">.</span><span class="n">THREAD_POOL_EXECUTOR</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">threadPoolSize</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">threadPriority</span><span class="p">(</span><span class="no">Thread</span><span class="o">.</span><span class="n">NORM_PRIORITY</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">tasksProcessingOrder</span><span class="p">(</span><span class="no">QueueProcessingType</span><span class="o">.</span><span class="n">FIFO</span><span class="p">)</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">denyCacheImageMultipleSizesInMemory</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">memoryCache</span><span class="p">(</span><span class="kp">new</span> <span class="no">LruMemoryCache</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">memoryCacheSize</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">discCache</span><span class="p">(</span><span class="kp">new</span> <span class="no">UnlimitedDiscCache</span><span class="p">(</span><span class="n">cacheDir</span><span class="p">))</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">discCacheSize</span><span class="p">(</span><span class="mi">50</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">discCacheFileCount</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">discCacheFileNameGenerator</span><span class="p">(</span><span class="kp">new</span> <span class="no">HashCodeFileNameGenerator</span><span class="p">())</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">imageDownloader</span><span class="p">(</span><span class="kp">new</span> <span class="no">BaseImageDownloader</span><span class="p">(</span><span class="n">context</span><span class="p">))</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">imageDecoder</span><span class="p">(</span><span class="kp">new</span> <span class="no">BaseImageDecoder</span><span class="p">())</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">defaultDisplayImageOptions</span><span class="p">(</span><span class="no">DisplayImageOptions</span><span class="o">.</span><span class="n">createSimple</span><span class="p">())</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">enableLogging</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">build</span><span class="p">();</span></code></pre></div>
+
+<h5 id="display-options">Display Options</h5>
+
+<p>显示参数可以分别被每一个显示任务调用(ImageLoader.displayImage(…))</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">DisplayImageOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">DisplayImageOptions</span><span class="o">.</span><span class="n">Builder</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">showStubImage</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">drawable</span><span class="o">.</span><span class="n">ic_stub</span><span class="p">)</span>  <span class="sr">//</span> <span class="err">在显示真正的图片前，会加载这个资源</span>
+    <span class="o">.</span><span class="n">showImageForEmptyUri</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">drawable</span><span class="o">.</span><span class="n">ic_empty</span><span class="p">)</span> <span class="sr">//</span><span class="err">空的</span><span class="no">Url</span><span class="err">时</span>
+    <span class="o">.</span><span class="n">showImageOnFail</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">drawable</span><span class="o">.</span><span class="n">ic_error</span><span class="p">)</span> 
+    <span class="o">.</span><span class="n">resetViewBeforeLoading</span><span class="p">()</span> <span class="sr">//</span> 
+    <span class="o">.</span><span class="n">delayBeforeLoading</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>     <span class="sr">//</span> <span class="err">延长</span><span class="mi">1000</span><span class="n">ms</span> <span class="err">加载图片</span>  <span class="err">（想不出来用在什么场景下）</span>
+    <span class="o">.</span><span class="n">cacheInMemory</span><span class="p">()</span>              
+    <span class="o">.</span><span class="n">cacheOnDisc</span><span class="p">()</span>               
+    <span class="o">.</span><span class="n">preProcessor</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>            
+    <span class="o">.</span><span class="n">postProcessor</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>           
+    <span class="o">.</span><span class="n">extraForDownloader</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>      <span class="sr">//</span><span class="err">可以向加载器携带一些参数</span> 
+    <span class="o">.</span><span class="n">imageScaleType</span><span class="p">(</span><span class="no">ImageScaleType</span><span class="o">.</span><span class="n">IN_SAMPLE_POWER_OF_2</span><span class="p">)</span> <span class="sr">//</span> <span class="n">default</span>  
+    <span class="o">.</span><span class="n">bitmapConfig</span><span class="p">(</span><span class="no">Bitmap</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">ARGB_8888</span><span class="p">)</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">decodingOptions</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">displayer</span><span class="p">(</span><span class="kp">new</span> <span class="no">SimpleBitmapDisplayer</span><span class="p">())</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">handler</span><span class="p">(</span><span class="kp">new</span> <span class="no">Handler</span><span class="p">())</span> <span class="sr">//</span> <span class="n">default</span>
+    <span class="o">.</span><span class="n">build</span><span class="p">();</span></code></pre></div>
+
+<h5 id="url">可接收的URL</h5>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">String</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="s2">&quot;http://site.com/image.png&quot;</span><span class="p">;</span> <span class="sr">//</span> <span class="n">from</span> <span class="no">Web</span>
+<span class="nb">String</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="s2">&quot;file:///mnt/sdcard/image.png&quot;</span><span class="p">;</span> <span class="sr">//</span> <span class="n">from</span> <span class="no">SD</span> <span class="n">card</span>
+<span class="nb">String</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="s2">&quot;content://media/external/audio/albumart/13&quot;</span><span class="p">;</span> <span class="sr">//</span> <span class="n">from</span> <span class="n">content</span>     <span class="n">provider</span>
+<span class="nb">String</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="s2">&quot;assets://image.png&quot;</span><span class="p">;</span> <span class="sr">//</span> <span class="n">from</span> <span class="n">assets</span>
+<span class="nb">String</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="s2">&quot;drawable://&quot;</span> <span class="o">+</span> <span class="n">R</span><span class="o">.</span><span class="n">drawable</span><span class="o">.</span><span class="n">image</span><span class="p">;</span> <span class="sr">//</span> <span class="n">from</span> <span class="n">drawables</span> <span class="p">(</span><span class="n">only</span> <span class="n">images</span><span class="p">,</span> <span class="n">non</span><span class="o">-</span><span class="mi">9</span><span class="n">patch</span><span class="p">)</span></code></pre></div>
+
+<h5 id="section-3">完整版</h5>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Load</span> <span class="n">image</span><span class="p">,</span> <span class="n">decode</span> <span class="n">it</span> <span class="n">to</span> <span class="no">Bitmap</span> <span class="ow">and</span> <span class="nb">display</span> <span class="no">Bitmap</span> <span class="k">in</span> <span class="no">ImageView</span>
+<span class="n">imageLoader</span><span class="o">.</span><span class="n">displayImage</span><span class="p">(</span><span class="n">imageUri</span><span class="p">,</span> <span class="n">imageView</span><span class="p">,</span> <span class="n">displayOptions</span><span class="p">,</span> 
+<span class="kp">new</span> <span class="no">ImageLoadingListener</span><span class="p">()</span> <span class="p">{</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onLoadingStarted</span><span class="p">(</span><span class="nb">String</span> <span class="n">imageUri</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="p">}</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onLoadingFailed</span><span class="p">(</span><span class="nb">String</span> <span class="n">imageUri</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">,</span> <span class="no">FailReason</span> <span class="n">failReason</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="p">}</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onLoadingComplete</span><span class="p">(</span><span class="nb">String</span> <span class="n">imageUri</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">,</span> <span class="no">Bitmap</span> <span class="n">loadedImage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="p">}</span>    
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onLoadingCancelled</span><span class="p">(</span><span class="nb">String</span> <span class="n">imageUri</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+
+<span class="no">ImageSize</span> <span class="n">targetSize</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">ImageSize</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">80</span><span class="p">);</span> <span class="sr">//</span> <span class="n">result</span> <span class="no">Bitmap</span> <span class="n">will</span> <span class="n">be</span> <span class="n">fit</span> <span class="n">to</span> <span class="n">this</span> <span class="n">size</span>
+<span class="n">imageLoader</span><span class="o">.</span><span class="n">loadImage</span><span class="p">(</span><span class="n">imageUri</span><span class="p">,</span> <span class="n">targetSize</span><span class="p">,</span> <span class="n">displayOptions</span><span class="p">,</span> <span class="kp">new</span>     <span class="no">SimpleImageLoadingListener</span><span class="p">()</span> <span class="p">{</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onLoadingComplete</span><span class="p">(</span><span class="nb">String</span> <span class="n">imageUri</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">,</span> <span class="no">Bitmap</span> <span class="n">loadedImage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="sr">//</span> <span class="no">Do</span> <span class="n">whatever</span> <span class="n">you</span> <span class="n">want</span> <span class="n">with</span> <span class="no">Bitmap</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ImageLoader">ImageLoader <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/11/20/android-display-bitmaps-efficiently" title="Android高效加载图片，有效避免程序OOM">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/12/04/android-genymotion" title="一个强大的Android模拟器Genymotion">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/openandroid/2013/12/01/android-universal-image-loader" data-title="Android-Universal-Image-Loader" data-url="/android/openandroid/2013/12/01/android-universal-image-loader"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

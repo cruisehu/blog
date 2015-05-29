@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>linux下proxy设定的一般方法</title>
+    <meta name="keywords" content="linux,proxy">
+    <meta name="description" content="在linux下设置proxy的一般方法">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>linux下proxy设定的一般方法 </h2>
+    <div class="post_info">
+        
+    </div>
+    <div class="content">
+      
+<p class="paragraph">
+在linux下配置测试环境时，经常遇到代理服务器配置的相关问题，在这里总结一些，为以后节省些时间。
+也希望对需要的人有所帮助。
+</p>
+
+<h2 id="linuxproxy">linux下proxy的常规设置</h2>
+
+<p class="paragraph">
+一般是把如下环境变量的设置放到/etc/profile.d/proxy.sh文件中。
+对于没有系统权限的用户，可以将下面的内容添加到自己用户目录下的.profile文件中。
+这样登录后，大多数的应用程序都可以正常上网。
+</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#proxy=http://用户名:密码@ProxyURL或IP地址:端口号</span>
+<span class="nv">proxy</span><span class="o">=</span>http://ProxyURL或IP地址:端口号
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span><span class="nv">$proxy</span>
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span><span class="nv">$proxy</span>
+<span class="nb">export </span><span class="nv">ftp_proxy</span><span class="o">=</span><span class="nv">$proxy</span>
+
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>以逗号分隔的除外列表</code></pre></div>
+
+<h2 id="centosyumproxy">CentOS的yum工具的proxy设置</h2>
+
+<p class="paragraph">
+CentOS下，设置了上述proxy后，yum还是有不能正确下载有些资源包的情况，可以通过在
+/etc/yum.conf文件中添加如下内容来单独设置proxy。
+</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">proxy</span><span class="o">=</span>http://ProxyURL或IP地址:端口号
+<span class="nv">proxy_username</span><span class="o">=</span>用户名
+<span class="nv">proxy_password</span><span class="o">=</span>密码</code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Linux">Linux <span>1</span></a></li>
+   
+    <li><a href="/posts.html#Proxy">Proxy <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/06/30/android-metadata" title="Android Manifest.xml中的meta-data属性">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/07/07/eight-android-develop-tools" title="8个常用的Android开发工具">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/2013/07/05/set-linux-proxy" data-title="linux下proxy设定的一般方法" data-url="/2013/07/05/set-linux-proxy"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

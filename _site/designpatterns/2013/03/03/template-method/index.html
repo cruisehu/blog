@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>设计模式之TemplateMethod</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>设计模式之TemplateMethod </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 03 月 03 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#designpatterns-ref">
+      designpatterns 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>最近开始看《Ruby设计模式》一书，结合“追mm与设计模式”，虽然有些YD，不过也有助于帮助理解设计模式 ，边学习边记录一下吧。Template method模式是最简单的一种设计模式了.</p>
+
+<p>Template method——看过《如何说服女生上床》这部经典文章吗？女生从认识到上床的不变的步骤分为巧遇、打破僵局、展开追求、接吻、前戏、动手、爱抚、进去八大步骤(Template method)，但每个步骤针对不同的情况，都有不一样的做法，这就要看你随机应变啦(具体实现)；</p>
+
+<h2 id="section">模板方法模式</h2>
+
+<p>模板方法模式准备一个抽象类，将部分逻辑以具体方法以及具体构造子的形式实现，然后声明一些抽象方法来迫使子类实现剩余的逻辑。不同的子类可以以不同的方式实现这些抽象方法，从而对剩余的逻辑有不同的实现。先制定一个顶级逻辑框架，而将逻辑的细节留给具体的子类去实现。</p>
+
+<h2 id="section-1">实例</h2>
+
+<p>以一个例子来说， 写一个输出一个不同格式的report generater。可以输出html格式，也可以输出纯文本的内容。</p>
+
+<p>这个例子是hard-coded输出html格式的report类，但是无法处理纯文本格式。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Report</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@title</span> <span class="o">=</span> <span class="s1">&#39;Monthly Report&#39;</span>
+    <span class="vi">@text</span> <span class="o">=</span>  <span class="o">[</span> <span class="s1">&#39;Things are going&#39;</span><span class="p">,</span> <span class="s1">&#39;really, really well.&#39;</span> <span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_report</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&#39;</span><span class="p">)</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;head&gt;&#39;</span><span class="p">)</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;    &lt;title&gt;</span><span class="si">#{</span><span class="vi">@title</span><span class="si">}</span><span class="s2">&lt;/title&gt;&quot;</span><span class="p">)</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;/head&gt;&#39;</span><span class="p">)</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;body&gt;&#39;</span><span class="p">)</span>
+
+    <span class="vi">@text</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+       <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;    &lt;p&gt;</span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">&lt;/p&gt;&quot;</span> <span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;/body&gt;&#39;</span><span class="p">)</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;/html&gt;&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>如果你要处理纯文本，那么只能重新写一个类：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Report</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@title</span> <span class="o">=</span> <span class="s1">&#39;Monthly Report&#39;</span>
+    <span class="vi">@text</span> <span class="o">=</span>  <span class="o">[</span><span class="s1">&#39;Things are going&#39;</span><span class="p">,</span> <span class="s1">&#39;really, really well.&#39;</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_report</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="ss">:plain</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;*** </span><span class="si">#{</span><span class="vi">@title</span><span class="si">}</span><span class="s2"> ***&quot;</span><span class="p">)</span>
+    <span class="k">elsif</span> <span class="nb">format</span> <span class="o">==</span> <span class="ss">:html</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&#39;</span><span class="p">)</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;head&gt;&#39;</span><span class="p">)</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;    &lt;title&gt;</span><span class="si">#{</span><span class="vi">@title</span><span class="si">}</span><span class="s2">&lt;/title&gt;&quot;</span><span class="p">)</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;/head&gt;&#39;</span><span class="p">)</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;body&gt;&#39;</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="k">raise</span> <span class="s2">&quot;Unknown format: </span><span class="si">#{</span><span class="nb">format</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+
+    <span class="vi">@text</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+      <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="ss">:plain</span>
+        <span class="nb">puts</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+      <span class="k">else</span>
+        <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;    &lt;p&gt;</span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">&lt;/p&gt;&quot;</span> <span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="ss">:html</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;/body&gt;&#39;</span><span class="p">)</span>
+      <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;/html&gt;&#39;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>上面的代码是可以工作的，但是如果将来又有需要让你处理其他格式呢，再重写一遍啊？这个时候template method就起作用了。我们可以把公共的部分抽象出来，也就是说先制定一个顶级逻辑框架，而将逻辑的细节留给具体的子类去实现。Ruby本身并没有抽象类，那么我们可以像下面方式一样去模拟：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Report</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@title</span> <span class="o">=</span> <span class="s1">&#39;Monthly Report&#39;</span>
+    <span class="vi">@text</span> <span class="o">=</span>  <span class="o">[</span><span class="s1">&#39;Things are going&#39;</span><span class="p">,</span> <span class="s1">&#39;really, really well.&#39;</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_report</span>
+    <span class="n">output_start</span>
+    <span class="n">output_head</span>
+    <span class="n">output_body_start</span>
+    <span class="n">output_body</span>
+    <span class="n">output_body_end</span>
+    <span class="n">output_end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_body</span>
+    <span class="vi">@text</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+      <span class="n">output_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_start</span>
+    <span class="k">raise</span> <span class="s1">&#39;Called abstract method: output_start&#39;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_head</span>
+    <span class="k">raise</span> <span class="s1">&#39;Called abstract method: output_head&#39;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_body_start</span>
+    <span class="k">raise</span> <span class="s1">&#39;Called abstract method: output_body_start&#39;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="s1">&#39;Called abstract method: output_line&#39;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_body_end</span>
+    <span class="k">raise</span> <span class="s1">&#39;Called abstract method: output_body_end&#39;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_end</span>
+    <span class="k">raise</span> <span class="s1">&#39;Called abstract method: output_end&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>那么我们可以实现处理html的子类了：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">HTMLReport</span> <span class="o">&lt;</span> <span class="no">Report</span>
+  <span class="k">def</span> <span class="nf">output_start</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_head</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;head&gt;&#39;</span><span class="p">)</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;    &lt;title&gt;</span><span class="si">#{</span><span class="vi">@title</span><span class="si">}</span><span class="s2">&lt;/title&gt;&quot;</span><span class="p">)</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;  &lt;/head&gt;&#39;</span><span class="p">)</span>
+ <span class="k">end</span>
+
+ <span class="k">def</span> <span class="nf">output_body_start</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;body&gt;&#39;</span><span class="p">)</span>
+ <span class="k">end</span>
+
+ <span class="k">def</span> <span class="nf">output_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;  &lt;p&gt;</span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">&lt;/p&gt;&quot;</span><span class="p">)</span>
+ <span class="k">end</span>
+
+ <span class="k">def</span> <span class="nf">output_body_end</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;/body&gt;&#39;</span><span class="p">)</span>
+ <span class="k">end</span>
+
+ <span class="k">def</span> <span class="nf">output_end</span>
+   <span class="nb">puts</span><span class="p">(</span><span class="s1">&#39;&lt;/html&gt;&#39;</span><span class="p">)</span>
+ <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>同样，处理文本的子类：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">PlainTextReport</span> <span class="o">&lt;</span> <span class="no">Report</span>
+  <span class="k">def</span> <span class="nf">output_start</span>
+  <span class="k">end</span>
+ 
+  <span class="k">def</span> <span class="nf">output_head</span>
+    <span class="nb">puts</span><span class="p">(</span><span class="s2">&quot;**** </span><span class="si">#{</span><span class="vi">@title</span><span class="si">}</span><span class="s2"> ****&quot;</span><span class="p">)</span>
+    <span class="nb">puts</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_body_start</span>
+  <span class="k">end</span>
+
+	<span class="k">def</span> <span class="nf">output_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+	  <span class="nb">puts</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+	<span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_body_end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">output_end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>看看结果：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">report</span> <span class="o">=</span> <span class="no">HTMLReport</span><span class="o">.</span><span class="n">new</span>
+<span class="n">report</span><span class="o">.</span><span class="n">output_report</span>
+<span class="c1">#=&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="no">Monthly</span> <span class="no">Report</span><span class="o">&lt;</span><span class="sr">/title&gt;</span>
+<span class="sr">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">Things</span> <span class="n">are</span> <span class="n">going</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+<span class="sr">&lt;p&gt;really, really well.&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="sr">/body&gt;</span>
+<span class="sr">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+
+
+<span class="n">report</span> <span class="o">=</span> <span class="no">PlainTextReport</span><span class="o">.</span><span class="n">new</span>
+<span class="n">report</span><span class="o">.</span><span class="n">output_report</span>
+<span class="c1">#=&gt;</span>
+<span class="o">**</span> <span class="no">Monthly</span> <span class="no">Report</span> <span class="o">****</span>
+<span class="no">Things</span> <span class="n">are</span> <span class="n">going</span>
+<span class="n">really</span><span class="p">,</span> <span class="n">really</span> <span class="n">well</span><span class="o">.</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Template">Template <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/02/18/android-source-code" title="Android Source Code">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/rubyonrails/2013/03/04/active-record-associations" title="Active Record Associations">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/designpatterns/2013/03/03/template-method" data-title="设计模式之TemplateMethod" data-url="/designpatterns/2013/03/03/template-method"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

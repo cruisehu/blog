@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android性能优化之使用SparseArray代替HashMap</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android性能优化之使用SparseArray代替HashMap </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 08 月 01 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>最近在重构one的项目，其中用HashMap来缓存ActivityGroup加载过的View，Eclipse给出了一个警告，之前考虑项目进度没怎么在意，这次仔细看了下提示，如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Use</span> <span class="kp">new</span> <span class="no">SparseArray</span><span class="o">&lt;</span><span class="no">View</span><span class="o">&gt;</span> <span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span> <span class="n">instead</span> <span class="k">for</span> <span class="n">better</span> <span class="n">performance</span></code></pre></div>
+
+<p class="paragraph">
+意思就是说用SparseArray来替代，以获取更好的性能。对SparseArray根本不熟悉，甚至都没听过，第一感觉应该是Android提供的类，于是F3进入SparseArray的源码，果不其然，确实是Android提供的一个工具类,部分源码如下：
+</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">*</span> <span class="no">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">2006</span> <span class="no">The</span> <span class="no">Android</span> <span class="no">Open</span> <span class="no">Source</span> <span class="no">Project</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="no">Licensed</span> <span class="n">under</span> <span class="n">the</span> <span class="no">Apache</span> <span class="no">License</span><span class="p">,</span> <span class="no">Version</span> <span class="mi">2</span><span class="o">.</span><span class="mi">0</span> <span class="p">(</span><span class="n">the</span> <span class="s2">&quot;License&quot;</span><span class="p">);</span>
+ <span class="o">*</span> <span class="n">you</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">this</span> <span class="n">file</span> <span class="n">except</span> <span class="k">in</span> <span class="n">compliance</span> <span class="n">with</span> <span class="n">the</span> <span class="no">License</span><span class="o">.</span>
+ <span class="o">*</span> <span class="no">You</span> <span class="n">may</span> <span class="n">obtain</span> <span class="n">a</span> <span class="n">copy</span> <span class="n">of</span> <span class="n">the</span> <span class="no">License</span> <span class="n">at</span>
+ <span class="o">*</span>
+ <span class="o">*</span>      <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">www</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="no">LICENSE</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+ <span class="o">*</span>
+ <span class="o">*</span> <span class="no">Unless</span> <span class="n">required</span> <span class="n">by</span> <span class="n">applicable</span> <span class="n">law</span> <span class="ow">or</span> <span class="n">agreed</span> <span class="n">to</span> <span class="k">in</span> <span class="n">writing</span><span class="p">,</span> <span class="n">software</span>
+ <span class="o">*</span> <span class="n">distributed</span> <span class="n">under</span> <span class="n">the</span> <span class="no">License</span> <span class="n">is</span> <span class="n">distributed</span> <span class="n">on</span> <span class="n">an</span> <span class="s2">&quot;AS IS&quot;</span> <span class="no">BASIS</span><span class="p">,</span>
+ <span class="o">*</span> <span class="no">WITHOUT</span> <span class="no">WARRANTIES</span> <span class="no">OR</span> <span class="no">CONDITIONS</span> <span class="no">OF</span> <span class="no">ANY</span> <span class="no">KIND</span><span class="p">,</span> <span class="n">either</span> <span class="n">express</span> <span class="ow">or</span> <span class="n">implied</span><span class="o">.</span>
+ <span class="o">*</span> <span class="no">See</span> <span class="n">the</span> <span class="no">License</span> <span class="k">for</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">language</span> <span class="n">governing</span> <span class="n">permissions</span> <span class="ow">and</span>
+ <span class="o">*</span> <span class="n">limitations</span> <span class="n">under</span> <span class="n">the</span> <span class="no">License</span><span class="o">.</span>
+ <span class="o">*/</span>
+
+<span class="n">package</span> <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="p">;</span>
+
+<span class="n">import</span> <span class="n">com</span><span class="o">.</span><span class="n">android</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ArrayUtils</span><span class="p">;</span>
+
+<span class="sr">/**</span>
+<span class="sr"> * SparseArrays map integers to Objects.  Unlike a normal array of Objects,</span>
+<span class="sr"> * there can be gaps in the indices.  It is intended to be more efficient</span>
+<span class="sr"> * than using a HashMap to map Integers to Objects.</span>
+<span class="sr"> */</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">SparseArray</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">implements</span> <span class="no">Cloneable</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="no">Object</span> <span class="no">DELETED</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Object</span><span class="p">();</span>
+    <span class="kp">private</span> <span class="n">boolean</span> <span class="n">mGarbage</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+
+    <span class="kp">private</span> <span class="n">int</span><span class="o">[]</span> <span class="n">mKeys</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="no">Object</span><span class="o">[]</span> <span class="n">mValues</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">mSize</span><span class="p">;</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Creates a new SparseArray containing no mappings.</span>
+<span class="sr">     */</span>
+    <span class="kp">public</span> <span class="no">SparseArray</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">this</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Creates a new SparseArray containing no mappings that will not</span>
+<span class="sr">     * require any additional memory allocation to store the specified</span>
+<span class="sr">     * number of mappings.</span>
+<span class="sr">     */</span>
+    <span class="kp">public</span> <span class="no">SparseArray</span><span class="p">(</span><span class="n">int</span> <span class="n">initialCapacity</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">initialCapacity</span> <span class="o">=</span> <span class="no">ArrayUtils</span><span class="o">.</span><span class="n">idealIntArraySize</span><span class="p">(</span><span class="n">initialCapacity</span><span class="p">);</span>
+
+        <span class="n">mKeys</span> <span class="o">=</span> <span class="kp">new</span> <span class="n">int</span><span class="o">[</span><span class="n">initialCapacity</span><span class="o">]</span><span class="p">;</span>
+        <span class="n">mValues</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Object</span><span class="o">[</span><span class="n">initialCapacity</span><span class="o">]</span><span class="p">;</span>
+        <span class="n">mSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="vi">@SuppressWarnings</span><span class="p">(</span><span class="s2">&quot;unchecked&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="no">SparseArray</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nb">clone</span><span class="p">()</span> <span class="p">{</span>
+        <span class="no">SparseArray</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nb">clone</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="nb">clone</span> <span class="o">=</span> <span class="p">(</span><span class="no">SparseArray</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="p">)</span> <span class="k">super</span><span class="o">.</span><span class="n">clone</span><span class="p">();</span>
+            <span class="nb">clone</span><span class="o">.</span><span class="n">mKeys</span> <span class="o">=</span> <span class="n">mKeys</span><span class="o">.</span><span class="n">clone</span><span class="p">();</span>
+            <span class="nb">clone</span><span class="o">.</span><span class="n">mValues</span> <span class="o">=</span> <span class="n">mValues</span><span class="o">.</span><span class="n">clone</span><span class="p">();</span>
+        <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">CloneNotSupportedException</span> <span class="n">cnse</span><span class="p">)</span> <span class="p">{</span>
+            <span class="sr">/* ignore */</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">clone</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Gets the Object mapped from the specified key, or &lt;code&gt;null&lt;/</span><span class="n">code</span><span class="o">&gt;</span>
+     <span class="o">*</span> <span class="k">if</span> <span class="n">no</span> <span class="n">such</span> <span class="n">mapping</span> <span class="n">has</span> <span class="n">been</span> <span class="n">made</span><span class="o">.</span>
+     <span class="o">*/</span>
+    <span class="kp">public</span> <span class="n">E</span> <span class="n">get</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">null</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Gets the Object mapped from the specified key, or the specified Object</span>
+<span class="sr">     * if no such mapping has been made.</span>
+<span class="sr">     */</span>
+    <span class="vi">@SuppressWarnings</span><span class="p">(</span><span class="s2">&quot;unchecked&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="n">E</span> <span class="n">get</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">E</span> <span class="n">valueIfKeyNotFound</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">binarySearch</span><span class="p">(</span><span class="n">mKeys</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mSize</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="no">DELETED</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">valueIfKeyNotFound</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">E</span><span class="p">)</span> <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Removes the mapping from the specified key, if there was any.</span>
+<span class="sr">     */</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">delete</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">binarySearch</span><span class="p">(</span><span class="n">mKeys</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mSize</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">!=</span> <span class="no">DELETED</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="no">DELETED</span><span class="p">;</span>
+                <span class="n">mGarbage</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Alias for {@link #delete(int)}.</span>
+<span class="sr">     */</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">remove</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">delete</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">     * Removes the mapping at the specified index.</span>
+<span class="sr">     */</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">removeAt</span><span class="p">(</span><span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mValues</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">!=</span> <span class="no">DELETED</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mValues</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="no">DELETED</span><span class="p">;</span>
+            <span class="n">mGarbage</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="o">.</span><span class="n">.</span><span class="o">.</span></code></pre></div>
+
+<pre><code>mSize++;单纯从字面上来理解，SparseArray指的是稀疏数组(Sparse array)，所谓稀疏数组就是数组中大部分的内容值都未被使用（或都为零），在数组中仅有少部分的空间使用。因此造成内存空间的浪费，为了节省内存空间，并且不影响数组中原有的内容值，我们可以采用一种压缩的方式来表示稀疏数组的内容。
+</code></pre>
+
+<p>继续阅读SparseArray的源码，从构造方法我们可以看出，它和一般的List一样，可以预先设置容器大小，默认的大小是10：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="no">SparseArray</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">this</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kp">public</span> <span class="no">SparseArray</span><span class="p">(</span><span class="n">int</span> <span class="n">initialCapacity</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">initialCapacity</span> <span class="o">=</span> <span class="no">ArrayUtils</span><span class="o">.</span><span class="n">idealIntArraySize</span><span class="p">(</span><span class="n">initialCapacity</span><span class="p">);</span>
+
+    <span class="n">mKeys</span> <span class="o">=</span> <span class="kp">new</span> <span class="n">int</span><span class="o">[</span><span class="n">initialCapacity</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">mValues</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Object</span><span class="o">[</span><span class="n">initialCapacity</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">mSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>再来看看它对数据的“增删改查”。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">void</span> <span class="n">put</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">E</span> <span class="n">value</span><span class="p">)</span> <span class="p">{}</span>
+<span class="kp">public</span> <span class="n">void</span> <span class="n">append</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">E</span> <span class="n">value</span><span class="p">){}</span></code></pre></div>
+
+<p>修改数据起初以为只有setValueAt(int index, E value)可以修改数据，但后来发现put(int key, E value)也可以修改数据，我们查看put(int key, E value)的源码可知，在put数据之前，会先查找要put的数据是否已经存在，如果存在就是修改，不存在就添加。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">void</span> <span class="n">put</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">E</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">binarySearch</span><span class="p">(</span><span class="n">mKeys</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mSize</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="o">~</span><span class="n">i</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">mSize</span> <span class="o">&amp;&amp;</span> <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="no">DELETED</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">mKeys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+            <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mGarbage</span> <span class="o">&amp;&amp;</span> <span class="n">mSize</span> <span class="o">&gt;=</span> <span class="n">mKeys</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">gc</span><span class="p">();</span>
+
+            <span class="sr">//</span> <span class="no">Search</span> <span class="n">again</span> <span class="n">because</span> <span class="n">indices</span> <span class="n">may</span> <span class="n">have</span> <span class="n">changed</span><span class="o">.</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">~</span><span class="n">binarySearch</span><span class="p">(</span><span class="n">mKeys</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mSize</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mSize</span> <span class="o">&gt;=</span> <span class="n">mKeys</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">int</span> <span class="n">n</span> <span class="o">=</span> <span class="no">ArrayUtils</span><span class="o">.</span><span class="n">idealIntArraySize</span><span class="p">(</span><span class="n">mSize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+            <span class="n">int</span><span class="o">[]</span> <span class="n">nkeys</span> <span class="o">=</span> <span class="kp">new</span> <span class="n">int</span><span class="o">[</span><span class="n">n</span><span class="o">]</span><span class="p">;</span>
+            <span class="no">Object</span><span class="o">[]</span> <span class="n">nvalues</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Object</span><span class="o">[</span><span class="n">n</span><span class="o">]</span><span class="p">;</span>
+
+            <span class="sr">//</span> <span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="s2">&quot;SparseArray&quot;</span><span class="p">,</span> <span class="s2">&quot;grow &quot;</span> <span class="o">+</span> <span class="n">mKeys</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="n">n</span><span class="p">);</span>
+            <span class="no">System</span><span class="o">.</span><span class="n">arraycopy</span><span class="p">(</span><span class="n">mKeys</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nkeys</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mKeys</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
+            <span class="no">System</span><span class="o">.</span><span class="n">arraycopy</span><span class="p">(</span><span class="n">mValues</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nvalues</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mValues</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
+
+            <span class="n">mKeys</span> <span class="o">=</span> <span class="n">nkeys</span><span class="p">;</span>
+            <span class="n">mValues</span> <span class="o">=</span> <span class="n">nvalues</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mSize</span> <span class="o">-</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="sr">//</span> <span class="no">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="s2">&quot;SparseArray&quot;</span><span class="p">,</span> <span class="s2">&quot;move &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">mSize</span> <span class="o">-</span> <span class="n">i</span><span class="p">));</span>
+            <span class="no">System</span><span class="o">.</span><span class="n">arraycopy</span><span class="p">(</span><span class="n">mKeys</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">mKeys</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mSize</span> <span class="o">-</span> <span class="n">i</span><span class="p">);</span>
+            <span class="no">System</span><span class="o">.</span><span class="n">arraycopy</span><span class="p">(</span><span class="n">mValues</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">mValues</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mSize</span> <span class="o">-</span> <span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="n">mKeys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+        <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+    
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>所以，修改数据实际也有两种方法：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">void</span> <span class="n">put</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">E</span> <span class="n">value</span><span class="p">)</span>
+<span class="kp">public</span> <span class="n">void</span> <span class="n">setValueAt</span><span class="p">(</span><span class="n">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">E</span> <span class="n">value</span><span class="p">)</span></code></pre></div>
+
+<p>最后再来看看如何查找数据。有两个方法可以查询取值：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">E</span> <span class="n">get</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">)</span>
+<span class="kp">public</span> <span class="n">E</span> <span class="n">get</span><span class="p">(</span><span class="n">int</span> <span class="n">key</span><span class="p">,</span> <span class="n">E</span> <span class="n">valueIfKeyNotFound</span><span class="p">)</span></code></pre></div>
+
+<p>其中get(int key)也只是调用了 get(int key,E valueIfKeyNotFound),最后一个从传参的变量名就能看出，传入的是找不到的时候返回的值.get(int key)当找不到的时候，默认返回null。</p>
+
+<p>查看第几个位置的键：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">int</span> <span class="n">keyAt</span><span class="p">(</span><span class="n">int</span> <span class="n">index</span><span class="p">)</span></code></pre></div>
+
+<p>有一点需要注意的是，查看键所在位置，由于是采用二分法查找键的位置，所以找不到时返回小于0的数值，而不是返回-1。返回的负值是表示它在找不到时所在的位置。</p>
+
+<p>查看第几个位置的值：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">E</span> <span class="n">valueAt</span><span class="p">(</span><span class="n">int</span> <span class="n">index</span><span class="p">)</span></code></pre></div>
+
+<p>查看值所在位置，没有的话返回-1：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">int</span> <span class="n">indexOfValue</span><span class="p">(</span><span class="n">E</span> <span class="n">value</span><span class="p">)</span></code></pre></div>
+
+<p>最后，发现其核心就是折半查找函数（binarySearch），算法设计的很不错。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">private</span> <span class="n">static</span> <span class="n">int</span> <span class="n">binarySearch</span><span class="p">(</span><span class="n">int</span><span class="o">[]</span> <span class="n">a</span><span class="p">,</span> <span class="n">int</span> <span class="n">start</span><span class="p">,</span> <span class="n">int</span> <span class="n">len</span><span class="p">,</span> <span class="n">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">int</span> <span class="n">high</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">len</span><span class="p">,</span> <span class="n">low</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">guess</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">guess</span> <span class="o">=</span> <span class="p">(</span><span class="n">high</span> <span class="o">+</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">[</span><span class="n">guess</span><span class="o">]</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">guess</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">guess</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">high</span> <span class="o">==</span> <span class="n">start</span> <span class="o">+</span> <span class="n">len</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">~</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">len</span><span class="p">);</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="o">[</span><span class="n">high</span><span class="o">]</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">high</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="o">~</span><span class="n">high</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="err">相应的也有</span><span class="no">SparseBooleanArray</span><span class="err">，用来取代</span><span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="no">Boolean</span><span class="o">&gt;</span><span class="err">，</span><span class="no">SparseIntArray</span><span class="err">用来取代</span><span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="nb">Integer</span><span class="o">&gt;</span><span class="err">，大家有兴趣的可以研究。</span></code></pre></div>
+
+<h2 id="section">总结</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SparseArray</span><span class="err">是</span><span class="n">android</span><span class="err">里为</span><span class="o">&lt;</span><span class="no">Interger</span><span class="p">,</span><span class="no">Object</span><span class="o">&gt;</span><span class="err">这样的</span><span class="no">Hashmap</span><span class="err">而专门写的类</span><span class="p">,</span><span class="err">目的是提高效率，其核心是折半查找函数（</span><span class="n">binarySearch</span><span class="err">）。在</span><span class="no">Android</span><span class="err">中，当我们需要定义</span>
+    <span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="n">E</span><span class="o">&gt;</span> <span class="n">hashMap</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="n">E</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="err">时，我们可以使用如下的方式来取得更好的性能</span><span class="o">.</span>
+    <span class="no">SparseArray</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">sparseArray</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">SparseArray</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="p">();</span></code></pre></div>
+
+<p>最后，看看重构后的ActivityGroupManager：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">ActivityGroupManager</span> <span class="p">{</span>
+    <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="no">ActivityGroupManager</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">getName</span><span class="p">();</span>
+
+    <span class="kp">private</span> <span class="no">SparseArray</span><span class="o">&lt;</span><span class="no">View</span><span class="o">&gt;</span> <span class="n">array</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="no">ViewGroup</span> <span class="n">container</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="no">ActivityGroupManager</span><span class="p">()</span> <span class="p">{</span>
+    	<span class="n">array</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">SparseArray</span><span class="o">&lt;</span><span class="no">View</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">setContainer</span><span class="p">(</span><span class="no">ViewGroup</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="n">this</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">container</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">showContainer</span><span class="p">(</span><span class="n">int</span> <span class="n">num</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">)</span> <span class="p">{</span>
+    	<span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+    		<span class="n">array</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
+    		<span class="n">container</span><span class="o">.</span><span class="n">addView</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+    	<span class="p">}</span>
+    	<span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    		<span class="no">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">valueAt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    		<span class="n">v</span><span class="o">.</span><span class="n">setVisibility</span><span class="p">(</span><span class="no">View</span><span class="o">.</span><span class="n">GONE</span><span class="p">);</span>
+    	<span class="p">}</span>
+    	<span class="n">view</span><span class="o">.</span><span class="n">setVisibility</span><span class="p">(</span><span class="no">View</span><span class="o">.</span><span class="n">VISIBLE</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#SparseArray">SparseArray <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/07/30/android-custome-attribute-format" title="Android中自定义属性格式详解">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/08/04/android-custom-xml-attributes-for-your-custom-widgets" title="Android为自定义View添加属性">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/08/01/android-use-sparsearray-for-performance-optimization" data-title="Android性能优化之使用SparseArray代替HashMap" data-url="/android/2013/08/01/android-use-sparsearray-for-performance-optimization"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Git常用命令备忘</title>
+    <meta name="keywords" content="git">
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Git常用命令备忘 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 01 月 27 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#git-ref">
+      git 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<h2 id="git">Git配置</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;storm&quot;</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="s2">&quot;stormzhang.dev@gmail.com&quot;</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">color</span><span class="o">.</span><span class="n">ui</span> <span class="kp">true</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="k">alias</span><span class="o">.</span><span class="n">co</span> <span class="n">checkout</span>  <span class="c1"># 别名</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="k">alias</span><span class="o">.</span><span class="n">ci</span> <span class="n">commit</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="k">alias</span><span class="o">.</span><span class="n">st</span> <span class="n">status</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="k">alias</span><span class="o">.</span><span class="n">br</span> <span class="n">branch</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">core</span><span class="o">.</span><span class="n">editor</span> <span class="s2">&quot;vim&quot;</span>  <span class="c1"># 设置Editor使用vim</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">core</span><span class="o">.</span><span class="n">quotepath</span> <span class="kp">false</span> <span class="c1"># 设置显示中文文件名</span></code></pre></div>
+
+<p>用户的git配置文件~/.gitconfig</p>
+
+<h2 id="git-1">Git常用命令</h2>
+
+<h4 id="section">查看、添加、提交、删除、找回，重置修改文件</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">help</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span>  <span class="c1"># 显示command的help</span>
+<span class="n">git</span> <span class="n">show</span>            <span class="c1"># 显示某次提交的内容</span>
+<span class="n">git</span> <span class="n">show</span> <span class="vg">$id</span>
+
+<span class="n">git</span> <span class="n">co</span>  <span class="o">--</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>   <span class="c1"># 抛弃工作区修改</span>
+<span class="n">git</span> <span class="n">co</span>  <span class="o">.</span>           <span class="c1"># 抛弃工作区修改</span>
+
+<span class="n">git</span> <span class="n">add</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>      <span class="c1"># 将工作文件修改提交到本地暂存区</span>
+<span class="n">git</span> <span class="n">add</span> <span class="o">.</span>           <span class="c1"># 将所有修改过的工作文件提交暂存区</span>
+
+<span class="n">git</span> <span class="n">rm</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>       <span class="c1"># 从版本库中删除文件</span>
+<span class="n">git</span> <span class="n">rm</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">cached</span>  <span class="c1"># 从版本库中删除文件，但不删除文件</span>
+
+<span class="n">git</span> <span class="n">reset</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>    <span class="c1"># 从暂存区恢复到工作文件</span>
+<span class="n">git</span> <span class="n">reset</span> <span class="o">--</span> <span class="o">.</span>      <span class="c1"># 从暂存区恢复到工作文件</span>
+<span class="n">git</span> <span class="n">reset</span> <span class="o">--</span><span class="n">hard</span>    <span class="c1"># 恢复最近一次提交过的状态，即放弃上次提交后的所有本次修改</span>
+
+<span class="n">git</span> <span class="n">ci</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>
+<span class="n">git</span> <span class="n">ci</span> <span class="o">.</span>
+<span class="n">git</span> <span class="n">ci</span> <span class="o">-</span><span class="n">a</span>           <span class="c1"># 将git add, git rm和git ci等操作都合并在一起做</span>
+<span class="n">git</span> <span class="n">ci</span> <span class="o">-</span><span class="n">am</span> <span class="s2">&quot;some comments&quot;</span>
+<span class="n">git</span> <span class="n">ci</span> <span class="o">--</span><span class="n">amend</span>      <span class="c1"># 修改最后一次提交记录</span>
+
+<span class="n">git</span> <span class="n">revert</span> <span class="o">&lt;</span><span class="vg">$id</span><span class="o">&gt;</span>    <span class="c1"># 恢复某次提交的状态，恢复动作本身也创建了一次提交对象</span>
+<span class="n">git</span> <span class="n">revert</span> <span class="no">HEAD</span>     <span class="c1"># 恢复最后一次提交的状态</span></code></pre></div>
+
+<h4 id="diff">查看文件diff</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">diff</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>     <span class="c1"># 比较当前文件和暂存区文件差异</span>
+<span class="n">git</span> <span class="n">diff</span>
+<span class="n">git</span> <span class="n">diff</span> <span class="o">&lt;</span><span class="vg">$id1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="vg">$id2</span><span class="o">&gt;</span>   <span class="c1"># 比较两次提交之间的差异</span>
+<span class="n">git</span> <span class="n">diff</span> <span class="o">&lt;</span><span class="n">branch1</span><span class="o">&gt;.</span><span class="n">.</span><span class="o">&lt;</span><span class="n">branch2</span><span class="o">&gt;</span> <span class="c1"># 在两个分支之间比较 </span>
+<span class="n">git</span> <span class="n">diff</span> <span class="o">--</span><span class="n">staged</span>   <span class="c1"># 比较暂存区和版本库差异</span>
+<span class="n">git</span> <span class="n">diff</span> <span class="o">--</span><span class="n">cached</span>   <span class="c1"># 比较暂存区和版本库差异</span>
+<span class="n">git</span> <span class="n">diff</span> <span class="o">--</span><span class="n">stat</span>     <span class="c1"># 仅仅比较统计信息</span></code></pre></div>
+
+<h4 id="section-1">查看提交记录</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">log</span>
+<span class="n">git</span> <span class="n">log</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>      <span class="c1"># 查看该文件每次提交记录</span>
+<span class="n">git</span> <span class="n">log</span> <span class="o">-</span><span class="nb">p</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span>   <span class="c1"># 查看每次详细修改内容的diff</span>
+<span class="n">git</span> <span class="n">log</span> <span class="o">-</span><span class="nb">p</span> <span class="o">-</span><span class="mi">2</span>       <span class="c1"># 查看最近两次详细</span></code></pre></div>
+
+<h4 id="tig">tig</h4>
+
+<p>Mac上可以使用tig代替diff和log，brew install tig</p>
+
+<h2 id="git-">Git 本地分支管理</h2>
+
+<h4 id="section-2">查看、切换、创建和删除分支</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">br</span> <span class="o">-</span><span class="n">r</span>           <span class="c1"># 查看远程分支</span>
+<span class="n">git</span> <span class="n">br</span> <span class="o">&lt;</span><span class="n">new_branch</span><span class="o">&gt;</span> <span class="c1"># 创建新的分支</span>
+<span class="n">git</span> <span class="n">br</span> <span class="o">-</span><span class="n">v</span>           <span class="c1"># 查看各个分支最后提交信息</span>
+<span class="n">git</span> <span class="n">br</span> <span class="o">--</span><span class="n">merged</span>     <span class="c1"># 查看已经被合并到当前分支的分支</span>
+<span class="n">git</span> <span class="n">br</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">merged</span>  <span class="c1"># 查看尚未被合并到当前分支的分支</span>
+
+<span class="n">git</span> <span class="n">co</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span>     <span class="c1"># 切换到某个分支</span>
+<span class="n">git</span> <span class="n">co</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">new_branch</span><span class="o">&gt;</span> <span class="c1"># 创建新的分支，并且切换过去</span>
+<span class="n">git</span> <span class="n">co</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">new_branch</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span>  <span class="c1"># 基于branch创建新的new_branch</span>
+
+<span class="n">git</span> <span class="n">co</span> <span class="vg">$id</span>          <span class="c1"># 把某次历史提交记录checkout出来，但无分支信息，切换到其他分支会自动删除</span>
+<span class="n">git</span> <span class="n">co</span> <span class="vg">$id</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">new_branch</span><span class="o">&gt;</span>  <span class="c1"># 把某次历史提交记录checkout出来，创建成一个分支</span>
+
+<span class="n">git</span> <span class="n">br</span> <span class="o">-</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span>  <span class="c1"># 删除某个分支</span>
+<span class="n">git</span> <span class="n">br</span> <span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span>  <span class="c1"># 强制删除某个分支 (未被合并的分支被删除的时候需要强制)</span></code></pre></div>
+
+<h4 id="rebase">分支合并和rebase</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span>               <span class="c1"># 将branch分支合并到当前分支</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ff</span>  <span class="c1"># 不要Fast-Foward合并，这样可以生成merge提交</span>
+
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span>       <span class="c1"># 将master rebase到branch，相当于：</span>
+<span class="n">git</span> <span class="n">co</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span> <span class="o">&amp;&amp;</span> <span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span> <span class="o">&amp;&amp;</span> <span class="n">git</span> <span class="n">co</span> <span class="n">master</span> <span class="o">&amp;&amp;</span> <span class="n">git</span> <span class="n">merge</span> <span class="o">&lt;</span><span class="n">branch</span><span class="o">&gt;</span></code></pre></div>
+
+<h4 id="git-2">Git补丁管理(方便在多台机器上开发同步时用)</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="o">.</span><span class="n">.</span><span class="o">/</span><span class="n">sync</span><span class="o">.</span><span class="n">patch</span>         <span class="c1"># 生成补丁</span>
+<span class="n">git</span> <span class="n">apply</span> <span class="o">.</span><span class="n">.</span><span class="o">/</span><span class="n">sync</span><span class="o">.</span><span class="n">patch</span>          <span class="c1"># 打补丁</span>
+<span class="n">git</span> <span class="n">apply</span> <span class="o">--</span><span class="n">check</span> <span class="o">.</span><span class="n">.</span><span class="o">/</span><span class="n">sync</span><span class="o">.</span><span class="n">patch</span>  <span class="c1"># 测试补丁能否成功</span></code></pre></div>
+
+<h4 id="git-3">Git暂存管理</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">stash</span>                        <span class="c1"># 暂存</span>
+<span class="n">git</span> <span class="n">stash</span> <span class="n">list</span>                   <span class="c1"># 列所有stash</span>
+<span class="n">git</span> <span class="n">stash</span> <span class="n">apply</span>                  <span class="c1"># 恢复暂存的内容</span>
+<span class="n">git</span> <span class="n">stash</span> <span class="n">drop</span>                   <span class="c1"># 删除暂存区</span>
+<span class="n">git</span> <span class="n">stash</span> <span class="n">clear</span></code></pre></div>
+
+<h4 id="git-4">Git远程分支管理</h4>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">git</span> <span class="n">pull</span>                         <span class="c1"># 抓取远程仓库所有分支更新并合并到本地</span>
+<span class="n">git</span> <span class="n">pull</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">ff</span>                 <span class="c1"># 抓取远程仓库所有分支更新并合并到本地，不要快进合并</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>                 <span class="c1"># 抓取远程仓库更新</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">origin</span><span class="o">/</span><span class="n">master</span>          <span class="c1"># 将远程主分支合并到本地当前分支</span>
+<span class="n">git</span> <span class="n">co</span> <span class="o">--</span><span class="n">track</span> <span class="n">origin</span><span class="o">/</span><span class="n">branch</span>     <span class="c1"># 跟踪某个远程分支创建相应的本地分支</span>
+<span class="n">git</span> <span class="n">co</span> <span class="o">-</span><span class="n">b</span> <span class="o">&lt;</span><span class="n">local_branch</span><span class="o">&gt;</span> <span class="n">origin</span><span class="o">/&lt;</span><span class="n">remote_branch</span><span class="o">&gt;</span>  <span class="c1"># 基于远程分支创建本地分支，功能同上</span>
+
+<span class="n">git</span> <span class="n">push</span>                         <span class="c1"># push所有分支</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>           <span class="c1"># 将本地主分支推到远程主分支</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">u</span> <span class="n">origin</span> <span class="n">master</span>        <span class="c1"># 将本地主分支推到远程(如无远程主分支则创建，用于初始化远程仓库)</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">&lt;</span><span class="n">local_branch</span><span class="o">&gt;</span>   <span class="c1"># 创建远程分支， origin是远程仓库名</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="o">&lt;</span><span class="n">local_branch</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">remote_branch</span><span class="o">&gt;</span>  <span class="c1"># 创建远程分支</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="p">:</span><span class="o">&lt;</span><span class="n">remote_branch</span><span class="o">&gt;</span>  <span class="c1">#先删除本地分支(git br -d &lt;branch&gt;)，然后再push删除远程分支</span></code></pre></div>
+
+<h4 id="git-5">Git远程仓库管理</h4>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">git remote -v                    <span class="c"># 查看远程服务器地址和仓库名称</span>
+git remote show origin           <span class="c"># 查看远程服务器仓库状态</span>
+git remote add origin git@github:stormzhang/demo.git         <span class="c"># 添加远程仓库地址</span>
+git remote <span class="nb">set</span>-url origin git@github.com:stormzhang/demo.git <span class="c"># 设置远程仓库地址(用于修改远程仓库地址</span></code></pre></div>
+
+<h4 id="section-3">创建远程仓库</h4>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">git clone --bare robbin_site robbin_site.git  <span class="c"># 用带版本的项目创建纯版本仓库</span>
+scp -r my_project.git git@git.csdn.net:~      <span class="c"># 将纯仓库上传到服务器上</span>
+
+mkdir robbin_site.git <span class="o">&amp;&amp;</span> <span class="nb">cd </span>robbin_site.git <span class="o">&amp;&amp;</span> git --bare init <span class="c"># 在服务器创建纯仓库</span>
+git remote add origin git@github.com:robbin/robbin_site.git    <span class="c"># 设置远程仓库地址</span>
+git push -u origin master                                      <span class="c"># 客户端首次提交</span>
+git push -u origin develop  <span class="c"># 首次将本地develop分支提交到远程develop分支，并且track</span>
+
+git remote <span class="nb">set</span>-head origin master   <span class="c"># 设置远程仓库的HEAD指向master分支</span></code></pre></div>
+
+<p>也可以命令设置跟踪远程库和本地库</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">git branch --set-upstream master origin/master
+git branch --set-upstream develop origin/develop</code></pre></div>
+
+<p>Via <a href="http://robbinfan.com/blog/34/git-common-command">robbinfan</a></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Git">Git <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2014/01/19/android-animation" title="Android Animation">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/git/2014/01/29/git-flow" title="使用Git Flow管理开发流程">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/git/2014/01/27/git-common-command" data-title="Git常用命令备忘" data-url="/git/2014/01/27/git-common-command"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

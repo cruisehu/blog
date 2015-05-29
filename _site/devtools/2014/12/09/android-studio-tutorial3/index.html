@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Studio系列教程三--快捷键</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Studio系列教程三--快捷键 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 12 月 09 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<blockquote>
+  <blockquote>
+    <p>本文为个人原创，欢迎转载，但请务必在明显位置注明出处！</p>
+  </blockquote>
+</blockquote>
+
+<h2 id="android-studio-10">Android Studio 1.0正式版发布啦</h2>
+
+<p>今天是个大日子，Android Studio 1.0 终于发布了正式版， 这对于Android开发者来说简直是喜大普奔的大消息啊，那么就果断来下载使用。</p>
+
+<p><img src="/image/studio1.0.png" /></p>
+
+<p>官方下载地址： <a href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a></p>
+
+<p>如果你之前已经使用其他版本的Studio，那么直接覆盖就好了，如果是第一次使用，那么参照<a href="http://stormzhang.com/devtools/2014/11/25/android-studio-tutorial1/">Android Studio系列教程一</a>进行安装配置。</p>
+
+<p>于此同时一起更新的还有SDK Tools等，打开SDK Manager进行更新就OK。如果之前有在使用RC版本的Studio，更新覆盖之后应该会出错，那是因为Stuido 1.0默认使用1.0的Gradle插件，所以只需到项目根目录的 <strong>build.gradle</strong> 更新成如下代码然后同步下就OK了</p>
+
+<p><img src="/image/update_gradle.png" /></p>
+
+<h2 id="section">快捷键</h2>
+
+<p>对于很多Eclipse转过来的同学，不适应的最主要就是快捷键部分了，Studio默认的快捷键和Eclipse差别很大，但是Studio强大的地方在于通过设置你可以一直沿用Eclipse风格的快捷键，这样对于那些Eclipse过渡来的同学省了很多学习成本。</p>
+
+<p><strong>Preferences</strong> -&gt; <strong>Keymap</strong> 然后就可以选择你想要的快捷键，这里不止可以选择Eclipse，还可以选择 <strong>Emacs</strong>、<strong>Net Beans</strong> 等编辑器的快捷键</p>
+
+<p><img src="/image/keymap.png" /></p>
+
+<p>对于新手们或者对Eclipse没有好感的同学们，肯定想学习默认的Studio快捷键，下面整理了下常用的一些快捷键，更多的快捷键还需要大家自己去习惯适应。（我自己选择的是Mac OS X 10.5+）</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Mac OSX</th>
+      <th>Win/Linux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>注释代码(//)</td>
+      <td>Cmd + /</td>
+      <td>Ctrl + /</td>
+    </tr>
+    <tr>
+      <td>注释代码(/**/)</td>
+      <td>Cmd + Option + /</td>
+      <td>Ctrl + Shift + /</td>
+    </tr>
+    <tr>
+      <td>格式化代码</td>
+      <td>Cmd + Option + L</td>
+      <td>Ctrl + Alt + L</td>
+    </tr>
+    <tr>
+      <td>清除无效包引用</td>
+      <td>Option + Control + O</td>
+      <td>Alt + Ctrl + O</td>
+    </tr>
+    <tr>
+      <td>查找</td>
+      <td>Cmd + F</td>
+      <td>Ctrl + F</td>
+    </tr>
+    <tr>
+      <td>查找+替换</td>
+      <td>Cmd + R</td>
+      <td>Ctrl + R</td>
+    </tr>
+    <tr>
+      <td>上下移动代码</td>
+      <td>Option + Shift + Up/Down</td>
+      <td>Alt + Shift + Up/Down</td>
+    </tr>
+    <tr>
+      <td>删除行</td>
+      <td>Cmd + Delete</td>
+      <td>Ctrl + Y</td>
+    </tr>
+    <tr>
+      <td>扩大缩小选中范围</td>
+      <td>Option + Up/Down</td>
+      <td>Ctrl + W/Ctrl + Shift + W</td>
+    </tr>
+    <tr>
+      <td>快捷生成结构体</td>
+      <td>Cmd + Option + T</td>
+      <td>Ctrl + Alt + T</td>
+    </tr>
+    <tr>
+      <td>快捷覆写方法</td>
+      <td>Cmd + O</td>
+      <td>Ctrl + O</td>
+    </tr>
+    <tr>
+      <td>快捷定位到行首/尾</td>
+      <td>Cmd + Left/Right</td>
+      <td>Ctrl + Left/Right</td>
+    </tr>
+    <tr>
+      <td>折叠展开代码块</td>
+      <td>Cmd + Plus,Minus</td>
+      <td>Ctrl + Plus/Minus</td>
+    </tr>
+    <tr>
+      <td>折叠展开全部代码块</td>
+      <td>Cmd + Shift + Plus,Minus</td>
+      <td>Ctrl + Shift + Plus,Minus</td>
+    </tr>
+    <tr>
+      <td>文件方法结构</td>
+      <td>Cmd + F12</td>
+      <td>Ctrl + F12</td>
+    </tr>
+    <tr>
+      <td>查找调用的位置</td>
+      <td>Ctrl + Option + H</td>
+      <td>Ctrl + Alt + H</td>
+    </tr>
+    <tr>
+      <td>大小写转换</td>
+      <td>Cmd + Shift + U</td>
+      <td>Ctrl + Shift + U</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>(PS: 以上快捷键没有在win平台尝试确认，欢迎反馈错误与补充)</strong></p>
+
+<h2 id="section-1">自动导包</h2>
+
+<p>最后再介绍一个最有用的设置，我们只有每次引用一些类的时候必须要导包，而Studio可以通过设置自动导包，简直太实用了.</p>
+
+<p>到 <strong>Preferences</strong> -&gt; <strong>Editor</strong> -&gt; <strong>Auto Import</strong> -&gt; <strong>Java</strong> 把以下选项勾上就OK了</p>
+
+<p><img src="/image/auto_import.png" /></p>
+
+<p>从此世界清静了。。。</p>
+
+<p>至此Android Studio的基本使用相信大家都已经会了，从下一系列开始介绍Gradle语法以及基本配置与多渠道打包等，敬请期待！</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#AndroidStudio">AndroidStudio <span>8</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/devtools/2014/11/28/android-studio-tutorial2" title="Android Studio系列教程二--基本设置与运行">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/java/2014/12/14/java-lang-exceptionininitializererror" title="java.lang.ExceptionInInitializerError">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2014/12/09/android-studio-tutorial3" data-title="Android Studio系列教程三--快捷键" data-url="/devtools/2014/12/09/android-studio-tutorial3"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

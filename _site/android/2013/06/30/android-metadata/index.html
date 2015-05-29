@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Manifest.xml中的meta-data属性</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Manifest.xml中的meta-data属性 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 06 月 30 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<h2 id="section">语法</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="ss">android</span><span class="p">:</span><span class="nb">name</span><span class="o">=</span><span class="s2">&quot;string&quot;</span>
+           <span class="ss">android</span><span class="p">:</span><span class="n">resource</span><span class="o">=</span><span class="s2">&quot;resource specification&quot;</span>
+           <span class="ss">android</span><span class="p">:</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;string&quot;</span> <span class="sr">/&gt;</span></code></pre></div>
+
+<p>这是该元素的基本结构.可以包含在activity, activity-alias, service, receiver四个元素中。</p>
+
+<p>这个名字值是额外的任意的可以提供给父组件的数据。一个组件元素能够包含任意数量的meta-data子元素。它们所有的值都会被收集在Bundle对象中并且使其可以作为组件的 PackageItemInfo.metaData 字段。</p>
+
+<p>一般的值可以通过value属性来指定，但是如果要指定一个资源id作为一个值，那么就要用resource属性来代替。例如：下面的代码就是指定存储在@string/kangaroo 资源中的zoo名字。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="ss">android</span><span class="p">:</span><span class="nb">name</span><span class="o">=</span><span class="s2">&quot;zoo&quot;</span> <span class="ss">android</span><span class="p">:</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;@string/kangaroo&quot;</span> <span class="sr">/&gt;</span></code></pre></div>
+
+<p>另一方面，利用resource属性将指定zoo的资源id号，并不是存储在资源中的资源值。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="ss">android</span><span class="p">:</span><span class="nb">name</span><span class="o">=</span><span class="s2">&quot;zoo&quot;</span> <span class="ss">android</span><span class="p">:</span><span class="n">resource</span><span class="o">=</span><span class="s2">&quot;@string/kangaroo&quot;</span> <span class="sr">/&gt;</span></code></pre></div>
+
+<p>当要给组件提供多个复杂的数据时，在这里并不推荐使用多重meta-data元素，推荐你存储这些数据在一个资源文件中并且利用resource属性来通知它的id给组件。</p>
+
+<p>android:name</p>
+
+<p>元数据项的名字，为了保证这个名字是唯一的，采用java风格的命名规范。例如：
+com.example.project.activity.fred</p>
+
+<p>android:resource</p>
+
+<p>资源的一个引用，指定给这个项的值是该资源的id。该id可以通过方法Bundle.getInt()来从meta-data中找到。</p>
+
+<p>android:value</p>
+
+<p>指定给这一项的值。可以作为值来指定的数据类型并且组件用来找回那些值的Bundle方法列在了下面的表中。</p>
+
+<h2 id="section-1">工具类</h2>
+
+<p>自己写了个工具类来获取meta-data字段值：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">Util</span> <span class="p">{</span>
+	<span class="kp">public</span> <span class="n">static</span> <span class="nb">String</span> <span class="n">getMetaValue</span><span class="p">(</span><span class="no">Context</span> <span class="n">context</span><span class="p">,</span> <span class="nb">String</span> <span class="n">metaKey</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">Bundle</span> <span class="n">metaData</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+		<span class="nb">String</span> <span class="n">metaValue</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">context</span> <span class="o">==</span> <span class="n">null</span> <span class="o">||</span> <span class="n">metaKey</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="n">null</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">try</span> <span class="p">{</span>
+			<span class="no">ApplicationInfo</span> <span class="n">ai</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">getPackageManager</span><span class="p">()</span><span class="o">.</span><span class="n">getApplicationInfo</span><span class="p">(</span>
+					<span class="n">context</span><span class="o">.</span><span class="n">getPackageName</span><span class="p">(),</span> <span class="no">PackageManager</span><span class="o">.</span><span class="n">GET_META_DATA</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">null</span> <span class="o">!=</span> <span class="n">ai</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">metaData</span> <span class="o">=</span> <span class="n">ai</span><span class="o">.</span><span class="n">metaData</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">null</span> <span class="o">!=</span> <span class="n">metaData</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">metaValue</span> <span class="o">=</span> <span class="n">metaData</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">metaKey</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">NameNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">metaValue</span><span class="p">;</span>
+		<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#meta-data">meta-data <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/06/29/android-scorllview-nested-listview" title="Android中ScrollView嵌套ListView">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/2013/07/05/set-linux-proxy" title="linux下proxy设定的一般方法">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/06/30/android-metadata" data-title="Android Manifest.xml中的meta-data属性" data-url="/android/2013/06/30/android-metadata"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

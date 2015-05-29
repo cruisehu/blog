@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Support兼容包详解</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Support兼容包详解 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2015 年 03 月 29 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<h2 id="section">背景</h2>
+
+<p>来自于知乎上邀请回答的一个问题<a href="http://www.zhihu.com/question/28865999/answer/42375337">Android中AppCompat和Holo的一个问题？</a>, 看来很多人还是对这些兼容包搞不清楚，那么干脆写篇博客吧.</p>
+
+<h2 id="support-library">Support Library</h2>
+
+<p>我们都知道Android一些SDK比较分裂，为此google官方提供了Android Support Library package 系列的包来保证高版本sdk开发的向下兼容性, 所以你可能经常看到v4，v7，v13这些数字，首先我们就来理清楚这些数字的含义，以及它们之间的区别。</p>
+
+<ul>
+  <li>support-v4</li>
+</ul>
+
+<p>用在API lever 4(即Android 1.6)或者更高版本之上。它包含了相对更多的内容，而且用的更为广泛，例如：Fragment，NotificationCompat，LoadBroadcastManager，ViewPager，PageTabStrip，Loader，FileProvider 等</p>
+
+<p>Gradle引用方法：</p>
+
+<pre><code>compile 'com.android.support:support-v4:21.0.3'
+</code></pre>
+
+<ul>
+  <li>support-v7</li>
+</ul>
+
+<p>这个包是为了考虑API level 7(即Android 2.1)及以上版本而设计的，但是v7是要依赖v4这个包的，v7支持了Action Bar以及一些Theme的兼容。</p>
+
+<p>Gradle引用方法:</p>
+
+<pre><code>compile 'com.android.support:appcompat-v7:21.0.3'
+</code></pre>
+
+<ul>
+  <li>support-v13</li>
+</ul>
+
+<p>这个包的设计是为了API level 13(即Android 3.2)及更高版本的，一般我们都不常用，平板开发中能用到，这里就不过多介绍了。</p>
+
+<h2 id="theme">Theme</h2>
+
+<p>回到知乎上的这个问题，我们来介绍下各种Theme的概念。</p>
+
+<ul>
+  <li>Hoho Theme</li>
+</ul>
+
+<p>在4.0之前Android可以说是没有设计可言的，在4.0之后推出了Android Design，从此Android在设计上有了很大的改善，而在程序实现上相应的就是Holo风格，所以你看到有类似 <strong>Theme.Holo.Light</strong>、 <strong>Theme.Holo.Light.DarkActionBar</strong> 就是4.0的设计风格，但是为了让4.0之前的版本也能有这种风格怎么办呢？这个时候就不得不引用v7包了，所以对应的就有 <strong>Theme.AppCompat.Light</strong>、 <strong>Theme.AppCompat.Light.DarkActionBar</strong>，如果你的程序最小支持的版本是4.0，那么可以不用考虑v7的兼容。</p>
+
+<ul>
+  <li>Material Design Theme</li>
+</ul>
+
+<p>今年的5.0版本，Android推出了Material Design的概念，这是在设计上Android的又一大突破。对应的程序实现上就有 <strong>Theme.Material.Light</strong>、 <strong>Theme.Material.Light.DarkActionBar</strong>等，但是这种风格只能应用在在5.0版本的手机，如果在5.0之前应用Material Design该怎么办呢？同样的引用appcompat-v7包，这个时候的<strong>Theme.AppCompat.Light</strong>、 <strong>Theme.AppCompat.Light.DarkActionBar</strong>就是相对应兼容的Material Design的Theme。</p>
+
+<h2 id="section-1">注意事项</h2>
+
+<ul>
+  <li>
+    <p>gradle引用appcompat-v7包的时候就不需要引用v4了，因为v7里默认包含了v4包；</p>
+  </li>
+  <li>
+    <p><strong>compile ‘com.android.support:appcompat-v7:21.0.3’</strong> 中的21代表API level 21推出的兼容包，所以如果你引用的是21之前的版本，则默认这些<strong>Theme.AppCompat.Light</strong>是Holo风格的，从21开始的版本默认是Material风格</p>
+  </li>
+  <li>
+    <p>使用appcompat之后，你的所有的Activity应该继承自ActionBarActivity，而ActionBarActivity继承自FragmentActivity，所以放心的使用Fragment；</p>
+  </li>
+</ul>
+
+<p>最后，相信已经讲的很清楚了，大家有问题可直接博客留言。如果英语好的，可直接移步官方最权威的解释<a href="https://developer.android.com/tools/support-library/features.html">https://developer.android.com/tools/support-library/features.html</a></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#SupportLibrary">SupportLibrary <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2015/03/05/android-debug-use-chrome" title="使用Chrome来调试你的Android App">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/devtools/2015/04/12/android-studio-custom-logcat" title="Android Studio Tips -- 自定义Logcat">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2015/03/29/android-support-library" data-title="Android Support兼容包详解" data-url="/android/2015/03/29/android-support-library"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

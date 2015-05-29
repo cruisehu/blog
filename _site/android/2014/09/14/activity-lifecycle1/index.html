@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Activity生命周期详解一</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Activity生命周期详解一 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 09 月 14 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>关于Activity的生命周期网上也有很多文章，最经典的莫过于官方的一张图解了。</p>
+
+<p><img src="/image/activity_lifecycle.png" /></p>
+
+<p>这张图列出了Activity生命周期最主要的一些方法，启动后依次执行：</p>
+
+<p>onCreate –&gt; onStart –&gt; onResume –&gt; onPause –&gt; onStop –&gt; onDestroy</p>
+
+<p>相信很多人也都已经知道以上方法与执行顺序，但是Activity还有其他方法，如onContentChanged， onPostCreate， onPostResume， onConfigurationChanged， onSaveInstanceState， onRestoreInstanceState，没有什么比自己做个Demo亲自试验研究下更有说服力了，下面我做了一个Demo来彻底研究下这些生命周期的方法，建议大家也亲自试验下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">DemoActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="p">{</span>
+
+    <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="no">DemoActivity</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">getSimpleName</span><span class="p">();</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onCreate&quot;</span><span class="p">);</span>
+        <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">activity_demo</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onContentChanged</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onContentChanged</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onContentChanged&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onStart</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onStart</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onStart&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onRestart</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onRestart</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onRestart&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onPostCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onPostCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onPostCreate&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onResume</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onResume</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onResume&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onPostResume</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onPostResume</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onPostResume&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onPause</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onPause</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onPause&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onStop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onStop</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onStop&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onDestroy</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onDestroy</span><span class="p">();</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onDestroy&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onConfigurationChanged</span><span class="p">(</span><span class="no">Configuration</span> <span class="n">newConfig</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onConfigurationChanged</span><span class="p">(</span><span class="n">newConfig</span><span class="p">);</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onConfigurationChanged&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onSaveInstanceState</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">outState</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">);</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onSaveInstanceState&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">outState</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onRestoreInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">);</span>
+        <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="s2">&quot;onRestoreInstanceState&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>程序启动运行并结束上述生命周期的方法执行顺序是这样的：</p>
+
+<p>onCreate –&gt; onContentChanged –&gt; onStart –&gt; onPostCreate –&gt; onResume –&gt; onPostResume –&gt; onPause –&gt; onStop –&gt; onDestroy</p>
+
+<h2 id="oncontentchanged">onContentChanged</h2>
+
+<p>onContentChanged()是Activity中的一个回调方法
+当Activity的布局改动时，即setContentView()或者addContentView()方法执行完毕时就会调用该方法， 例如，Activity中各种View的findViewById()方法都可以放到该方法中。</p>
+
+<h2 id="onpostcreateonpostresume">onPostCreate、onPostResume</h2>
+
+<p>onPostCreate方法是指onCreate方法彻底执行完毕的回调，onPostResume类似，这两个方法官方说法是一般不会重写，现在知道的做法也就只有在使用ActionBarDrawerToggle的使用在onPostCreate需要在屏幕旋转时候等同步下状态，Google官方提供的一些实例就是如下做法：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@Override</span>
+<span class="kp">protected</span> <span class="n">void</span> <span class="n">onPostCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="n">onPostCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+
+    <span class="sr">//</span> <span class="no">Sync</span> <span class="n">the</span> <span class="n">toggle</span> <span class="n">state</span> <span class="n">after</span> <span class="n">onRestoreInstanceState</span> <span class="n">has</span> <span class="n">occurred</span><span class="o">.</span>
+    <span class="n">mDrawerToggle</span><span class="o">.</span><span class="n">syncState</span><span class="p">();</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="onpause-onstop">onPause、 onStop</h2>
+
+<p>这里顺便再提一下onPause、 onStop的区别， onPause是在整个窗口被半遮盖或者半透明的时候会执行，而onStop则是在整个窗口被完全遮盖才会触发， 触发onStop的方法之前必定会触发onPause方法。</p>
+
+<h2 id="oncreate-onstart">onCreate、 onStart</h2>
+
+<p>onCreate方法会在第一次创建的时候执行，紧接着便会执行onStart方法，之后页面被完全遮挡会执行onStop方法，再返回的时候一般便会执行onRestart –&gt; onStart方法， 但是如果如果这时候App内存不够需要更多的内存的时候，App便会杀死该进程，结束掉该Activity，所以这时候再返回的时候便会重新执行onCreate –&gt; onStart –&gt; onResume方法。</p>
+
+<h2 id="onsaveinstancestate-onrestoreinstancestate">onSaveInstanceState、 onRestoreInstanceState</h2>
+
+<p>这是一个比较深入的话题，后面博文会单独来讲。</p>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Activity">Activity <span>3</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/other/2014/09/10/we-get-married" title="我们结婚啦">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2014/09/17/android-lifecycle2" title="Activity生命周期详解二">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2014/09/14/activity-lifecycle1" data-title="Activity生命周期详解一" data-url="/android/2014/09/14/activity-lifecycle1"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

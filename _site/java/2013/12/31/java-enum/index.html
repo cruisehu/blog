@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Java Enum</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Java Enum </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 12 月 31 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#java-ref">
+      java 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<h2 id="section">常量</h2>
+
+<p>在JDK1.5 之前，我们定义常量都是： public static final …. 。现在好了，有了枚举，可以把相关的常量分组到一个枚举类型里，而且枚举提供了比常量更多的方法。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">enum</span> <span class="no">Color</span> <span class="p">{</span>
+  <span class="no">RED</span><span class="p">,</span> <span class="no">GREEN</span><span class="p">,</span> <span class="no">YELLOW</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="switch">switch</h2>
+
+<p>JDK1.6之前的switch语句只支持int,char,enum类型，使用枚举，能让我们的代码可读性更强。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">enum</span> <span class="no">Signal</span> <span class="p">{</span>
+    <span class="no">GREEN</span><span class="p">,</span> <span class="no">YELLOW</span><span class="p">,</span> <span class="no">RED</span>
+<span class="p">}</span>
+
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">TrafficLight</span> <span class="p">{</span>
+    <span class="no">Signal</span> <span class="n">color</span> <span class="o">=</span> <span class="no">Signal</span><span class="o">.</span><span class="n">RED</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">change</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">switch</span> <span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="ss">RED</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="no">Signal</span><span class="o">.</span><span class="n">GREEN</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="ss">YELLOW</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="no">Signal</span><span class="o">.</span><span class="n">RED</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="ss">GREEN</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="no">Signal</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-1">向枚举中添加新方法</h2>
+
+<p>如果打算自定义自己的方法，那么必须在enum实例序列的最后添加一个分号。而且 Java 要求必须先定义 enum 实例。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">enum</span> <span class="no">Color</span> <span class="p">{</span>
+    <span class="no">RED</span><span class="p">(</span><span class="s2">&quot;红色&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="no">GREEN</span><span class="p">(</span><span class="s2">&quot;绿色&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="no">BLANK</span><span class="p">(</span><span class="s2">&quot;白色&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="no">YELLO</span><span class="p">(</span><span class="s2">&quot;黄色&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="err">成员变量</span>
+    <span class="kp">private</span> <span class="nb">String</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">index</span><span class="p">;</span>
+
+    <span class="sr">//</span> <span class="err">构造方法</span>
+    <span class="kp">private</span> <span class="no">Color</span><span class="p">(</span><span class="nb">String</span> <span class="nb">name</span><span class="p">,</span> <span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">普通方法</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="nb">String</span> <span class="n">getName</span><span class="p">(</span><span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="no">Color</span> <span class="n">c</span> <span class="p">:</span> <span class="no">Color</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">getIndex</span><span class="p">()</span> <span class="o">==</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="n">get</span> <span class="n">set</span> <span class="err">方法</span>
+    <span class="kp">public</span> <span class="nb">String</span> <span class="n">getName</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">setName</span><span class="p">(</span><span class="nb">String</span> <span class="nb">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">int</span> <span class="n">getIndex</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">index</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">setIndex</span><span class="p">(</span><span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-2">覆盖枚举的方法</h2>
+
+<p>下面给出一个toString()方法覆盖的例子。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span>
+    <span class="kp">public</span> <span class="n">enum</span> <span class="no">Color</span> <span class="p">{</span>
+        <span class="no">RED</span><span class="p">(</span><span class="s2">&quot;红色&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="no">GREEN</span><span class="p">(</span><span class="s2">&quot;绿色&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="no">BLANK</span><span class="p">(</span><span class="s2">&quot;白色&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="no">YELLO</span><span class="p">(</span><span class="s2">&quot;黄色&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+        <span class="sr">//</span> <span class="err">成员变量</span>
+        <span class="kp">private</span> <span class="nb">String</span> <span class="nb">name</span><span class="p">;</span>
+        <span class="kp">private</span> <span class="n">int</span> <span class="n">index</span><span class="p">;</span>
+
+        <span class="sr">//</span> <span class="err">构造方法</span>
+        <span class="kp">private</span> <span class="no">Color</span><span class="p">(</span><span class="nb">String</span> <span class="nb">name</span><span class="p">,</span> <span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="sr">//</span> <span class="err">覆盖方法</span>
+        <span class="vi">@Override</span>
+        <span class="kp">public</span> <span class="nb">String</span> <span class="n">toString</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">this</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">name</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="nb">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="n">RED</span><span class="o">.</span><span class="n">toString</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-3">实现接口</h2>
+
+<p>所有的枚举都继承自java.lang.Enum类。由于Java 不支持多继承，所以枚举对象不能再继承其他类。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">interface</span> <span class="no">Behaviour</span> <span class="p">{</span>
+    <span class="n">void</span> <span class="nb">print</span><span class="p">();</span>
+
+    <span class="nb">String</span> <span class="n">getInfo</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kp">public</span> <span class="n">enum</span> <span class="no">Color</span> <span class="n">implements</span> <span class="no">Behaviour</span> <span class="p">{</span>
+    <span class="no">RED</span><span class="p">(</span><span class="s2">&quot;红色&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="no">GREEN</span><span class="p">(</span><span class="s2">&quot;绿色&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="no">BLANK</span><span class="p">(</span><span class="s2">&quot;白色&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="no">YELLO</span><span class="p">(</span><span class="s2">&quot;黄色&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="sr">//</span> <span class="err">成员变量</span>
+    <span class="kp">private</span> <span class="nb">String</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">index</span><span class="p">;</span>
+
+    <span class="sr">//</span> <span class="err">构造方法</span>
+    <span class="kp">private</span> <span class="no">Color</span><span class="p">(</span><span class="nb">String</span> <span class="nb">name</span><span class="p">,</span> <span class="n">int</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">接口方法</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="nb">String</span> <span class="n">getInfo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">this</span><span class="o">.</span><span class="n">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="err">接口方法</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="nb">print</span><span class="p">()</span> <span class="p">{</span>
+        <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">name</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-4">使用接口组织枚举</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">interface</span> <span class="no">Food</span> <span class="p">{</span>
+    <span class="n">enum</span> <span class="no">Coffee</span> <span class="n">implements</span> <span class="no">Food</span> <span class="p">{</span>
+        <span class="no">BLACK_COFFEE</span><span class="p">,</span> <span class="no">DECAF_COFFEE</span><span class="p">,</span> <span class="no">LATTE</span><span class="p">,</span> <span class="no">CAPPUCCINO</span>
+    <span class="p">}</span>
+
+    <span class="n">enum</span> <span class="no">Dessert</span> <span class="n">implements</span> <span class="no">Food</span> <span class="p">{</span>
+        <span class="no">FRUIT</span><span class="p">,</span> <span class="no">CAKE</span><span class="p">,</span> <span class="no">GELATO</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-5">关于枚举集合的使用</h2>
+
+<p>java.util.EnumSet和java.util.EnumMap是两个枚举集合。EnumSet保证集合中的元素不重复;EnumMap中的 key是enum类型，而value则可以是任意类型。关于这个两个集合的使用就不在这里赘述，可以参考JDK文档</p>
+
+<h2 id="section-6">方法介绍</h2>
+
+<p>所有枚举类都继承了Enum的方法，下面我们详细介绍这些方法。</p>
+
+<ul>
+  <li>ordinal()</li>
+</ul>
+
+<p>返回枚举值在枚举类种的顺序。这个顺序根据枚举值声明的顺序而定。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Color</span><span class="o">.</span><span class="n">RED</span><span class="o">.</span><span class="n">ordinal</span><span class="p">();</span>  <span class="sr">//</span><span class="err">返回结果：</span><span class="mi">0</span>
+<span class="no">Color</span><span class="o">.</span><span class="n">BLUE</span><span class="o">.</span><span class="n">ordinal</span><span class="p">();</span>  <span class="sr">//</span><span class="err">返回结果：</span><span class="mi">1</span></code></pre></div>
+
+<ul>
+  <li>compareTo()</li>
+</ul>
+
+<p>Enum实现了java.lang.Comparable接口，因此可以比较象与指定对象的顺序。Enum中的compareTo返回的是两个枚举值的顺序之差。当然，前提是两个枚举值必须属于同一个枚举类，否则会抛出ClassCastException()异常。(具体可见源代码)</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Color</span><span class="o">.</span><span class="n">RED</span><span class="o">.</span><span class="n">compareTo</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="n">BLUE</span><span class="p">);</span>  <span class="sr">//</span><span class="err">返回结果</span> <span class="o">-</span><span class="mi">1</span></code></pre></div>
+
+<ul>
+  <li>values()</li>
+</ul>
+
+<p>静态方法，返回一个包含全部枚举值的数组。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Color</span><span class="o">[]</span> <span class="n">colors</span><span class="o">=</span><span class="no">Color</span><span class="o">.</span><span class="n">values</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="no">Color</span> <span class="ss">c</span><span class="p">:</span><span class="n">colors</span><span class="p">){</span>
+    <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="p">);</span> 
+<span class="p">}</span>
+<span class="sr">//</span><span class="err">返回结果：</span><span class="no">RED</span><span class="p">,</span><span class="no">BLUE</span><span class="p">,</span><span class="no">BLACK</span> <span class="no">YELLOW</span><span class="p">,</span><span class="no">GREEN</span><span class="p">,</span></code></pre></div>
+
+<ul>
+  <li>toString()</li>
+</ul>
+
+<p>返回枚举常量的名称。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Color</span> <span class="n">c</span><span class="o">=</span><span class="no">Color</span><span class="o">.</span><span class="n">RED</span><span class="p">;</span>
+<span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="o">//</span><span class="err">返回结果</span><span class="p">:</span> <span class="no">RED</span></code></pre></div>
+
+<ul>
+  <li>valueOf()</li>
+</ul>
+
+<p>这个方法和toString方法是相对应的，返回带指定名称的指定枚举类型的枚举常量。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Color</span><span class="o">.</span><span class="n">valueOf</span><span class="p">(</span><span class="s2">&quot;BLUE&quot;</span><span class="p">);</span>   <span class="sr">//</span><span class="err">返回结果</span><span class="p">:</span> <span class="no">Color</span><span class="o">.</span><span class="n">BLUE</span></code></pre></div>
+
+<ul>
+  <li>equals()</li>
+</ul>
+
+<p>比较两个枚举类对象的引用。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span><span class="no">JDK</span><span class="err">源代码：</span>      
+<span class="kp">public</span> <span class="n">final</span> <span class="n">boolean</span> <span class="n">equals</span><span class="p">(</span><span class="no">Object</span> <span class="n">other</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="k">return</span> <span class="n">this</span><span class="o">==</span><span class="n">other</span><span class="p">;</span>  
+<span class="p">}</span></code></pre></div>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Enum">Enum <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/other/2013/12/27/be-gracious-dont-lose-twice" title="该战斗的时候战斗，该转身的时候转身，但请保持优雅">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/other/2014/01/01/my-2013" title="My 2013">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/java/2013/12/31/java-enum" data-title="Java Enum" data-url="/java/2013/12/31/java-enum"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

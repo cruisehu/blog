@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Handler</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Handler </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 03 月 28 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <h2 id="handler">Handler的定义</h2>
+
+<p>Handler主要接受子线程发送的数据， 并用此数据配合主线程更新UI。 当应用程序启动时，Android首先会开启一个主线程 (也就是UI线程) ，主线程为管理界面中的UI控件，进行事件分发, 比如说,你要是点击一个 Button ,Android会分发事件到Button上，来响应你的操作。如果此时需要一个耗时的操作，例如: 联网读取数据，或者读取本地较大的一个文件的时候，你不能把这些操作放在主线程中，如果你放在主线程中的话，界面会出现假死现象, 如果5秒钟还没有完成的话，会收到Android系统的一个错误提示 “强制关闭”。</p>
+
+<p>这个时候我们需要把这些耗时的操作，放在一个子线程中，因为子线程涉及到UI更新，Android主线程不是线程安全的，也就是说，更新UI只能在主线程中更新，子线程中操作是危险的。这个时候，Handler就出现了，来解决这个复杂的问题。Handler运行在主线程中(UI线程中)，它与子线程可以通过Message对象来传递数据，这个时候，Handler就承担着接受子线程传过来的(子线程用sedMessage()方法传递)Message对象(里面包含数据)，把这些消息放入主线程队列中，配合主线程进行更新UI。</p>
+
+<h2 id="handler-1">Handler的一些特点</h2>
+
+<p>Handler 为Android操作系统中的线程通信工具，包为android.os.Handler。</p>
+
+<p>与Handler绑定的有两个队列，一个为消息队列，另一个为线程队列。Handler可以通过这两个队列来分别：</p>
+
+<p>1.发送、接受、处理消息–消息队列；</p>
+
+<p>2.启动、结束、休眠线程–线程队列；</p>
+
+<p>Android OS中，一个进程被创建之后，主线程(可理解为当前Activity)创建一个消息队列，这个消息队列维护所有顶层应用对象(Activities, Broadcast receivers等)以及主线程创建的窗口。你可以在主线程中创建新的线程，这些新的线程都通过Handler与主线程进行通信。通信通过新线程调用 Handler的post()方法和sendMessage()方法实现，分别对应功能：</p>
+
+<p>1.post()  将一个线程加入线程队列；</p>
+
+<p>2.sendMessage() 发送一个消息对象到消息队列；</p>
+
+<p>当然，post()方法还有一些变体，比如
+    post(Runnable)
+    postAtTime(Runnable,long)
+    postDelayed(Runnable long)
+    sendEmptyMessage(int)
+    sendMessage(Message)
+    sendMessageAtTime(Message,long)
+    sendMessageDelayed(Message,long)</p>
+
+<h2 id="handler-2">Handler实例</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyHandlerActivity</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="p">{</span>
+    <span class="no">Button</span> <span class="n">button</span><span class="p">;</span>
+    <span class="no">MyHandler</span> <span class="n">myHandler</span><span class="p">;</span>
+
+    <span class="kp">protected</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+        <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">handlertest</span><span class="p">);</span>
+
+        <span class="n">button</span> <span class="o">=</span> <span class="p">(</span><span class="no">Button</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">button</span><span class="p">);</span>
+        <span class="n">myHandler</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">MyHandler</span><span class="p">();</span>
+        <span class="sr">//</span> <span class="err">当创建一个新的</span><span class="no">Handler</span><span class="err">实例时</span><span class="p">,</span> <span class="err">它会绑定到当前线程和消息的队列中</span><span class="p">,</span><span class="err">开始分发数据</span>
+        <span class="sr">//</span> <span class="no">Handler</span><span class="err">有两个作用</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="err">定时执行</span><span class="no">Message</span><span class="err">和</span><span class="no">Runnalbe</span> <span class="err">对象</span>
+        <span class="sr">//</span> <span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="err">让一个动作</span><span class="p">,</span><span class="err">在不同的线程中执行</span><span class="o">.</span>
+
+        <span class="sr">//</span> <span class="err">它安排消息</span><span class="p">,</span><span class="err">用以下方法</span>
+        <span class="sr">//</span> <span class="n">post</span><span class="p">(</span><span class="no">Runnable</span><span class="p">)</span>
+        <span class="sr">//</span> <span class="n">postAtTime</span><span class="p">(</span><span class="no">Runnable</span><span class="p">,</span><span class="n">long</span><span class="p">)</span>
+        <span class="sr">//</span> <span class="n">postDelayed</span><span class="p">(</span><span class="no">Runnable</span><span class="p">,</span><span class="n">long</span><span class="p">)</span>
+        <span class="sr">//</span> <span class="n">sendEmptyMessage</span><span class="p">(</span><span class="n">int</span><span class="p">)</span>
+        <span class="sr">//</span> <span class="n">sendMessage</span><span class="p">(</span><span class="no">Message</span><span class="p">);</span>
+        <span class="sr">//</span> <span class="n">sendMessageAtTime</span><span class="p">(</span><span class="no">Message</span><span class="p">,</span><span class="n">long</span><span class="p">)</span>
+        <span class="sr">//</span> <span class="n">sendMessageDelayed</span><span class="p">(</span><span class="no">Message</span><span class="p">,</span><span class="n">long</span><span class="p">)</span>
+      
+        <span class="sr">//</span> <span class="err">以上方法以</span> <span class="n">post</span><span class="err">开头的允许你处理</span><span class="no">Runnable</span><span class="err">对象</span>
+        <span class="sr">//sen</span><span class="n">dMessage</span><span class="p">()</span><span class="err">允许你处理</span><span class="no">Message</span><span class="err">对象</span><span class="p">(</span><span class="no">Message</span><span class="err">里可以包含数据</span><span class="p">,)</span>
+
+        <span class="no">MyThread</span> <span class="n">m</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">MyThread</span><span class="p">();</span>
+        <span class="kp">new</span> <span class="no">Thread</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="sr">/**</span>
+<span class="sr">    * 接受消息,处理消息 ,此Handler会与当前主线程一块运行</span>
+<span class="sr">    * */</span>
+
+    <span class="k">class</span> <span class="nc">MyHandler</span> <span class="n">extends</span> <span class="no">Handler</span> <span class="p">{</span>
+        <span class="kp">public</span> <span class="no">MyHandler</span><span class="p">()</span> <span class="p">{</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">MyHandler</span><span class="p">(</span><span class="no">Looper</span> <span class="n">L</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">super</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="sr">//</span> <span class="err">子类必须重写此方法</span><span class="p">,</span><span class="err">接受数据</span>
+        <span class="vi">@Override</span>
+        <span class="kp">public</span> <span class="n">void</span> <span class="n">handleMessage</span><span class="p">(</span><span class="no">Message</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+            <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="nb">method</span> <span class="n">stub</span>
+            <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="s2">&quot;MyHandler&quot;</span><span class="p">,</span> <span class="s2">&quot;handleMessage......&quot;</span><span class="p">);</span>
+            <span class="k">super</span><span class="o">.</span><span class="n">handleMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+            <span class="sr">//</span> <span class="err">此处可以更新</span><span class="no">UI</span>
+            <span class="no">Bundle</span> <span class="n">b</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">getData</span><span class="p">();</span>
+            <span class="nb">String</span> <span class="n">color</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">);</span>
+            <span class="no">MyHandlerActivity</span><span class="o">.</span><span class="n">this</span><span class="o">.</span><span class="n">button</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">color</span><span class="p">);</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">class</span> <span class="nc">MyThread</span> <span class="n">implements</span> <span class="no">Runnable</span> <span class="p">{</span>
+        <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+
+            <span class="n">try</span> <span class="p">{</span>
+                <span class="no">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span>
+            <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">InterruptedException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="kp">catch</span> <span class="n">block</span>
+                <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+            <span class="p">}</span>
+
+            <span class="no">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="s2">&quot;thread.......&quot;</span><span class="p">,</span> <span class="s2">&quot;mThread........&quot;</span><span class="p">);</span>
+            <span class="no">Message</span> <span class="n">msg</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Message</span><span class="p">();</span>
+            <span class="no">Bundle</span> <span class="n">b</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Bundle</span><span class="p">();</span><span class="o">//</span> <span class="err">存放数据</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">putString</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;我的&quot;</span><span class="p">);</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+
+            <span class="no">MyHandlerActivity</span><span class="o">.</span><span class="n">this</span><span class="o">.</span><span class="n">myHandler</span><span class="o">.</span><span class="n">sendMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span> <span class="sr">//</span> <span class="err">向</span><span class="no">Handler</span><span class="err">发送消息</span><span class="p">,</span><span class="err">更新</span><span class="no">UI</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">}</span></code></pre></div>
+
+<p>简单的说，Activity的onCreate方法里启动一个线程，在这个线程的run方法里使用一个Message对象并使用Handler的sendMessage方法发送到队列中，最后在Activity里new一个Handler的内部类实现handMessage方法，使用这个方法把队列中的Message对象取出来以实现异步操作。</p>
+
+<p>然后是post的例子，这里稍微说一下，直接使用new Handler().post(Runnable)这样的写法并没有新开线程，也就是说依然是在主线程中执行，相当于简单调用了线程的run方法而不是start方法。这个有人说是android的bug，解决方案是这样使用：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">HandlerThread</span> <span class="n">handlerThread</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">HandlerThread</span><span class="p">(</span><span class="s2">&quot;myHandlerThread&quot;</span><span class="p">);</span>  
+<span class="n">handlerThread</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>  
+<span class="n">handler</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Handler</span><span class="p">(</span><span class="n">handlerThread</span><span class="o">.</span><span class="n">getLooper</span><span class="p">());</span></code></pre></div>
+
+<p>来看一个完整的post例子：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyThread</span> <span class="n">extends</span> <span class="no">Activity</span> <span class="p">{</span>    
+    <span class="kp">private</span> <span class="no">Handler</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>    
+    <span class="vi">@Override</span>    
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>    
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>    
+        <span class="no">HandlerThread</span> <span class="n">handlerThread</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">HandlerThread</span><span class="p">(</span><span class="s2">&quot;myHandlerThread&quot;</span><span class="p">);</span>    
+        <span class="n">handlerThread</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>    
+        <span class="n">handler</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Handler</span><span class="p">(</span><span class="n">handlerThread</span><span class="o">.</span><span class="n">getLooper</span><span class="p">());</span>    
+        <span class="n">handler</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="kp">new</span> <span class="no">MyRunnable</span><span class="p">());</span>    
+        <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Oncreate---The Thread id is :&quot;</span>    
+                <span class="o">+</span> <span class="no">Thread</span><span class="o">.</span><span class="n">currentThread</span><span class="p">()</span><span class="o">.</span><span class="n">getId</span><span class="p">());</span>    
+        <span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">main</span><span class="p">);</span>    
+    <span class="p">}</span>    
+    <span class="kp">private</span> <span class="k">class</span> <span class="nc">MyRunnable</span> <span class="n">implements</span> <span class="no">Runnable</span> <span class="p">{</span>    
+        <span class="kp">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>    
+            <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Runnable---The Thread is running&quot;</span><span class="p">);</span>    
+            <span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Runnable---The Thread id is :&quot;</span>    
+                    <span class="o">+</span> <span class="no">Thread</span><span class="o">.</span><span class="n">currentThread</span><span class="p">()</span><span class="o">.</span><span class="n">getId</span><span class="p">());</span>    
+            <span class="n">try</span> <span class="p">{</span>    
+                <span class="no">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">6000</span><span class="p">);</span>    
+            <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">InterruptedException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>    
+                <span class="sr">//</span> <span class="no">TODO</span> <span class="no">Auto</span><span class="o">-</span><span class="n">generated</span> <span class="kp">catch</span> <span class="n">block</span>    
+                <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>    
+            <span class="p">}</span>    
+        <span class="p">}</span>    
+    <span class="p">}</span>    
+<span class="p">}</span></code></pre></div>
+
+<p>在这个demo中,用到了HandlerThread,在HandlerThread对象中可以通过getLooper方法获取一个Looper对象控制句柄，我们可以将其这个Looper对象映射到一个Handler中去来实现一个线程同步机制。于是就有以下结果;</p>
+
+<p>1：控制台的输出：</p>
+
+<p>Oncreate—The Thread id is :1</p>
+
+<p>Runnable—The Thread is running</p>
+
+<p>Runnable—The Thread id is :10</p>
+
+<p>2：程序启动后,我们立刻看到main.xml中的内容。
+这样就达到了多线程的结果。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Hander">Hander <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/rubyonrails/2013/03/10/rails-cache" title="Rails Cache">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/04/07/android-activity-group" title="Android ActivityGroup">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/03/28/android-handler" data-title="Android Handler" data-url="/android/2013/03/28/android-handler"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

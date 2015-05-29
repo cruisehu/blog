@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android ActivityGroup</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android ActivityGroup </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 04 月 07 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>在android应用中底部导航栏可以说是十分常见的，如新浪微博，微信等都是这种设计，大家在做这种应用第一反应就是使用TabActivity，今天就来分享下如何用ActivityGroup来代替TabActivity，以及这样使用的优点。</p>
+
+<p>ActivityGroup是Google提供的一个非常优秀的API，而TabActivity是ActivityGroup唯一的一个子类。</p>
+
+<h2 id="activitygroup">ActivityGroup的优点</h2>
+
+<p>首先来说ActivityGroup的优秀之处以及它的必要性，它为开发者提供了一种可能，这种可能不将Activity作为屏幕的顶级元素（Context）呈现，而是嵌入到ActivityGroup当中。这是一种极大的飞跃，它将场景（Context）细分化了，ActivityGroup是一个主场景，而用户可以通过导航按钮来切换想要的子场景。如使用微博功能，它是一个相当宏大的场景，具有看最新的广播信息、自己发微博、修改资料等子场景，用户可以通过按钮来切换到想要的子场景，而这个子场景仍活动于主场景之中。让一个主场景能拥有多个逻辑处理模块，主场景不再负责子场景逻辑，主场景只负责切换场景的逻辑，即每一个Activity（子场景）拥有一个逻辑处理模块，一个ActivityGroup有多个Activity，却不干预Activity的逻辑，这无疑细分化和模块化了逻辑代码。ActivityGroup和它将要内嵌的Activity所要实现的功能完全可以只用一个Activity来完成，你可以试想，当你把一个ActivityGroup和它所拥有的Activity的逻辑代码放在一个Activity中时，那这个Activity会拥有多少行代码，为维护带来非常的不便。</p>
+
+<h2 id="tabactivity">TabActivity的不足</h2>
+
+<p>再来说说TabActivity的不足之处，首先，TabActivity自己独有的视图几乎没人使用（也就是难看的标签页按钮形式），大多数开发者用到的特性几乎都是从ActivityGroup继承下来的。还有就是TabActivity的强制依赖关系，它的布局文件必须将TabHost作根标签，并且id必须为”@android:id/tabhost”，必须有TabWidget标签，且它的id必须是”@android:id/tabs”，还有加载Activity的View容器，id必须为@android:id/tabcontent。光是强制依赖关系，我就觉得不是很舒服。而且在android3.0以后已经建议用Fragment来代替TabActivity了。只是由于目前为了要兼容3.0之前的版本，Fragment还没有被开发者们所普及。</p>
+
+<p>下面就来看下这次食物库重构后的用ActivityGroup来实现的主页面架构吧：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">MainActivityGroup</span><span class="o">.</span><span class="n">java</span>
+
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">MainActivityGroup</span> <span class="n">extends</span> <span class="no">ActivityGroup</span> <span class="n">implements</span>
+		<span class="no">OnCheckedChangeListener</span> <span class="p">{</span>
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">RECORD</span> <span class="o">=</span> <span class="s2">&quot;record&quot;</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">CATEGORY</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">MORE</span> <span class="o">=</span> <span class="s2">&quot;more&quot;</span><span class="p">;</span>
+
+	<span class="kp">private</span> <span class="no">ActivityGroupManager</span> <span class="n">manager</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">FrameLayout</span> <span class="n">container</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">RadioGroup</span> <span class="n">radioGroup</span><span class="p">;</span>
+
+	
+
+	<span class="vi">@Override</span>
+	<span class="kp">protected</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">);</span>
+		<span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">test_main</span><span class="p">);</span>
+
+		<span class="n">initView</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">initView</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">radioGroup</span> <span class="o">=</span> <span class="p">(</span><span class="no">RadioGroup</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">main_radio</span><span class="p">);</span>
+		<span class="n">radioGroup</span><span class="o">.</span><span class="n">setOnCheckedChangeListener</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+
+		<span class="n">manager</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">ActivityGroupManager</span><span class="p">();</span>
+		<span class="n">container</span> <span class="o">=</span> <span class="p">(</span><span class="no">FrameLayout</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">container</span><span class="p">);</span>
+		<span class="n">manager</span><span class="o">.</span><span class="n">setContainer</span><span class="p">(</span><span class="n">container</span><span class="p">);</span>
+		<span class="n">switchActivity</span><span class="p">(</span><span class="no">ActivityGroupManager</span><span class="o">.</span><span class="n">RECORD_ACTIVITY_VIEW</span><span class="p">,</span> <span class="no">RECORD</span><span class="p">,</span> <span class="no">RecordActivity</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="vi">@Override</span>
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onCheckedChanged</span><span class="p">(</span><span class="no">RadioGroup</span> <span class="n">group</span><span class="p">,</span> <span class="n">int</span> <span class="n">checkedId</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">switch</span> <span class="p">(</span><span class="n">checkedId</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">record_button</span><span class="p">:</span>
+			<span class="n">switchActivity</span><span class="p">(</span><span class="no">ActivityGroupManager</span><span class="o">.</span><span class="n">RECORD_ACTIVITY_VIEW</span><span class="p">,</span> <span class="no">RECORD</span><span class="p">,</span> <span class="no">RecordActivity</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">category_button</span><span class="p">:</span>
+			<span class="n">switchActivity</span><span class="p">(</span><span class="no">ActivityGroupManager</span><span class="o">.</span><span class="n">CATEGORY_ACTIVITY_VIEW</span><span class="p">,</span> <span class="no">CATEGORY</span><span class="p">,</span> <span class="no">CategoryActivity</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">more_button</span><span class="p">:</span>
+			<span class="n">switchActivity</span><span class="p">(</span><span class="no">ActivityGroupManager</span><span class="o">.</span><span class="n">MORE_AVTIVITY_VIEW</span><span class="p">,</span> <span class="no">MORE</span><span class="p">,</span> <span class="no">MoreActivity</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="ss">default</span><span class="p">:</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="no">View</span> <span class="n">getActivityView</span><span class="p">(</span><span class="nb">String</span> <span class="n">activityName</span><span class="p">,</span> <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">activityClass</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">getLocalActivityManager</span><span class="p">()</span><span class="o">.</span><span class="n">startActivity</span><span class="p">(</span><span class="n">activityName</span><span class="p">,</span>
+				<span class="kp">new</span> <span class="no">Intent</span><span class="p">(</span><span class="no">MainActivityGroup</span><span class="o">.</span><span class="n">this</span><span class="p">,</span> <span class="n">activityClass</span><span class="p">))</span>
+				<span class="o">.</span><span class="n">getDecorView</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">switchActivity</span><span class="p">(</span><span class="n">int</span> <span class="n">num</span><span class="p">,</span> <span class="nb">String</span> <span class="n">activityName</span><span class="p">,</span> <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">activityClass</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">manager</span><span class="o">.</span><span class="n">showContainer</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">getActivityView</span><span class="p">(</span><span class="n">activityName</span><span class="p">,</span> <span class="n">activityClass</span><span class="p">));</span>
+	<span class="p">}</span>
+
+<span class="p">}</span></code></pre></div>
+
+<p>可以看到在“主场景”MainActivityGroup中基本没有任何逻辑代码，只有各个“子场景”切换的逻辑，而子场景的切换用了一个ActivityGroupManager类来管理，这样又起到了代码分离的作用,</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ActivityGroupManager</span><span class="o">.</span><span class="n">java</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">ActivityGroupManager</span> <span class="p">{</span>
+
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="s2">&quot;frag_manager&quot;</span><span class="p">;</span>
+
+	<span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">RECORD_ACTIVITY_VIEW</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">CATEGORY_ACTIVITY_VIEW</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">MORE_AVTIVITY_VIEW</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+	<span class="kp">private</span> <span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="no">View</span><span class="o">&gt;</span> <span class="n">hashMap</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">ViewGroup</span> <span class="n">container</span><span class="p">;</span>
+
+	<span class="kp">public</span> <span class="no">ActivityGroupManager</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">hashMap</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="no">View</span><span class="o">&gt;</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">setContainer</span><span class="p">(</span><span class="no">ViewGroup</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">this</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">container</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">showContainer</span><span class="p">(</span><span class="n">int</span> <span class="n">num</span><span class="p">,</span> <span class="no">View</span> <span class="n">view</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">hashMap</span><span class="o">.</span><span class="n">containsKey</span><span class="p">(</span><span class="n">num</span><span class="p">))</span> <span class="p">{</span>
+			<span class="n">hashMap</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">view</span><span class="p">);</span>
+			<span class="n">container</span><span class="o">.</span><span class="n">addView</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="no">Iterator</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="o">&gt;</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">hashMap</span><span class="o">.</span><span class="n">keySet</span><span class="p">()</span><span class="o">.</span><span class="n">iterator</span><span class="p">();</span> <span class="n">iter</span><span class="o">.</span><span class="n">hasNext</span><span class="p">();)</span> <span class="p">{</span>
+			<span class="no">Object</span> <span class="n">key</span> <span class="o">=</span> <span class="n">iter</span><span class="o">.</span><span class="n">next</span><span class="p">();</span>
+			<span class="no">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">hashMap</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+			<span class="n">v</span><span class="o">.</span><span class="n">setVisibility</span><span class="p">(</span><span class="no">View</span><span class="o">.</span><span class="n">INVISIBLE</span><span class="p">);</span>
+		<span class="p">}</span>
+		
+		<span class="n">view</span><span class="o">.</span><span class="n">setVisibility</span><span class="p">(</span><span class="no">View</span><span class="o">.</span><span class="n">VISIBLE</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>值得一说的是在ActivityGroupManager类中的showContainer ()方法并没有像网上的做法这样：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">container</span><span class="o">.</span><span class="n">removeAllViews</span><span class="p">();</span>
+<span class="n">container</span><span class="o">.</span><span class="n">addView</span><span class="p">(</span><span class="n">view</span><span class="p">);</span></code></pre></div>
+
+<p>这种做法看似代码逻辑更简单，但是这样就会导致每次切换“子场景”的时候都会把已经加载过的View remove掉，一方面性能有所欠缺，另一个方面“子场景”的状态无法记住。而现在的做法就很好的解决了上面的问题。</p>
+
+<p>好了，然后就是各个“子场景”（Activity）的代码了，每个“子场景”的逻辑各自独立，这里就不上代码了。</p>
+
+<p>这里还有一个需要提到的是底部导航栏的实现，由于android没有像iOS那样预定好的组件，只有自己定义一个布局了，这里我用到的是用RadioGroup来实现类似微信的底部导航栏效果，下面是布局代码，在其他使用到的地方直接include进来就可以了。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="p">?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="sc">?&gt;</span>
+<span class="o">&lt;</span><span class="no">RadioGroup</span> <span class="ss">xmlns</span><span class="p">:</span><span class="n">android</span><span class="o">=</span><span class="s2">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;@+id/main_radio&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s2">&quot;fill_parent&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s2">&quot;wrap_content&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">layout_gravity</span><span class="o">=</span><span class="s2">&quot;bottom|center&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">layout_marginBottom</span><span class="o">=</span><span class="s2">&quot;-20dp&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">gravity</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">padding</span><span class="o">=</span><span class="s2">&quot;0dp&quot;</span> <span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="no">RadioButton</span>
+        <span class="ss">android</span><span class="p">:</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;@+id/record_button&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s2">&quot;fill_parent&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s2">&quot;wrap_content&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">layout_gravity</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">layout_weight</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">background</span><span class="o">=</span><span class="s2">&quot;@null&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">button</span><span class="o">=</span><span class="s2">&quot;@null&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">checked</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">drawableTop</span><span class="o">=</span><span class="s2">&quot;@drawable/main_tab_record_selector&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">gravity</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
+        <span class="ss">android</span><span class="p">:</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;record&quot;</span> <span class="sr">/&gt;</span>
+
+<span class="sr">    &lt;RadioButton</span>
+<span class="sr">        android:id=&quot;@+id/</span><span class="n">category_button</span><span class="s2">&quot;</span>
+<span class="s2">        android:layout_width=&quot;</span><span class="n">fill_parent</span><span class="s2">&quot;</span>
+<span class="s2">        android:layout_height=&quot;</span><span class="n">wrap_content</span><span class="s2">&quot;</span>
+<span class="s2">        android:layout_weight=&quot;</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="s2">&quot;</span>
+<span class="s2">        android:background=&quot;</span><span class="vi">@null</span><span class="s2">&quot;</span>
+<span class="s2">        android:button=&quot;</span><span class="vi">@null</span><span class="s2">&quot;</span>
+<span class="s2">        android:drawableTop=&quot;</span><span class="vi">@drawable</span><span class="o">/</span><span class="n">main_tab_category_selector</span><span class="s2">&quot;</span>
+<span class="s2">        android:gravity=&quot;</span><span class="n">center_horizontal</span><span class="s2">&quot;</span>
+<span class="s2">        android:tag=&quot;</span><span class="n">category</span><span class="s2">&quot; /&gt;</span>
+
+<span class="s2">    &lt;RadioButton</span>
+<span class="s2">        android:id=&quot;</span><span class="err">@</span><span class="o">+</span><span class="nb">id</span><span class="o">/</span><span class="n">more_button</span><span class="s2">&quot;</span>
+<span class="s2">        android:layout_width=&quot;</span><span class="n">fill_parent</span><span class="s2">&quot;</span>
+<span class="s2">        android:layout_height=&quot;</span><span class="n">wrap_content</span><span class="s2">&quot;</span>
+<span class="s2">        android:layout_weight=&quot;</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="s2">&quot;</span>
+<span class="s2">        android:background=&quot;</span><span class="vi">@null</span><span class="s2">&quot;</span>
+<span class="s2">        android:button=&quot;</span><span class="vi">@null</span><span class="s2">&quot;</span>
+<span class="s2">        android:drawableTop=&quot;</span><span class="vi">@drawable</span><span class="o">/</span><span class="n">main_tab_more_selector</span><span class="s2">&quot;</span>
+<span class="s2">        android:gravity=&quot;</span><span class="n">center_horizontal</span><span class="s2">&quot;</span>
+<span class="s2">        android:tag=&quot;</span><span class="n">more</span><span class="s2">&quot; /&gt;</span>
+
+<span class="s2">&lt;/RadioGroup&gt;</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ActivityGroup">ActivityGroup <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/03/28/android-handler" title="Android Handler">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/04/17/android-gesture-listener" title="Android手势">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/04/07/android-activity-group" data-title="Android ActivityGroup" data-url="/android/2013/04/07/android-activity-group"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

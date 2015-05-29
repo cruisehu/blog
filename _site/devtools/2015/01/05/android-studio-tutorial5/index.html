@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Studio系列教程五--Gradle命令详解与导入第三方包</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Studio系列教程五--Gradle命令详解与导入第三方包 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2015 年 01 月 05 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<blockquote>
+  <blockquote>
+    <p>本文为个人原创，欢迎转载，但请务必在明显位置注明出处！</p>
+  </blockquote>
+</blockquote>
+
+<p>Android Studio + Gradle的组合用起来非常方便，很多第三方开源项目也早都迁移到了Studio，为此今天就来介绍下查看、编译并导入第三方开源项目的方法。</p>
+
+<h2 id="sublime--terminal">Sublime + Terminal编译并查看源码</h2>
+
+<p>首先来给大家介绍一种简便并且个人最喜欢的一种办法。很多时候我们在GitHub上看到一个不错的开源项目，一般有两种需求，阅读源码和查看运行效果，如果是单纯的查看源码我更喜欢用一些轻量级编辑器，如vim，sublime等，vim不是很熟练，所以个人一种都习惯用sublime来查看并阅读源码（实际开发还是Android Studio、Eclipse等IDE更有效率）；至于查看运行效果首先得需要apk，对于一些开源项目已提供apk下载，那就好办，直接安装到手机即可。 而对于一些没有提供apk下载的，则需要自己手动编译打包。</p>
+
+<p>下面以<a href="https://github.com/stormzhang/9GAG">9GAG</a>为例来讲解下命令行Gradle编译的过程。</p>
+
+<ul>
+  <li>1、切换到9GAG项目的根目录，执行 <strong>./gradlew -v</strong> 来查看下项目所用的Gradle版本</li>
+</ul>
+
+<p>如果你是第一次执行会去下载Gradle，这个过程如果不翻墙非常慢，建议翻墙</p>
+
+<p><img src="/image/gradle_download1.png" /></p>
+
+<p>紧接着下载成功会看到如下信息：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">------------------------------------------------------------</span>
+<span class="no">Gradle</span> <span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span>
+<span class="o">------------------------------------------------------------</span>
+
+<span class="no">Build</span> <span class="ss">time</span><span class="p">:</span>   <span class="mi">2014</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">24</span> <span class="mi">09</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">35</span> <span class="no">UTC</span>
+<span class="no">Build</span> <span class="ss">number</span><span class="p">:</span> <span class="n">none</span>
+<span class="ss">Revision</span><span class="p">:</span>     <span class="mi">6</span><span class="n">fcb59c06f43a4e6b1bcb401f7686a8601a1fb4a</span>
+
+<span class="ss">Groovy</span><span class="p">:</span>       <span class="mi">2</span><span class="o">.</span><span class="mi">3</span><span class="o">.</span><span class="mi">6</span>
+<span class="ss">Ant</span><span class="p">:</span>          <span class="no">Apache</span> <span class="no">Ant</span><span class="p">(</span><span class="no">TM</span><span class="p">)</span> <span class="n">version</span> <span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">3</span> <span class="n">compiled</span> <span class="n">on</span> <span class="no">December</span> <span class="mi">23</span> <span class="mi">2013</span>
+<span class="ss">JVM</span><span class="p">:</span>          <span class="mi">1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mo">0_60</span> <span class="p">(</span><span class="no">Oracle</span> <span class="no">Corporation</span> <span class="mi">24</span><span class="o">.</span><span class="mi">60</span><span class="o">-</span><span class="n">b09</span><span class="p">)</span>
+<span class="ss">OS</span><span class="p">:</span>           <span class="no">Mac</span> <span class="no">OS</span> <span class="n">X</span> <span class="mi">10</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">5</span> <span class="n">x86_64</span></code></pre></div>
+
+<ul>
+  <li>2、接着执行 <strong>./gradlew clean</strong></li>
+</ul>
+
+<p>执行这个命令会去下载Gradle的一些依赖，下载成功并编译通过时会看到如下信息：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="ss">:app:clean</span> <span class="no">UP</span><span class="o">-</span><span class="no">TO</span><span class="o">-</span><span class="no">DATE</span>
+<span class="ss">:extras:ShimmerAndroid:clean</span> <span class="no">UP</span><span class="o">-</span><span class="no">TO</span><span class="o">-</span><span class="no">DATE</span>
+
+<span class="no">BUILD</span> <span class="no">SUCCESSFUL</span></code></pre></div>
+
+<ul>
+  <li>3、最后执行 <strong>./gradlew build</strong></li>
+</ul>
+
+<p>这个命令会直接编译并生成相应的apk文件，如果看到如下字样就代表build成功了</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">BUILD</span> <span class="no">SUCCESSFUL</span>
+
+<span class="no">Total</span> <span class="ss">time</span><span class="p">:</span> <span class="mi">31</span><span class="o">.</span><span class="mi">456</span> <span class="n">secs</span></code></pre></div>
+
+<p>紧接着在 <strong>9GAG/app/build/outputs/apk</strong> 目录下会看到类似于app-debug-unaligned.apk, app-release-unsigned.apk等，看名字应该能理解意思，unaligned代表没有进行zip优化的，unsigned代表没有签名的。然后就可以直接安装apk查看运行效果了。</p>
+
+<p>以上是我个人习惯的一种阅读第三方源码的习惯，关于上面提到的一些gradle命令大家应该还不理解，后面会一一进行说明的。</p>
+
+<h2 id="android-studio">导入Android Studio</h2>
+
+<p>但是如果你还是想导入Android Studio的话，下面就来简单介绍下导入Studio的方法以及一些注意事项。</p>
+
+<ul>
+  <li>1、选择File-&gt;Import Project, 选择本地9GAG项目的目录</li>
+</ul>
+
+<p><img src="/image/studio_import1.png" /></p>
+
+<ul>
+  <li>2、第一次依然会下载Gradle，其实自己在命令行已经下载过了，但是这次依然还要下载一次（依然要翻墙），可能是个bug</li>
+</ul>
+
+<p><img src="/image/gradle_download2.png" /></p>
+
+<ul>
+  <li>3、导入之后你需要注意以下几个地方</li>
+</ul>
+
+<ol>
+  <li>每个Module下的 <strong>build.gradle</strong> 下的buildToolsVersion，即<strong>9GAG/app/build.gradle</strong> 和 <strong>9GAG/extras/ShimmerAndroid/build.gradle</strong> , 可以打开 <strong>SDK Manager</strong> 查看本地你安装的 <strong>SDK Build-tools</strong>, 如下图，如果相应版本没有安装请先下载。</li>
+</ol>
+
+<p><img src="/image/build-tools.png" /></p>
+
+<ol>
+  <li>
+    <p>项目根目录下的 <strong>build.gradle</strong> 下gradle插件的版本，如 <strong>9GAG/build.gradle</strong> 的内容：</p>
+
+    <p>classpath ‘com.android.tools.build:gradle:1.0.0’</p>
+  </li>
+</ol>
+
+<p>Android Studio 1.0必须指定gradle插件1.0的版本</p>
+
+<ol>
+  <li>Gradle Wrapper的版本，在 <strong>9GAG/gradle/wrapper/gralde-wrapper.properties</strong> 文件里有如下内容：</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#Thu Dec 18 16:02:24 CST 2014</span>
+<span class="n">distributionBase</span><span class="o">=</span><span class="no">GRADLE_USER_HOME</span>
+<span class="n">distributionPath</span><span class="o">=</span><span class="n">wrapper</span><span class="o">/</span><span class="n">dists</span>
+<span class="n">zipStoreBase</span><span class="o">=</span><span class="no">GRADLE_USER_HOME</span>
+<span class="n">zipStorePath</span><span class="o">=</span><span class="n">wrapper</span><span class="o">/</span><span class="n">dists</span>
+<span class="n">distributionUrl</span><span class="o">=</span><span class="n">https</span><span class="p">\</span><span class="ss">:/</span><span class="o">/</span><span class="n">services</span><span class="o">.</span><span class="n">gradle</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">distributions</span><span class="o">/</span><span class="n">gradle</span><span class="o">-</span><span class="mi">2</span><span class="o">.</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">all</span><span class="o">.</span><span class="n">zip</span></code></pre></div>
+
+<p>上述内容制定了gradle的版本使用2.2.1，在Studio中如果你手动改了gradle插件的版本会有提示要不要更新Gradle Wrapper的版本。</p>
+
+<p>如果以上几个地方确定版本是ok的，那么导入Android Studio应该没有问题，有些老的项目可能gradle版本比较老，仍然在使用一些老的语法，如果编译还通不过参考<a href="http://stormzhang.com/devtools/2014/12/18/android-studio-tutorial4/">Android Studio系列教程四–Gradle基础</a>更改成最新的语法。</p>
+
+<h2 id="gradle">Gradle常用命令</h2>
+
+<p>上面大家接触了一些命令如 <strong>./gradlew -v</strong> <strong>./gradlew clean</strong> <strong>./gradlew build</strong>, 这里注意是<strong>./gradlew</strong>, <strong>./</strong>代表当前目录，<strong>gradlew</strong>代表 gradle wrapper，意思是gradle的一层包装，大家可以理解为在这个项目本地就封装了gradle，即gradle wrapper， 在<strong>9GAG/gradle/wrapper/gralde-wrapper.properties</strong>文件中声明了它指向的目录和版本。只要下载成功即可用grdlew wrapper的命令代替全局的gradle命令。</p>
+
+<p>理解了gradle wrapper的概念，下面一些常用命令也就容易理解了。</p>
+
+<ul>
+  <li>
+    <p>./gradlew -v 版本号</p>
+  </li>
+  <li>
+    <p>./gradlew clean 清除9GAG/app目录下的build文件夹</p>
+  </li>
+  <li>
+    <p>./gradlew build 检查依赖并编译打包</p>
+  </li>
+</ul>
+
+<p>这里注意的是 <strong>./gradlew build</strong> 命令把debug、release环境的包都打出来，如果正式发布只需要打Release的包，该怎么办呢，下面介绍一个很有用的命令 **assemble<build type="" name="">**, 如</build></p>
+
+<ul>
+  <li>
+    <p>./gradlew assembleDebug 编译并打Debug包</p>
+  </li>
+  <li>
+    <p>./gradlew assembleRelease 编译并打Release的包</p>
+  </li>
+</ul>
+
+<p>除此之外，assemble还可以和productFlavors结合使用，具体在下一篇多渠道打包进一步解释。</p>
+
+<ul>
+  <li>
+    <p>./gradlew installRelease Release模式打包并安装</p>
+  </li>
+  <li>
+    <p>./gradlew uninstallRelease 卸载Release模式包</p>
+  </li>
+</ul>
+
+<p>下一篇来介绍用Gradle进行方便的多渠道打包，以及项目中完整的Gradle配置。有问题或建议欢迎大家直接博客留言。</p>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#AndroidStudio">AndroidStudio <span>8</span></a></li>
+   
+    <li><a href="/posts.html#Gradle">Gradle <span>5</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/other/2015/01/01/my-2014" title="我的2014">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/devtools/2015/01/11/android-studio-tips1" title="Android Studio Tips -- 布局预览">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2015/01/05/android-studio-tutorial5" data-title="Android Studio系列教程五--Gradle命令详解与导入第三方包" data-url="/devtools/2015/01/05/android-studio-tutorial5"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

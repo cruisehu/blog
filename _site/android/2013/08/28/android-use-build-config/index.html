@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android BuildConfig.DEBUG的妙用</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android BuildConfig.DEBUG的妙用 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 08 月 28 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>在Android开发中，我们使用android.util.Log来打印日志，方便我们的开发调试。但是这些代码不想在发布后执行，我们并不想在软件发布后调试日志被其他开发者看到，现在我的方法是设置一个全局变量，标记软件为Debug模式还是Release模式。来看下代码：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">Log</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">boolean</span> <span class="no">DEBUG</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">i</span><span class="p">(</span><span class="nb">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">String</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="no">DEBUG</span><span class="p">)</span>
+            <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">i</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">e</span><span class="p">(</span><span class="nb">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">String</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="no">DEBUG</span><span class="p">)</span>
+            <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">e</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">d</span><span class="p">(</span><span class="nb">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">String</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="no">DEBUG</span><span class="p">)</span>
+            <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">d</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">v</span><span class="p">(</span><span class="nb">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">String</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="no">DEBUG</span><span class="p">)</span>
+            <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">w</span><span class="p">(</span><span class="nb">String</span> <span class="n">tag</span><span class="p">,</span> <span class="nb">String</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="no">DEBUG</span><span class="p">)</span>
+            <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">w</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这样打包发布之前只要改下DEBUG=false就行了，但是每次在发布之前都要手动去改这个变量，不是很方便，而且不排除开发者忘记改的情况。那么有没有更好更方便的做法呢？</p>
+
+<p>ADT(r17)发布以后，Google为我们提供了一种新的调试机制，即BuildConfig.DEBUG。</p>
+
+<p>ADT 17.0.0的New build features第二条如下描述:</p>
+
+<blockquote>
+  <p>Added a feature that allows you to run some code only in debug mode. Builds now generate a class called BuildConfig containing a DEBUGconstant that is automatically set according to your build type. You can check the (BuildConfig.DEBUG) constant in your code to run debug-only functions.</p>
+</blockquote>
+
+<p>即：新增了一个特性，允许开发者只在Debug模式下运行部分代码。Builds会生成一个叫做BuildConfig的类，该类包含一个名为DEBUG的常量，其常量值会依据开发者的Build类型自动设定。如此，便可以利用BuildConfig.DEBUG来实现只在Debug模式下运行的代码。</p>
+
+<p>如果你的ADT已经更新到17及以上版本，可以尝试在Eclipse中新建一个Android工程，你会发现和R.java同级目录下多了一个叫做BuildConfig.java的类，其内容如下：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/** Automatically generated file. DO NOT MODIFY */</span>
+<span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">boohee</span><span class="o">.</span><span class="n">one</span><span class="p">;</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="k">class</span> <span class="nc">BuildConfig</span> <span class="p">{</span>
+    <span class="kp">public</span> <span class="n">final</span> <span class="n">static</span> <span class="n">boolean</span> <span class="no">DEBUG</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这样只需要改动一行代码就ok了，</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="n">boolean</span> <span class="no">DEBUG</span> <span class="o">=</span> <span class="no">BuildConifg</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">;</span></code></pre></div>
+
+<p>在上面提到，DEBUG会根据Build类型自动设定。那么Build类型又从哪里区分呢？很简单，点开Eclipse的Project菜单便可见分晓，如下图：</p>
+
+<p><img src="/image/eclipse_build1.jpg" />
+<img src="/image/eclipse_build2.jpg" /></p>
+
+<p>可见，Build类型分为Build Project和Build Automatically，即手动和自动。</p>
+
+<p>需要注意的是，如果直接通过Eclipse运行Project，则不论Build是手动还是自动，DEBUG均不会被设定为false。这是为什么呢？这就牵涉到Android 签名的问题，这里只简单提一下，不赘述：直接通过Eclipse运行Project，Eclipse会在工程Build完毕后在bin目录下生成一个apk，这个apk的签名是调试模式（debug mode），和发布模式（release mode）签名生成的apk略有不同。如此，该问题产生原因便浮出水面。</p>
+
+<p>此时肯定会有人说，直接使用Android Tools–&gt;Export Signed Application Package导出的release mode apk，其DEBUG就是false。这是不对的。在生成Release版时，需要区分Build的类型。如果选择的是自动Build，那么DEBUG仍然会被设定为true。所以在生成Release版时，请按照下面这个步骤进行打包，BuildConfig.DEBUG会被修改为false：</p>
+
+<ol>
+  <li>
+    <p>Project -&gt; Build Automatically，即取消Build Automatically</p>
+  </li>
+  <li>
+    <p>Project -&gt; Clean</p>
+  </li>
+  <li>
+    <p>Project -&gt; Build</p>
+  </li>
+  <li>
+    <p>Android Tools -&gt; Export Android application</p>
+  </li>
+</ol>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#BuildConfig">BuildConfig <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/sqlite/2013/08/23/android-copy-sqlite-from-assets" title="Android Copy Sqlite From Assets">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/sqlite/2013/09/02/android-sqliteassethelper" title="Android SqliteAssetHelper">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/08/28/android-use-build-config" data-title="Android BuildConfig.DEBUG的妙用" data-url="/android/2013/08/28/android-use-build-config"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

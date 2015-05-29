@@ -1,0 +1,204 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>java.lang.ExceptionInInitializerError</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>java.lang.ExceptionInInitializerError </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 12 月 14 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#java-ref">
+      java 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>最近开发的过程中遇到这个错误，Google才找到原因，后面才恍然大悟还有这个小细节没有注意，遂记录在此。</p>
+
+<p>这个错误是说变量初始化出现问题，通常出现在静态变量尤其是单例模式。这种问题往往是初始化顺序不对造成的，下面举个简单的例子来解释：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">import</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">HashMap</span><span class="p">;</span>  
+<span class="n">import</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Map</span><span class="p">;</span>  
+  
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>  
+  
+    <span class="kp">private</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Foo</span><span class="p">();</span>
+      
+    <span class="kp">private</span> <span class="n">static</span> <span class="no">Map</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span><span class="no">Boolean</span><span class="o">&gt;</span> <span class="nb">test</span> <span class="o">=</span>  <span class="kp">new</span> <span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="no">Boolean</span><span class="o">&gt;</span><span class="p">();</span>
+      
+    <span class="kp">private</span> <span class="no">Foo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nb">test</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">);</span>  
+    <span class="p">}</span>
+      
+    <span class="kp">public</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">getInstance</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>如果你在别的类调用getInstance，就会报错ExceptionInInitializerError。这是因为类加载时不会为实例变量赋值，对象创建时不会为静态变量赋值。我们调用getInstance时，此类就开始加载，加载的时候不会为实例变量赋值，但是会按顺序给静态变量赋值，所以先为foo赋值，然后为test赋值即初始化。但为foo赋值时出现了个小插曲，它会调用构造方法创建一个对象。对象创建时不会为静态变量test赋值，而构造器内却已经调用test，于是报错了。</p>
+
+<p>改为：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">private</span> <span class="n">static</span> <span class="no">Map</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span><span class="no">Boolean</span><span class="o">&gt;</span> <span class="nb">test</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">HashMap</span><span class="o">&lt;</span><span class="nb">Integer</span><span class="p">,</span> <span class="no">Boolean</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="kp">private</span> <span class="n">static</span> <span class="no">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Foo</span><span class="p">();</span></code></pre></div>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Java">Java <span>3</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/devtools/2014/12/09/android-studio-tutorial3" title="Android Studio系列教程三--快捷键">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/devtools/2014/12/18/android-studio-tutorial4" title="Android Studio系列教程四--Gradle基础">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/java/2014/12/14/java-lang-exceptionininitializererror" data-title="java.lang.ExceptionInInitializerError" data-url="/java/2014/12/14/java-lang-exceptionininitializererror"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

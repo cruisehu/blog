@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gradle自定义你的BuildConfig</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Gradle自定义你的BuildConfig </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2015 年 01 月 25 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>在很早之前我发布了这篇博客<a href="http://stormzhang.com/android/2013/08/28/android-use-build-config/">Android BuildConfig.DEBUG的妙用</a>, 提到了Eclipse中通过BuildConfig.DEBUG字段用来调试Log非常好用，但是殊不知在Android Studio中通过Gradle这种用法更加强大。</p>
+
+<h2 id="buildconfigdebug">BuildConfig.DEBUG</h2>
+
+<p>首先在Gradle脚本中默认的debug和release两种模式BuildCondig.DEBUG字段分别为true和false，而且不可更改。该字段编译后自动生成，在Studio中生成的目录在 <strong>app/build/source/BuildConfig/Build Varients/package name/BuildConfig</strong> 文件下。我们以9GAG为例来看下release模式下该文件的内容：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">final</span> <span class="k">class</span> <span class="nc">BuildConfig</span> <span class="p">{</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">boolean</span> <span class="no">DEBUG</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">APPLICATION_ID</span> <span class="o">=</span> <span class="s2">&quot;com.storm.9gag&quot;</span><span class="p">;</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">BUILD_TYPE</span> <span class="o">=</span> <span class="s2">&quot;release&quot;</span><span class="p">;</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">FLAVOR</span> <span class="o">=</span> <span class="s2">&quot;wandoujia&quot;</span><span class="p">;</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">int</span> <span class="no">VERSION_CODE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">VERSION_NAME</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span><span class="p">;</span>
+  <span class="sr">//</span> <span class="no">Fields</span> <span class="n">from</span> <span class="n">build</span> <span class="ss">type</span><span class="p">:</span> <span class="n">release</span>
+  <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">boolean</span> <span class="no">LOG_DEBUG</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="buildconfig">自定义BuildConfig字段</h2>
+
+<p>大家看到上述内容的时候发现莫名的有个LOG_DEBUG字段，这个完全是我自定义的一个字段，我来用它控制Log的输出，而没有选择用默认的DEBUG字段。举例一个场景，我们在App开发用到的api环境假设可能会有测试、正式环境，我们不可能所有的控制都通过DEBUG字段来控制，而且有时候环境复杂可能还会有两个以上的环境，这个时候就用到了Gradle提供了自定义BuildConfig字段，我们在程序中通过这个字段就可以配置我们不同的开发环境。</p>
+
+<p>语法很简单：</p>
+
+<pre><code>buildConfigField "boolean", "API_ENV", "true"
+</code></pre>
+
+<p>上述语法就定义了一个boolean类型的API_ENV字段，值为true，之后我们就可以在程序中使用BuildConfig.API_ENV字段来判断我们所处的api环境。例如:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">BooheeClient</span> <span class="p">{</span>
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">final</span> <span class="n">boolean</span> <span class="no">DEBUG</span> <span class="o">=</span> <span class="no">BuildConfig</span><span class="o">.</span><span class="n">API_ENV</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="nb">String</span> <span class="n">getHost</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="no">DEBUG</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s2">&quot;your qa host&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="s2">&quot;your production host&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>不仅如此，如果遇到复杂的环境，你也可能自定义一个String类型的字段，这种方式免去了发布之前手动更改环境的麻烦，减少出错的可能性，只需要在Gradle配置好debug、release等模式下的环境就好了，打包的之后毫无顾虑。</p>
+
+<p>使用方法很简单，大家如果有问题或者疑问可以直接博客留言。</p>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Gradle">Gradle <span>5</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/devtools/2015/01/15/android-studio-tutorial6" title="Android Studio系列教程六--Gradle多渠道打包">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2015/02/01/android-observable-scrollview" title="Android自定义ScrollView">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2015/01/25/gradle-build-field" data-title="Gradle自定义你的BuildConfig" data-url="/android/2015/01/25/gradle-build-field"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>使用curl来调试你的应用</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>使用curl来调试你的应用 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 11 月 07 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#devtools-ref">
+      devtools 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>我们在客户端开发过程中总免不了和后端进行api对接，有时候需要对返回的数据格式进行调试，有时候每次运行客户端来发送请求，这个未免效率太低，这里就来介绍一个好用的工具–curl。</p>
+
+<h2 id="curl">curl</h2>
+
+<p>curl是一个向服务器传输数据的工具，它支持http、https、ftp、ftps、scp、sftp、tftp、telnet等协议，这里只针对http进行讲解一些常用的用法，具体安装请自行搜索。</p>
+
+<h2 id="section">打开百度</h2>
+
+<pre><code>curl http://www.baidu.com
+</code></pre>
+
+<p>接着你就会看到百度的页面源代码输出。</p>
+
+<p>如果要把这个网页保存下来，可以这样：</p>
+
+<pre><code>curl http://www.baidu.com &gt; /tmp/baidu.html
+</code></pre>
+
+<p>你会看到一条进度条，然后源码就被重定向到了/tmp/baidu.html。</p>
+
+<p>或者：</p>
+
+<pre><code>curl -o /tmp/baidu.html http://www.baidu.com
+</code></pre>
+
+<h2 id="get">GET请求</h2>
+
+<p>默认直接请求一个url就是发出一个get请求，参数的话直接拼接在url里就好了，如</p>
+
+<pre><code>curl http://www.baidu.com/s?wd=curl
+</code></pre>
+
+<p>上述请求会上百度发起一条查询请求，参数是wd=url</p>
+
+<h2 id="post">POST请求</h2>
+
+<pre><code>curl -d "name=test&amp;page=1" http://www.baidu.com
+</code></pre>
+
+<p><strong>-d</strong> 参数指定表单以POST的形式执行。</p>
+
+<h2 id="header">只展示Header</h2>
+
+<pre><code>curl -I  http://www.baidu.com
+</code></pre>
+
+<p>可以看到只返回一些header信息</p>
+
+<pre><code>HTTP/1.1 200 OK
+Date: Fri, 07 Nov 2014 09:48:58 GMT
+Content-Type: text/html; charset=utf-8
+Connection: Keep-Alive
+Vary: Accept-Encoding
+Set-Cookie: BAIDUID=E9DB2F0AC95CB6BFDAD9D5CFDCED0A12:FG=1; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
+Set-Cookie: BAIDUPSID=E9DB2F0AC95CB6BFDAD9D5CFDCED0A12; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
+Set-Cookie: BDSVRTM=0; path=/
+Set-Cookie: BD_HOME=0; path=/
+Set-Cookie: H_PS_PSSID=9725_9165_1465_7800_9452_9498_6504_9509_6018_9700_9757_9531_9478_7798_9453_9793_9024; path=/; domain=.baidu.com
+P3P: CP=" OTI DSP COR IVA OUR IND COM "
+Cache-Control: private
+Cxy_all: baidu+3057b288b211c770a1463cc8519b62a8
+Expires: Fri, 07 Nov 2014 09:48:17 GMT
+X-Powered-By: HPHP
+Server: BWS/1.1
+BDPAGETYPE: 1
+BDQID: 0xfa28eff900012706
+BDUSERID: 0
+</code></pre>
+
+<h2 id="section-1">显示通信过程</h2>
+
+<p>-v参数可以显示一次http通信的整个过程，包括端口连接和http request头信息</p>
+
+<pre><code>curl -v www.baidu.com
+
+* Adding handle: conn: 0x7ffe4b003a00
+* Adding handle: send: 0
+* Adding handle: recv: 0
+* Curl_addHandleToPipeline: length: 1
+* - Conn 0 (0x7ffe4b003a00) send_pipe: 1, recv_pipe: 0
+* About to connect() to www.baidu.com port 80 (#0)
+*   Trying 61.135.169.125...
+* Connected to www.baidu.com (61.135.169.125) port 80 (#0)
+&gt; GET / HTTP/1.1
+&gt; User-Agent: curl/7.30.0
+&gt; Host: www.baidu.com
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 200 OK
+&lt; Date: Fri, 07 Nov 2014 09:49:49 GMT
+&lt; Content-Type: text/html; charset=utf-8
+&lt; Transfer-Encoding: chunked
+&lt; Connection: Keep-Alive
+&lt; Vary: Accept-Encoding
+&lt; Set-Cookie: BAIDUID=062E02D23FBB651CF8455B699DF02B64:FG=1; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
+&lt; Set-Cookie: BAIDUPSID=062E02D23FBB651CF8455B699DF02B64; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
+&lt; Set-Cookie: BDSVRTM=0; path=/
+&lt; Set-Cookie: BD_HOME=0; path=/
+&lt; Set-Cookie: H_PS_PSSID=7744_1429_7801_9583_9499_6506_6018_9769_9699_9757_9532_9477_7799_9453_9716_9023; path=/; domain=.baidu.com
+&lt; P3P: CP=" OTI DSP COR IVA OUR IND COM "
+&lt; Cache-Control: private
+&lt; Cxy_all: baidu+7dcb6b3c03d32c334d42f311919a14d6
+&lt; Expires: Fri, 07 Nov 2014 09:49:20 GMT
+&lt; X-Powered-By: HPHP
+* Server BWS/1.1 is not blacklisted
+&lt; Server: BWS/1.1
+&lt; BDPAGETYPE: 1
+&lt; BDQID: 0xadb706860000088f
+&lt; BDUSERID: 0
+</code></pre>
+
+<p>如果你觉得上面的信息还不够，那么下面的命令可以查看更详细的通信过程。</p>
+
+<pre><code>curl --trace output.txt www.baidu.com
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>curl --trace-ascii output.txt www.baidu.com
+</code></pre>
+
+<p>运行后，请打开output.txt文件查看。</p>
+
+<h2 id="http">HTTP方法</h2>
+
+<p>curl默认的HTTP方法是GET，使用-X参数可以支持其他动词。</p>
+
+<pre><code>curl -X POST www.example.com
+
+curl -X DELETE www.example.com
+</code></pre>
+
+<h2 id="referer">Referer字段</h2>
+
+<p>有时你需要在http request头信息中，提供一个referer字段，表示你是从哪里跳转过来的。</p>
+
+<pre><code>curl --referer http://www.example.com http://www.example.com
+</code></pre>
+
+<h2 id="user-agent">User Agent字段</h2>
+
+<p>这个字段是用来表示客户端的设备信息。服务器有时会根据这个字段，针对不同设备，返回不同格式的网页，比如手机版和桌面版。</p>
+
+<p>iPhone4的User Agent是</p>
+
+<pre><code>Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7
+</code></pre>
+
+<p>curl可以这样模拟：</p>
+
+<pre><code>curl --user-agent "[User Agent]" [URL]
+</code></pre>
+
+<h2 id="section-2">增加头信息</h2>
+
+<p>有时需要在http request之中，自行增加一个头信息。–header参数就可以起到这个作用。</p>
+
+<pre><code>curl --header "Content-Type:application/json" http://example.com
+</code></pre>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#curl">curl <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2014/10/27/android-swiperefreshlayout" title="Inbox下拉刷新效果">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/git/2014/11/16/github-cheat-sheet" title="GitHub秘籍">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/devtools/2014/11/07/use-curl-debug" data-title="使用curl来调试你的应用" data-url="/devtools/2014/11/07/use-curl-debug"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

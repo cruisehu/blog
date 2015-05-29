@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rails Cache</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Rails Cache </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 03 月 10 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#rubyonrails-ref">
+      rubyonrails 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>这周修改bug的时候有一个是由于缓存机制引起的，遂系统的学习了下rails的缓存，在这里记录下。</p>
+
+<p>Rails的Cache分四种:
+1.Page Cache - Fastest 
+2.Action Cache - Next Fastest 
+3.Fragment Cache - Least Fastest 
+4.ActiveRecord Cache - Only available in Edge Rails</p>
+
+<h2 id="page-cache">Page Cache</h2>
+
+<p>如果开发阶段要使用cache，则需要先设置好config/environments/development.rb:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">perform_caching</span> <span class="o">=</span> <span class="kp">true</span></code></pre></div>
+
+<p>而production环境下默认是开启cache功能的 
+Page Cache是Rails中最快的cache机制，使用Page Cache的前提一般为: 
+1.需要cache的page对所有用户一致 
+2.需要cache的page对public可访问，不需要authentication 
+Page Cache使用起来很简单:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BlogController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>  
+  <span class="n">caches_page</span> <span class="ss">:list</span><span class="p">,</span> <span class="ss">:show</span>  
+  
+  <span class="k">def</span> <span class="nf">list</span>  
+    <span class="no">Post</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span> <span class="p">\</span><span class="ss">:order</span> <span class="o">=&gt;</span> <span class="s2">&quot;created_on desc&quot;</span><span class="p">,</span> <span class="ss">:limit</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">)</span>  
+  <span class="k">end</span>  
+  
+  <span class="k">def</span> <span class="nf">show</span>  
+    <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>  
+  <span class="k">end</span>  
+<span class="k">end</span></code></pre></div>
+
+<p>这样我们就对BlogController的list和show页面进行了缓存 
+这样做的效果是第一次访问list和show页面时生成了public/blog/list.html和public/blog/show/5.html这两个html页面
+对于分页情况下的cache，我们需要把url的page参数改写成”blog/list/:page”这种形式，而不是”blog/list?page=1”这种形式 
+这样cache的html页面即为public/blog/list/1.html 
+当数据更改时我们需要清除旧的缓存，我们采用Sweepers来做是非常不错的选择，这把在BlogController里清除缓存的代码分离出来 
+首先编辑config/environment.rb:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Rails</span><span class="o">::</span><span class="no">Initializer</span><span class="o">.</span><span class="n">run</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>  
+  <span class="c1"># ...  </span>
+  <span class="n">config</span><span class="o">.</span><span class="n">load_paths</span> <span class="o">+=</span> <span class="sx">%w(#{RAILS_ROOT}/app/sweepers)</span>  
+  <span class="c1"># ...</span></code></pre></div>
+
+<p>这告诉Rails加载#{RAILS_ROOT}/app/sweepers目录下的文件 
+我们为BlogController定义app/sweepers/blog_sweeper.rb:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BlogSweeper</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Caching</span><span class="o">::</span><span class="no">Sweeper</span>  
+  <span class="n">observe</span> <span class="no">Post</span> <span class="c1"># This sweeper is going to keep an eye on the Post model  </span>
+  
+  <span class="c1"># If our sweeper detects that a Post was created call this  </span>
+  <span class="k">def</span> <span class="nf">after_create</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>  
+    <span class="n">expire_cache_for</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>  
+  <span class="k">end</span>  
+  
+  <span class="c1"># If our sweeper detects that a Post was updated call this  </span>
+  <span class="k">def</span> <span class="nf">after_update</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>  
+    <span class="n">expire_cache_for</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>  
+  <span class="k">end</span>  
+  
+  <span class="c1"># If our sweeper detects that a Post was deletedcall this  </span>
+  <span class="k">def</span> <span class="nf">after_destroy</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>  
+    <span class="n">expire_cache_for</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>  
+  <span class="k">end</span>  
+  
+  <span class="kp">private</span>  
+  <span class="k">def</span> <span class="nf">expire_cache_for</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>  
+    <span class="c1"># Expire the list page now that we posted a new blog entry  </span>
+    <span class="n">expire_page</span><span class="p">(</span><span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;list&#39;</span><span class="p">)</span>  
+  
+    <span class="c1"># Also expire the show page, in case we just edit a  blog entry  </span>
+    <span class="n">expire_page</span><span class="p">(</span><span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">record</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>  
+  <span class="k">end</span>  
+<span class="k">end</span></code></pre></div>
+
+<p>然后我们在BlogController里加上该sweeper即可:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BlogController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>  
+  <span class="n">caches_page</span> <span class="ss">:list</span><span class="p">,</span> <span class="ss">:show</span>  
+  <span class="n">cache_sweeper</span> <span class="ss">:blog_sweeper</span><span class="p">,</span> <span class="p">\</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>  
+  <span class="c1"># ...  </span>
+<span class="k">end</span></code></pre></div>
+
+<p>我们可以配置cache的静态html文件的存放位置，这在config/environment.rb里设置:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">page_cache_directory</span> <span class="o">=</span> <span class="no">RAILS_ROOT</span> <span class="o">+</span> <span class="s2">&quot;/public/cache/&quot;</span></code></pre></div>
+
+<p>然后我们设置Apache/Lighttpd对于静态html文件render时不接触Rails server即可 
+所以Page Cache就是最快的Cache，因为它不与Rails server打交道，直接load静态html</p>
+
+<h2 id="action-cache">Action Cache</h2>
+
+<p>Action Cache相关的helper方法是caches_action和expire_action，其他基本和Page Cache一样 
+另外我们还可以运行rake tmp:cache:clear来清空所有的Action Cache和Fragment Cache</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BlogController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>  
+  <span class="n">before_filter</span> <span class="ss">:authentication</span>  
+  <span class="n">caches_action</span> <span class="ss">:list</span><span class="p">,</span> <span class="ss">:show</span>  
+  <span class="n">cache_sweeper</span> <span class="ss">:blog_sweeper</span><span class="p">,</span> <span class="p">\</span><span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span></code></pre></div>
+
+<p>如上代码所示，我们将authentication这个filter放在caches_action之前声明，这样我们的Action Cache在执行之前会先访问authentication方法 
+这样可以弥补Page Cache不能对需要登录认证的Page进行Cache的缺点 
+生成的cache文件为tmp/cache/localhost:3000/blog/list.cache，这样对不同subdomain的访问页面可以cache到不同的目录 
+由于每次访问Action Cache时都需要与Rails server打交道，并且要先运行filters，所以比Page Cache的效率稍低</p>
+
+<h2 id="fragment-cache">Fragment Cache</h2>
+
+<p>Fragment Cache用于处理rhtml页面中的部分需要cache的模块，如app/views/blog/list.rhtml:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="no">My</span> <span class="no">Blog</span> <span class="no">Posts</span><span class="o">&lt;</span><span class="sr">/strong&gt;  </span>
+<span class="sr">&lt;% cache do %&gt;  </span>
+<span class="sr">  &lt;ul&gt;  </span>
+<span class="sr">    &lt;% for post in @posts %&gt;  </span>
+<span class="sr">      &lt;li&gt;&lt;%= link_to post.title, :controller =&gt; &#39;blog&#39;, :action =&gt; &#39;show&#39;, :id =&gt; post %&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>  
+    <span class="o">&lt;</span><span class="sx">% end %&gt;  </span>
+<span class="sx">  &lt;/ul&gt;</span>  
+<span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span></code></pre></div>
+
+<p>生成的cache文件为/tmp/cache/localhost:3000/blog/list.cache
+我们需要在BlogController的list方法里加上一行判断，如果是读取Fragment Cache，则不必再查询一次数据库:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">list</span>  
+  <span class="k">unless</span> <span class="n">read_fragment</span><span class="p">({})</span>  
+    <span class="vi">@post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span> <span class="p">\</span><span class="ss">:order</span> <span class="o">=&gt;</span> <span class="s1">&#39;created_on desc&#39;</span><span class="p">,</span> <span class="ss">:limit</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">)</span>  
+  <span class="k">end</span>  
+<span class="k">end</span></code></pre></div>
+
+<p>Fragment分页时的Cache:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">list</span>  
+  <span class="k">unless</span> <span class="n">read_fragment</span><span class="p">({</span><span class="ss">:page</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span> <span class="o">||</span> <span class="mi">1</span><span class="p">})</span> <span class="c1"># Add the page param to the cache naming  </span>
+    <span class="vi">@post_pages</span><span class="p">,</span> <span class="vi">@post</span> <span class="o">=</span> <span class="n">paginate</span> <span class="ss">:posts</span><span class="p">,</span> <span class="ss">:per_page</span> <span class="o">=&gt;</span> <span class="mi">10</span>  
+  <span class="k">end</span>  
+<span class="k">end</span></code></pre></div>
+
+<p>rhtml页面也需要改写:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">% cache </span><span class="p">({</span><span class="ss">:page</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span> <span class="o">||</span> <span class="mi">1</span><span class="p">})</span> <span class="k">do</span> <span class="sx">%&gt;  </span>
+<span class="sx">  ... All of the html to display the posts ...  </span>
+<span class="sx">&lt;% end %&gt;</span></code></pre></div>
+
+<p>生成的cahce文件为/tmp/cache/localhost:3000/blog/list.page=1.cache 
+从分页的Fragment Cache可以看出，Fragment Cache可以添加类似名字空间的东西，用于区分同一rhtml页面的不同Fragment Cache，如:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">cache</span> <span class="p">(</span><span class="s2">&quot;turkey&quot;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s2">&quot;/tmp/cache/turkey.cache&quot;</span>  
+<span class="n">cache</span> <span class="p">(</span><span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s2">&quot;/tmp/cache/localhost:3000/blog/show/1.cache&quot;</span>  
+<span class="n">cache</span> <span class="p">(</span><span class="s2">&quot;blog/recent_posts&quot;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s2">&quot;/tmp/cache/blog/recent_posts.cache&quot;</span>  
+<span class="n">cache</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">request</span><span class="o">.</span><span class="n">host_with_port</span><span class="si">}</span><span class="s2">/blog/recent_posts&quot;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s2">&quot;/tmp/cache/localhost:3000/blog/recent_posts.cache&quot;</span></code></pre></div>
+
+<p>清除Fragment Cache的例子:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">expire_fragment</span><span class="p">(</span><span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="ss">:page</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">)</span>  
+<span class="n">expire_fragment</span><span class="p">(</span><span class="sr">%r{blog/list.*}</span><span class="p">)</span></code></pre></div>
+
+<h2 id="activerecord-cache">ActiveRecord Cache</h2>
+
+<p>Rails Edge中ActiveRecord已经默认使用SQl Query Cache，对于同一action里面同一sql语句的数据库操作会使用cache</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Rails">Rails <span>3</span></a></li>
+   
+    <li><a href="/posts.html#Cache">Cache <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/rubyonrails/2013/03/04/active-record-associations" title="Active Record Associations">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/03/28/android-handler" title="Android Handler">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/rubyonrails/2013/03/10/rails-cache" data-title="Rails Cache" data-url="/rubyonrails/2013/03/10/rails-cache"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

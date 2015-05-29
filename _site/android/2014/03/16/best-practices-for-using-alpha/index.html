@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Best Practices for Using Alpha</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Best Practices for Using Alpha </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 03 月 16 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>Alpha是图形界面开发中常用的特效，通常我们会使用以下代码来实现Alpha特效：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">view</span><span class="o">.</span><span class="n">setAlpha</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="n">f</span><span class="p">);</span>
+<span class="no">View</span><span class="o">.</span><span class="n">ALPHA</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="n">f</span><span class="p">);</span>
+<span class="no">ObjectAnimator</span><span class="o">.</span><span class="n">ofFloat</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>
+<span class="n">view</span><span class="o">.</span><span class="n">animate</span><span class="p">()</span><span class="o">.</span><span class="n">alpha</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>
+<span class="n">view</span><span class="o">.</span><span class="n">setAnimation</span><span class="p">(</span><span class="kp">new</span> <span class="no">AlphaAnimation</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="n">f</span><span class="p">));</span></code></pre></div>
+
+<p>其效果都等同于：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">canvas</span><span class="o">.</span><span class="n">saveLayer</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="no">Canvas</span><span class="o">.</span><span class="n">CLIP_TO_LAYER_SAVE_FLAG</span><span class="p">);</span></code></pre></div>
+
+<p>所以常见的alpha特效是通过将图像绘制到offscreen buffer中然后显示出来，这样的操作是非常消耗资源的，甚至可能导致性能问题，在开发过程中我们可以通过其他方式避免创建offsreen buffer。</p>
+
+<h2 id="textview">TextView</h2>
+
+<p>对于TextView我们通常需要文字透明效果，而不是View本身透明，所以，直接设置带有alpha值的TextColor是比较高效的方式。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Not</span> <span class="n">this</span>
+<span class="n">textView</span><span class="o">.</span><span class="n">setAlpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">);</span>
+
+<span class="sr">//</span> <span class="err">以下方式可以避免创建</span> <span class="n">offscreen</span> <span class="n">buffer</span>
+<span class="n">int</span> <span class="n">newTextColor</span> <span class="o">=</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span> <span class="p">(</span><span class="mh">0xFF</span> <span class="o">*</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span> <span class="o">|</span> <span class="n">baseTextColor</span> <span class="o">&amp;</span> <span class="mh">0xFFFFFF</span><span class="p">;</span>
+<span class="n">textView</span><span class="o">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">newTextColor</span><span class="p">);</span></code></pre></div>
+
+<h2 id="imageview">ImageView</h2>
+
+<p>同样的对于只具有src image的ImageView，直接调用setImageAlpha()方法更为合理。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Not</span> <span class="n">this</span><span class="p">,</span> <span class="n">setAlpha</span><span class="err">方法由</span><span class="no">View</span><span class="err">继承而来，性能不佳</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">setAlpha</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">5</span><span class="n">f</span><span class="p">);</span>
+
+<span class="sr">//</span> <span class="err">使用以下方式时，</span><span class="no">ImageView</span><span class="err">会在绘制图片时单独为图片指定</span><span class="no">Alpha</span>
+<span class="sr">//</span> <span class="err">可以避免创建</span> <span class="n">offScreenBuffer</span>
+<span class="n">imageView</span><span class="o">.</span><span class="n">setImageAlpha</span><span class="p">((</span><span class="n">int</span><span class="p">)</span> <span class="n">alpha</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span></code></pre></div>
+
+<h2 id="customview">CustomView</h2>
+
+<p>类似的，自定义控件时，应该直接去设置paint的alpha。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span> <span class="no">Not</span> <span class="n">this</span>
+<span class="n">customView</span><span class="o">.</span><span class="n">setAlpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">);</span>
+
+<span class="sr">//</span> <span class="no">But</span> <span class="n">this</span>
+<span class="n">paint</span><span class="o">.</span><span class="n">setAlpha</span><span class="p">((</span><span class="n">int</span><span class="p">)</span> <span class="n">alpha</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="o">*</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">,</span> <span class="n">paint</span><span class="p">);</span></code></pre></div>
+
+<p>同时Android提供了hasOverlappingRendering()接口，通过重写该接口可以告知系统当前View是否存在内容重叠的情况，帮助系统优化绘制流程，原理是这样的：对于有重叠内容的View，系统简单粗暴的使用 offscreen buffer来协助处理。当告知系统该View无重叠内容时，系统会分别使用合适的alpha值绘制每一层。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/**</span>
+<span class="sr"> * Returns whether this View has content which overlaps. This function, intended to be</span>
+<span class="sr"> * overridden by specific View types, is an optimization when alpha is set on a view. If</span>
+<span class="sr"> * rendering overlaps in a view with alpha &lt; 1, that view is drawn to an offscreen buffer</span>
+<span class="sr"> * and then composited it into place, which can be expensive. If the view has no overlapping</span>
+<span class="sr"> * rendering, the view can draw each primitive with the appropriate alpha value directly.</span>
+<span class="sr"> * An example of overlapping rendering is a TextView with a background image, such as a</span>
+<span class="sr"> * Button. An example of non-overlapping rendering is a TextView with no background, or</span>
+<span class="sr"> * an ImageView with only the foreground image. The default implementation returns true;</span>
+<span class="sr"> * subclasses should override if they have cases which can be optimized.</span>
+<span class="sr"> *</span>
+<span class="sr"> * @return true if the content in this view might overlap, false otherwise.</span>
+<span class="sr"> */</span>
+<span class="kp">public</span> <span class="n">boolean</span> <span class="n">hasOverlappingRendering</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>最后引用Chet Haase的一句话作为总结</p>
+
+<blockquote>
+  <p>“You know what your view is doing, so do the right thing for your situation.”</p>
+</blockquote>
+
+<p>Via <a href="http://imid.me/blog/2014/01/17/best-practices-for-using-alpha/">Android Tips: Best Practices for Using Alpha</a></p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Tips">Tips <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2014/03/08/review-boohee-architecture" title="再看薄荷">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2014/03/23/android-webview-play-video" title="Android WebView播放视频问题">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2014/03/16/best-practices-for-using-alpha" data-title="Best Practices for Using Alpha" data-url="/android/2014/03/16/best-practices-for-using-alpha"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

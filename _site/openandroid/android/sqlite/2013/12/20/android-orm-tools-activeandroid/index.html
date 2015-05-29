@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ActiveAndroid--Android轻量级ORM框架</title>
+    <meta name="keywords" content="activeandroid">
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>ActiveAndroid--Android轻量级ORM框架 </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 12 月 20 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#openandroid-ref">
+      openandroid 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#sqlite-ref">
+      sqlite 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>最近在寻找下Android开发中好用的ORM框架，发现了<a href="https://github.com/pardom/ActiveAndroid">ActiveAndroid</a>和<a href="http://ormlite.com/">ORMLite</a>, 相信懂Rails开发的一直都对ActiveRecord情有独钟，使用起来真是太方便了。ActiveAndroid听名字就知道就模仿ActiveRecord的一套框架，于是果断学习下。</p>
+
+<h2 id="section">介绍</h2>
+
+<p>ActiveAndroid算是一个轻量级的ORM框架，简单地通过如save()和delete()等方法来做到增删改查等操作。配置起来也还算简单。</p>
+
+<p>下面是作者的原话：</p>
+
+<pre><code>ActiveAndroid is an active record style ORM (object relational mapper). What does that mean exactly? Well, ActiveAndroid allows you to save and retrieve SQLite database records without ever writing a single SQL statement. Each database record is wrapped neatly into a class with methods like save() and delete().
+
+ActiveAndroid does so much more than this though. Accessing the database is a hassle, to say the least, in Android. ActiveAndroid takes care of all the setup and messy stuff, and all with just a few simple steps of configuration.
+</code></pre>
+
+<h2 id="section-1">配置</h2>
+
+<p>在AndroidManifest.xml中我们需要添加这两个</p>
+
+<ul>
+  <li>
+    <p>AA_DB_NAME (这个name不能改，但是是可选的，如果不写的话 是默认的”Application.db”这个值）</p>
+  </li>
+  <li>
+    <p>AA_DB_VERSION (optional – defaults to 1)</p>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">manifest</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">&gt;</span>
+    <span class="o">&lt;</span><span class="n">application</span> <span class="ss">android</span><span class="p">:</span><span class="nb">name</span><span class="o">=</span><span class="s2">&quot;com.activeandroid.app.Application&quot;</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">&gt;</span>
+        <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+        <span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="ss">android</span><span class="p">:</span><span class="nb">name</span><span class="o">=</span><span class="s2">&quot;AA_DB_NAME&quot;</span> <span class="ss">android</span><span class="p">:</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;your.db&quot;</span> <span class="sr">/&gt;</span>
+<span class="sr">       &lt;meta-data android:name=&quot;AA_DB_VERSION&quot; android:value=&quot;5&quot; /</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/application&gt;</span>
+<span class="sr">&lt;/m</span><span class="n">anifest</span><span class="o">&gt;</span></code></pre></div>
+
+<p>这个application是必须指定的，但你也可以使用自己的Application,继承自com.activeandroid.app.Application</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyApplication</span> <span class="n">extends</span> <span class="n">com</span><span class="o">.</span><span class="n">activeandroid</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">Application</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="p">}</span></code></pre></div>
+
+<p>如果你不想或者不能继承com.activeandroid.app.Application的话，那么就这样</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">MyApplication</span> <span class="n">extends</span> <span class="no">SomeLibraryApplication</span> <span class="p">{</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">();</span>
+        <span class="no">ActiveAndroid</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">onTerminate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="n">onTerminate</span><span class="p">();</span>
+        <span class="no">ActiveAndroid</span><span class="o">.</span><span class="n">dispose</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>ActiveAndroid.initialize(this)；做初始化工作，ActiveAndroid.dispose();做清理工作</p>
+
+<h2 id="section-2">创建数据库模型</h2>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml">我们使用@Table(name = &quot;Items&quot;)来表示表，使用@Column(name = &quot;Name&quot;)来表示列，ActiveAndroid会使用自增长的ID作为主键，然后按照注解描述，将类对应映射为数据库表。</code></pre></div>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@Table</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Items&quot;</span><span class="p">)</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Item</span> <span class="n">extends</span> <span class="no">Model</span> <span class="p">{</span>
+    <span class="vi">@Column</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Name&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="nb">String</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="vi">@Column</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Category&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="no">Category</span> <span class="n">category</span><span class="p">;</span>
+        <span class="kp">public</span> <span class="no">Item</span><span class="p">(){</span>
+                <span class="k">super</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="kp">public</span> <span class="no">Item</span><span class="p">(</span><span class="nb">String</span> <span class="nb">name</span><span class="p">,</span> <span class="no">Category</span> <span class="n">category</span><span class="p">){</span>
+                <span class="k">super</span><span class="p">();</span>
+                <span class="n">this</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+                <span class="n">this</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span><span class="p">;</span>
+        <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-3">依赖关系的数据库表</h2>
+
+<p>假如Item和Category是多对一的关系，那么我们可以这样子创建他们的类</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@Table</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Items&quot;</span><span class="p">)</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Item</span> <span class="n">extends</span> <span class="no">Model</span> <span class="p">{</span>
+    <span class="vi">@Column</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Name&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="nb">String</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="vi">@Column</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Category&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="no">Category</span> <span class="n">category</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@Table</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Categories&quot;</span><span class="p">)</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Category</span> <span class="n">extends</span> <span class="no">Model</span> <span class="p">{</span>
+    <span class="vi">@Column</span><span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Name&quot;</span><span class="p">)</span>
+    <span class="kp">public</span> <span class="nb">String</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="kp">public</span> <span class="no">List</span><span class="o">&lt;</span><span class="no">Item</span><span class="o">&gt;</span> <span class="n">items</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">getMany</span><span class="p">(</span><span class="no">Item</span><span class="o">.</span><span class="n">class</span><span class="p">,</span> <span class="s2">&quot;Category&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="section-4">保存和更新数据到数据库</h2>
+
+<h3 id="section-5">单条插入</h3>
+
+<p>保存Category对象</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Category</span> <span class="n">restaurants</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Category</span><span class="p">();</span>
+<span class="n">restaurants</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Restaurants&quot;</span><span class="p">;</span>
+<span class="n">restaurants</span><span class="o">.</span><span class="n">save</span><span class="p">();</span></code></pre></div>
+
+<p>分配了一个category并且保存到数据库 Item item = new Item(); item.category = restaurants; item.name = “Outback Steakhouse”; item.save();</p>
+
+<h3 id="section-6">批量插入</h3>
+
+<p>如果你要批量插入数据，最好使用事务(transaction)。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ActiveAndroid</span><span class="o">.</span><span class="n">beginTransaction</span><span class="p">();</span>
+<span class="n">try</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="no">Item</span> <span class="n">item</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Item</span><span class="p">();</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Example &quot;</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">save</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="no">ActiveAndroid</span><span class="o">.</span><span class="n">setTransactionSuccessful</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="n">finally</span> <span class="p">{</span>
+    <span class="no">ActiveAndroid</span><span class="o">.</span><span class="n">endTransaction</span><span class="p">();</span>
+<span class="p">}</span></code></pre></div>
+
+<p>使用事务的话只用了 40ms，不然的话需要4秒。</p>
+
+<h3 id="section-7">删除记录</h3>
+
+<p>我们有三种方式删除一条记录</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Item</span> <span class="n">item</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">Item</span><span class="o">.</span><span class="n">class</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">item</span><span class="o">.</span><span class="n">delete</span><span class="p">();</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Item</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="no">Item</span><span class="o">.</span><span class="n">class</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">new</span> <span class="no">Delete</span><span class="p">()</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="no">Item</span><span class="o">.</span><span class="n">class</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;Id = ?&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">();</span></code></pre></div>
+
+<p>很简单吧</p>
+
+<h2 id="section-8">查询数据库</h2>
+
+<p>作者将查询做的非常像SQLite的原生查询语句，几乎涵盖了所有的指令 com.activeandroid.query包下有以下类</p>
+
+<ul>
+  <li>
+    <p>Delete</p>
+  </li>
+  <li>
+    <p>From</p>
+  </li>
+  <li>
+    <p>Join</p>
+  </li>
+  <li>
+    <p>Select</p>
+  </li>
+  <li>
+    <p>Set</p>
+  </li>
+  <li>
+    <p>Update</p>
+  </li>
+</ul>
+
+<p>我们举例说明吧</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">static</span> <span class="no">Item</span> <span class="n">getRandom</span><span class="p">(</span><span class="no">Category</span> <span class="n">category</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kp">new</span> <span class="no">Select</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="no">Item</span><span class="o">.</span><span class="n">class</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;Category = ?&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">.</span><span class="n">getId</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s2">&quot;RANDOM()&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">executeSingle</span><span class="p">();</span>
+<span class="p">}</span></code></pre></div>
+
+<p>对应的sqlite查询语句就是 select * from Item where Category = ? order by RANDOM()， 当然还支持其他非常多的指令</p>
+
+<ul>
+  <li>
+    <p>limit</p>
+  </li>
+  <li>
+    <p>offset</p>
+  </li>
+  <li>
+    <p>as</p>
+  </li>
+  <li>
+    <p>desc/asc</p>
+  </li>
+  <li>
+    <p>inner/outer/cross join</p>
+  </li>
+  <li>
+    <p>group by</p>
+  </li>
+  <li>
+    <p>having 等等</p>
+  </li>
+</ul>
+
+<h2 id="section-9">数据库升级</h2>
+
+<p>如果想给现有的表增加或删除column，这个时候只需要把sql脚本放在/assets/migrations文件夹下，然后需要：</p>
+
+<ol>
+  <li>
+    <p>增加数据库版本，即增加配置文件下的application种的AA_DB_VERSION</p>
+  </li>
+  <li>
+    <p>在/assets/migrations文件夹下提供一个NewVersion.sql脚本</p>
+  </li>
+</ol>
+
+<p>ActiveAndroid将会自动执行大于database-version的sql脚本文件</p>
+
+<p>假设需要给Items表增加一个“colour”列，那么需要把AA_DB_VERSION增加到2，并且在/assets/migrations目录下提供一个2.sql的脚本文件，内容如下</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ALTER</span> <span class="no">TABLE</span> <span class="no">Items</span> <span class="no">ADD</span> <span class="no">COLUMN</span> <span class="no">Color</span> <span class="no">INTEGER</span><span class="p">;</span></code></pre></div>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#ORM">ORM <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/12/13/android-actionbar-compact" title="Android ActionBar Compact">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/devtools/2013/12/26/android-logcat-pidcat" title="Android Debug Tool -- pidcat">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/openandroid/android/sqlite/2013/12/20/android-orm-tools-activeandroid" data-title="ActiveAndroid--Android轻量级ORM框架" data-url="/openandroid/android/sqlite/2013/12/20/android-orm-tools-activeandroid"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

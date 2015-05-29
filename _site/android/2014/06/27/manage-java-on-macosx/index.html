@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Mac下安装和管理Java</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Mac下安装和管理Java </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 06 月 27 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>Mac OSX 10.9以后系统就自带了Java 6的环境，路径在:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/System/</span><span class="no">Library</span><span class="o">/</span><span class="no">Java</span><span class="o">/</span><span class="no">JavaVirtualMachines</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="n">jdk</span><span class="o">/</span><span class="no">Contents</span><span class="o">/</span><span class="no">Home</span></code></pre></div>
+
+<p>如果想要安装升级到Java 7的环境，步骤如下：</p>
+
+<ul>
+  <li>1.到Oracle官网下载系统对应JDK7的安装包, <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">地址在这里</a>,安装成功后JDK7默认的路径在:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/Library/</span><span class="no">Java</span><span class="o">/</span><span class="no">JavaVirtualMachines</span><span class="o">/</span><span class="n">jdk1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mo">0_60</span><span class="o">.</span><span class="n">jdk</span><span class="o">/</span><span class="no">Contents</span><span class="o">/</span><span class="no">Home</span></code></pre></div>
+
+<ul>
+  <li>2.安装成功后配置环境变量</li>
+</ul>
+
+<p>在.bash_profile文件中添加：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">export</span> <span class="no">JAVA_HOME</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="sr">/usr/</span><span class="n">libexec</span><span class="o">/</span><span class="n">java_home</span><span class="p">)</span>
+<span class="n">export</span> <span class="no">PATH</span><span class="o">=</span><span class="vg">$JAVA_HOME</span><span class="o">/</span><span class="ss">bin</span><span class="p">:</span><span class="vg">$PATH</span></code></pre></div>
+
+<p>需要说明的是Mac OSX 10.5之后苹果就建议设置$JAVA_HOME变量到/usr/libexec/java_home</p>
+
+<ul>
+  <li>3.设置完成后输入下列命令测试下</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vg">$java</span> <span class="o">-</span><span class="n">version</span>
+<span class="n">java</span> <span class="n">version</span> <span class="s2">&quot;1.7.0_60&quot;</span>
+<span class="no">Java</span><span class="p">(</span><span class="no">TM</span><span class="p">)</span> <span class="no">SE</span> <span class="no">Runtime</span> <span class="no">Environment</span> <span class="p">(</span><span class="n">build</span> <span class="mi">1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mo">0_60</span><span class="o">-</span><span class="n">b19</span><span class="p">)</span>
+<span class="no">Java</span> <span class="no">HotSpot</span><span class="p">(</span><span class="no">TM</span><span class="p">)</span> <span class="mi">64</span><span class="o">-</span><span class="no">Bit</span> <span class="no">Server</span> <span class="no">VM</span> <span class="p">(</span><span class="n">build</span> <span class="mi">24</span><span class="o">.</span><span class="mi">60</span><span class="o">-</span><span class="n">b09</span><span class="p">,</span> <span class="n">mixed</span> <span class="n">mode</span><span class="p">)</span>
+
+<span class="c1"># 查看系统安装的java版本</span>
+<span class="vg">$/</span><span class="n">usr</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">java_home</span> <span class="o">-</span><span class="n">V</span>
+<span class="no">Matching</span> <span class="no">Java</span> <span class="no">Virtual</span> <span class="no">Machines</span> <span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="mi">1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mo">0_60</span><span class="p">,</span> <span class="ss">x86_64</span><span class="p">:</span>	<span class="s2">&quot;Java SE 7&quot;</span>	<span class="sr">/Library/</span><span class="no">Java</span><span class="o">/</span><span class="no">JavaVirtualMachines</span><span class="o">/</span><span class="n">jdk1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mo">0_60</span><span class="o">.</span><span class="n">jdk</span><span class="o">/</span><span class="no">Contents</span><span class="o">/</span><span class="no">Home</span>
+<span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mo">0_65</span><span class="o">-</span><span class="n">b14</span><span class="o">-</span><span class="mi">462</span><span class="p">,</span> <span class="ss">x86_64</span><span class="p">:</span>	<span class="s2">&quot;Java SE 6&quot;</span>	<span class="sr">/System/</span><span class="no">Library</span><span class="o">/</span><span class="no">Java</span><span class="o">/</span><span class="no">JavaVirtualMachines</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="n">jdk</span><span class="o">/</span><span class="no">Contents</span><span class="o">/</span><span class="no">Home</span>
+<span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mo">0_65</span><span class="o">-</span><span class="n">b14</span><span class="o">-</span><span class="mi">462</span><span class="p">,</span> <span class="ss">i386</span><span class="p">:</span>	<span class="s2">&quot;Java SE 6&quot;</span>	<span class="sr">/System/</span><span class="no">Library</span><span class="o">/</span><span class="no">Java</span><span class="o">/</span><span class="no">JavaVirtualMachines</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="n">jdk</span><span class="o">/</span><span class="no">Contents</span><span class="o">/</span><span class="no">Home</span>
+
+<span class="c1"># 返回系统安装的java最高版本</span>
+<span class="vg">$/</span><span class="n">usr</span><span class="o">/</span><span class="n">libexec</span><span class="o">/</span><span class="n">java_home</span>
+<span class="sr">/Library/</span><span class="no">Java</span><span class="o">/</span><span class="no">JavaVirtualMachines</span><span class="o">/</span><span class="n">jdk1</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mo">0_60</span><span class="o">.</span><span class="n">jdk</span><span class="o">/</span><span class="no">Contents</span><span class="o">/</span><span class="no">Home</span></code></pre></div>
+
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Java">Java <span>3</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/sqlite/2014/06/13/android-sqlite-tips" title="Android Sqlite Tips">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2014/06/28/io2014-material-design" title="Google I/O 2014--Material Design">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2014/06/27/manage-java-on-macosx" data-title="Mac下安装和管理Java" data-url="/android/2014/06/27/manage-java-on-macosx"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

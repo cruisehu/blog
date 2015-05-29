@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Java String Format</title>
+    <meta name="keywords" content="blog">
+    <meta name="description" content="blog">
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Java String Format </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2014 年 02 月 09 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#java-ref">
+      java 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>在Android开发中，经常会用到和后端Api进行交互，而目前基本上都是REST风格的Api，会经常遇到拼接Url的情况，例如下面一个api：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">GET</span> <span class="sr">/api/</span><span class="n">v1</span><span class="o">/</span><span class="n">posts</span><span class="o">/</span><span class="ss">:id</span><span class="o">.</span><span class="n">json?page</span><span class="o">=</span><span class="mi">2</span><span class="o">&amp;</span><span class="n">token</span><span class="o">=</span><span class="n">asdfghjkl</span></code></pre></div>
+
+<p>这里url里的id以及参数page和token都是动态的，这时候最好的做法就是用String.format()方法.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">final</span> <span class="nb">String</span> <span class="no">POST</span> <span class="o">=</span> <span class="s2">&quot;/api/v1/posts/%1$d.json?page=%2$d&amp;token=%3$s&quot;</span>
+<span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="nb">String</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="no">POST</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;asdfghjkl&quot;</span><span class="p">));</span>
+
+<span class="c1">#=&gt; /api/v1/posts/12.json?page=1&amp;token=asdfghjkl</span></code></pre></div>
+
+<p>很方便吧，String.format是在JDK1.5中新增的静态方法，功能强。它主要功能是格式化数据，大致分为这些类（常规类型、字符类型、数值类型、日期类型）。它的语法如下： 
+常规类型、字符类型和数值类型的格式说明符的语法：%[参数索引位置$][转换标识符][最小官渡][.保留精度位数]转换方式</p>
+
+<p>如上述1$, 2$代表参数索引位置，而d, s则是转换标示符，关于更多的转换标示符见下面：</p>
+
+<ul>
+  <li>
+    <p>%s    字符串类型    如”mingrisoft”</p>
+  </li>
+  <li>
+    <p>%c    字符类型    ‘m’</p>
+  </li>
+  <li>
+    <p>%b    布尔类型    true</p>
+  </li>
+  <li>
+    <p>%d    整数类型（十进制）    99</p>
+  </li>
+  <li>
+    <p>%x    整数类型（十六进制）    FF</p>
+  </li>
+  <li>
+    <p>%o    整数类型（八进制）    77</p>
+  </li>
+  <li>
+    <p>%f    浮点类型    99.99</p>
+  </li>
+  <li>
+    <p>%a    十六进制浮点类型    FF.35AE</p>
+  </li>
+  <li>
+    <p>%e    指数类型    9.38e+5</p>
+  </li>
+  <li>
+    <p>%g    通用浮点类型（f和e类型中较短的）</p>
+  </li>
+  <li>
+    <p>%%    百分比类型    ％</p>
+  </li>
+  <li>
+    <p>%n    换行符</p>
+  </li>
+  <li>
+    <p>%tx    日期与时间类型(x代表不同的日期与时间转换符)</p>
+  </li>
+</ul>
+
+<p>这里只介绍一些简单的用法，String.format尤其对日期类型格式化的时候更加强大，更多用法详见JDK api.</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#String">String <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/git/2014/01/29/git-flow" title="使用Git Flow管理开发流程">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2014/02/11/android-volley" title="Android Volley">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/java/2014/02/09/java-string-format" data-title="Java String Format" data-url="/java/2014/02/09/java-string-format"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

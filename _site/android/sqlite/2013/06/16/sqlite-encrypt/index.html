@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SQLite加密--SQLCipher</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>SQLite加密--SQLCipher </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 06 月 16 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#sqlite-ref">
+      sqlite 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>最近项目中要预先放置一部分food的sqlite数据在程序里，android项目资源文件的破译非常简单，出于安全的考虑，要对sqlite文件进行加密处理，于是就用到了SQLCipher。</p>
+
+<p>SQLCipher is an open source library that provides transparent, secure 256-bit AES encryption of SQLite database files.</p>
+
+<p>虽然SQLCipher是开源的，但是仅仅是开源的而已——你要自己编译，不想自己编译就得付费购买已经编译好的二进制文件~~木有钱，只好自己编译了，这里来讲下编译过程。</p>
+
+<h2 id="section">1.下载源代码</h2>
+
+<p>官方源代码：<a href="https://github.com/sqlcipher/sqlcipher">https://github.com/sqlcipher/sqlcipher</a></p>
+
+<h2 id="section-1">2.编译</h2>
+
+<p>进入源代码目录：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">/configure</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">tempstore</span><span class="o">=</span><span class="n">yes</span> <span class="no">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-DSQLITE_HAS_CODEC&quot;</span> <span class="no">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-lcrypto&quot;</span>
+<span class="n">make</span></code></pre></div>
+
+<p>注意：由于SQLCipher是SQLite的另外一个版本，所以为了不影响系统的SQLite，和其他SQLCipher版本间的兼容问题，所以不能将编译生成的直接install到系统，可以做符号链接等方式来管理二进制版本。我这里建立了一个软链接：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="sr">/Users/s</span><span class="n">torm</span><span class="o">/</span><span class="n">sqlcipher</span><span class="o">/</span><span class="n">sqlite3</span> <span class="sr">/usr/</span><span class="n">bin</span><span class="o">/</span><span class="n">sqlcipher</span></code></pre></div>
+
+<h2 id="section-2">3.验证编译是否成功</h2>
+
+<p>创建一个加密的数据，密码是aaa：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">sqlcipher</span> <span class="nb">test</span><span class="o">.</span><span class="n">sqlite</span>
+<span class="no">SQLite</span> <span class="n">version</span> <span class="mi">3</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span> <span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">19</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">12</span>
+<span class="no">Enter</span> <span class="s2">&quot;.help&quot;</span> <span class="k">for</span> <span class="n">instructions</span>
+<span class="no">Enter</span> <span class="no">SQL</span> <span class="n">statements</span> <span class="n">terminated</span> <span class="n">with</span> <span class="n">a</span> <span class="s2">&quot;;&quot;</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="no">PRAGMA</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;aaa&#39;</span><span class="p">;</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="n">create</span> <span class="n">table</span> <span class="n">a</span><span class="p">(</span><span class="n">ind</span> <span class="n">int</span><span class="p">);</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">tables</span>
+<span class="n">a</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">quit</span></code></pre></div>
+
+<p>尝试不输入密码，直接读取数据库，理论上是读不到数据，或者报错：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">sqlcipher</span> <span class="nb">test</span><span class="o">.</span><span class="n">sqlite</span>
+<span class="no">SQLite</span> <span class="n">version</span> <span class="mi">3</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span> <span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">19</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">12</span>
+<span class="no">Enter</span> <span class="s2">&quot;.help&quot;</span> <span class="k">for</span> <span class="n">instructions</span>
+<span class="no">Enter</span> <span class="no">SQL</span> <span class="n">statements</span> <span class="n">terminated</span> <span class="n">with</span> <span class="n">a</span> <span class="s2">&quot;;&quot;</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">tables</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">quit</span></code></pre></div>
+
+<p>尝试正确输入密码，应该成功读取：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">sqlcipher</span> <span class="nb">test</span><span class="o">.</span><span class="n">sqlite</span>
+<span class="no">SQLite</span> <span class="n">version</span> <span class="mi">3</span><span class="o">.</span><span class="mi">7</span><span class="o">.</span><span class="mi">14</span><span class="o">.</span><span class="mi">1</span> <span class="mi">2012</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">19</span><span class="p">:</span><span class="mi">37</span><span class="p">:</span><span class="mi">12</span>
+<span class="no">Enter</span> <span class="s2">&quot;.help&quot;</span> <span class="k">for</span> <span class="n">instructions</span>
+<span class="no">Enter</span> <span class="no">SQL</span> <span class="n">statements</span> <span class="n">terminated</span> <span class="n">with</span> <span class="n">a</span> <span class="s2">&quot;;&quot;</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="no">PRAGMA</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;aaa&#39;</span><span class="p">;</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">tables</span>
+<span class="n">a</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="o">.</span><span class="n">quit</span></code></pre></div>
+
+<p>上面三个流程都过说明编译成功！</p>
+
+<h2 id="section-3">给现有数据进行加密</h2>
+
+<p>如何给现有的sqlite文件进行加密，没有别的简单的方法：</p>
+
+<p>1.先把数据导出：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">sqlite3</span> <span class="n">ifood</span><span class="o">.</span><span class="n">sqlite</span>
+<span class="o">&gt;.</span><span class="n">output</span> <span class="n">ifood</span><span class="o">.</span><span class="n">sql</span>
+<span class="o">&gt;.</span><span class="n">dump</span></code></pre></div>
+
+<p>2.创建一个新的加密的数据库：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">sqlcipher</span> <span class="n">ifood_lock</span><span class="o">.</span><span class="n">sqlite</span>
+<span class="n">sqlite</span><span class="o">&gt;</span> <span class="no">PRAGMA</span> <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">;</span> <span class="c1"># 设置密码</span></code></pre></div>
+
+<p>3.导入数据</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&gt;.</span><span class="n">read</span> <span class="n">ifood</span><span class="o">.</span><span class="n">sql</span></code></pre></div>
+
+<p>如果项目中经常用到数据加密，可以写个脚步。</p>
+
+<h2 id="sqlcipher-for-android">SQLCipher For Android</h2>
+
+<p>SQLCipher官网有详细的android项目中的使用教程，地址在：<a href="http://sqlcipher.net/sqlcipher-for-android/">http://sqlcipher.net/sqlcipher-for-android/</a></p>
+
+<p>实际项目中遇到的问题是密码设置不要含单引号，不然会解密不对。而且加密过后有一个弊端，就是程序会增加将近4M左右的大小，使你的apk包看起来比较大，但是为了数据安全，这点牺牲还是值得的！</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Sqlite">Sqlite <span>2</span></a></li>
+   
+    <li><a href="/posts.html#SQLCipher">SQLCipher <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/2013/06/02/android-achartengine" title="Android AChartEngine">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/06/23/android-push" title="Android Push">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/sqlite/2013/06/16/sqlite-encrypt" data-title="SQLite加密--SQLCipher" data-url="/android/sqlite/2013/06/16/sqlite-encrypt"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

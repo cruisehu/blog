@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android Copy Sqlite From Assets</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android Copy Sqlite From Assets </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 08 月 23 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+  <li>
+    <i class="icon-double-angle-right"></i>
+  </li>
+  
+ 
+  <li>
+    <a href="/categories.html#sqlite-ref">
+      sqlite 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <h2 id="section">背景</h2>
+
+<p>我们都知道，在Android开发中，一般都使用sqlite来进行数据的存储与访问，而使用sqlite也可分为两种方式，一是在app中手动创建database，这种情况下大多使用SQLiteOpenHelper来进行数据库的创建与升级管理；另一种则是我们事先处理一份只读的数据库放在assets文件夹里，使用的时候则必须先把sqlite文件从assets文件里里拷贝到程序中才可使用，这种情况下的升级则是通过判断版本号来直接覆盖拷贝。</p>
+
+<h2 id="section-1">问题</h2>
+
+<p>在one的项目中以上两种做法都用到了，本地放了一份只读的部分食物数据，大概1.1M左右，用户的记录数据如：饮食、运动、体重记录存储在自己创建的另一个数据库中。这看似没什么问题，实际测试中也没发现有什么异常。项目上线后后台监测会有一些异常出现，大概意思是food_groups找不到这个表之类的，由于异常次数比较少，加上本地测试也没重现，所以也没在意。但是这个异常每一个版本都会出现，加上偶尔有个别用户反馈食物查询不了，甚是纳闷。</p>
+
+<h2 id="section-2">解决</h2>
+
+<p>通过询问几位用户以及后台错误的版本分布来看，大多集中在2.2。这个时候便定位到了问题，2.2版本一下的已经非常少了，实际测试时公司也没有那么低版本的手机了，所以一直没有重现，于是在模拟器上用2.1版本进行测试，果然查询模块无法查看。通过监测日志发现，在2.1版本copy数据库时失败，但是在2.3以上版本却一直正常。经过google查看了很多资料，加上自己实际的测试才发现在2.3以下版本的系统中放在assets文件夹里的数据库文件大小不能超过1M，于是经过重新整理把文件缩小到900多k，再在2.1版本的模拟器上运行，一些ok了。</p>
+
+<h2 id="section-3">总结</h2>
+
+<p>安卓平台上的版本兼容问题确实是令人比较头痛的事，但是4.0之后这些兼容问题不再那么明显了，就目前来看我们的app还是要兼容大多数的系统版本的，后台的异常还是有很大作用的，在测试机器不充分的条件下，这种方式还是非常依赖的。相信等4.0以后的版本普及之后，兼容问题便不用花费太多精力了。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#Sqlite">Sqlite <span>2</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/sqlite/2013/08/19/android-insert-performance-optimization" title="Android批量插入数据性能优化">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/08/28/android-use-build-config" title="Android BuildConfig.DEBUG的妙用">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/sqlite/2013/08/23/android-copy-sqlite-from-assets" data-title="Android Copy Sqlite From Assets" data-url="/android/sqlite/2013/08/23/android-copy-sqlite-from-assets"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

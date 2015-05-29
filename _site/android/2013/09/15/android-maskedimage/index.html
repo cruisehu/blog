@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android MaskedImage</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android MaskedImage </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 09 月 15 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      <p>在这次one新版本的UI设计中，其中关于头像的设计中，一部分是圆角头像，一部分是圆形图像，关于这部分的实现有两种方法：第一种就是通过图片的叠加来实现，这种方法相对比较简单，但是如果有多种规格大小的就得提供相应这么多种的图片，第二种就是通过代码实现，这部分实现起来稍微麻烦点，但是如果一旦实现那么代码就可以重用，代码中用起来就比较方便。于是查找了各种资料，今天就来分享下代码实现的方法。</p>
+
+<p>UI的开发最推荐的还是组件式开发，对于多个地方通用的东西抽成一个组件，这样不管是代码复用还是提供给别人使用都是比较方便的做法。在这次UI设计中，有圆形图片，圆角图片，不排除以后还有其他图片，如椭圆图片之类的，所以这次UI组件的开发也采用了继承的方法。</p>
+
+<p><img src="/images/masked_image_design.png" /></p>
+
+<p>下面就来看下代码实现：</p>
+
+<h2 id="maskedimage">MaskedImage抽象基类</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">boohee</span><span class="o">.</span><span class="n">widgets</span><span class="p">;</span>
+
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">Context</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">Canvas</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">Paint</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">PorterDuff</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">PorterDuffXfermode</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">Xfermode</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">AttributeSet</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">android</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">ImageView</span><span class="p">;</span>
+
+<span class="kp">public</span> <span class="n">abstract</span> <span class="k">class</span> <span class="nc">MaskedImage</span> <span class="n">extends</span> <span class="no">ImageView</span> <span class="p">{</span>
+	<span class="kp">private</span> <span class="n">static</span> <span class="n">final</span> <span class="no">Xfermode</span> <span class="no">MASK_XFERMODE</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">Bitmap</span> <span class="n">mask</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">Paint</span> <span class="n">paint</span><span class="p">;</span>
+
+	<span class="n">static</span> <span class="p">{</span>
+		<span class="no">PorterDuff</span><span class="o">.</span><span class="n">Mode</span> <span class="n">localMode</span> <span class="o">=</span> <span class="no">PorterDuff</span><span class="o">.</span><span class="n">Mode</span><span class="o">.</span><span class="n">DST_IN</span><span class="p">;</span>
+		<span class="no">MASK_XFERMODE</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">PorterDuffXfermode</span><span class="p">(</span><span class="n">localMode</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="no">MaskedImage</span><span class="p">(</span><span class="no">Context</span> <span class="n">paramContext</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="p">(</span><span class="n">paramContext</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="no">MaskedImage</span><span class="p">(</span><span class="no">Context</span> <span class="n">paramContext</span><span class="p">,</span> <span class="no">AttributeSet</span> <span class="n">paramAttributeSet</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="p">(</span><span class="n">paramContext</span><span class="p">,</span> <span class="n">paramAttributeSet</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="no">MaskedImage</span><span class="p">(</span><span class="no">Context</span> <span class="n">paramContext</span><span class="p">,</span> <span class="no">AttributeSet</span> <span class="n">paramAttributeSet</span><span class="p">,</span> <span class="n">int</span> <span class="n">paramInt</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="p">(</span><span class="n">paramContext</span><span class="p">,</span> <span class="n">paramAttributeSet</span><span class="p">,</span> <span class="n">paramInt</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="n">abstract</span> <span class="no">Bitmap</span> <span class="n">createMask</span><span class="p">();</span>
+
+	<span class="kp">protected</span> <span class="n">void</span> <span class="n">onDraw</span><span class="p">(</span><span class="no">Canvas</span> <span class="n">paramCanvas</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">Drawable</span> <span class="n">localDrawable</span> <span class="o">=</span> <span class="n">getDrawable</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">localDrawable</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+			<span class="k">return</span><span class="p">;</span>
+		<span class="n">try</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">paint</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+				<span class="no">Paint</span> <span class="n">localPaint1</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Paint</span><span class="p">();</span>
+				<span class="n">this</span><span class="o">.</span><span class="n">paint</span> <span class="o">=</span> <span class="n">localPaint1</span><span class="p">;</span>
+				<span class="n">this</span><span class="o">.</span><span class="n">paint</span><span class="o">.</span><span class="n">setFilterBitmap</span><span class="p">(</span><span class="kp">false</span><span class="p">);</span>
+				<span class="no">Paint</span> <span class="n">localPaint2</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">paint</span><span class="p">;</span>
+				<span class="no">Xfermode</span> <span class="n">localXfermode1</span> <span class="o">=</span> <span class="no">MASK_XFERMODE</span><span class="p">;</span>
+				<span class="no">Xfermode</span> <span class="n">localXfermode2</span> <span class="o">=</span> <span class="n">localPaint2</span><span class="o">.</span><span class="n">setXfermode</span><span class="p">(</span><span class="n">localXfermode1</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="n">float</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">getWidth</span><span class="p">();</span>
+			<span class="n">float</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">getHeight</span><span class="p">();</span>
+			<span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">paramCanvas</span><span class="o">.</span><span class="n">saveLayer</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">F</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">null</span><span class="p">,</span> <span class="mi">31</span><span class="p">);</span>
+			<span class="n">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">getWidth</span><span class="p">();</span>
+			<span class="n">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">getHeight</span><span class="p">();</span>
+			<span class="n">localDrawable</span><span class="o">.</span><span class="n">setBounds</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+			<span class="n">localDrawable</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">paramCanvas</span><span class="p">);</span>
+			<span class="k">if</span> <span class="p">((</span><span class="n">this</span><span class="o">.</span><span class="n">mask</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">isRecycled</span><span class="p">()))</span> <span class="p">{</span>
+				<span class="no">Bitmap</span> <span class="n">localBitmap1</span> <span class="o">=</span> <span class="n">createMask</span><span class="p">();</span>
+				<span class="n">this</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">localBitmap1</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="no">Bitmap</span> <span class="n">localBitmap2</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">mask</span><span class="p">;</span>
+			<span class="no">Paint</span> <span class="n">localPaint3</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">paint</span><span class="p">;</span>
+			<span class="n">paramCanvas</span><span class="o">.</span><span class="n">drawBitmap</span><span class="p">(</span><span class="n">localBitmap2</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">F</span><span class="p">,</span> <span class="n">localPaint3</span><span class="p">);</span>
+			<span class="n">paramCanvas</span><span class="o">.</span><span class="n">restoreToCount</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+			<span class="k">return</span><span class="p">;</span>
+		<span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">Exception</span> <span class="n">localException</span><span class="p">)</span> <span class="p">{</span>
+			<span class="no">StringBuilder</span> <span class="n">localStringBuilder</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">StringBuilder</span><span class="p">()</span>
+					<span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Attempting to draw with recycled bitmap. View ID = &quot;</span><span class="p">);</span>
+			<span class="no">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;localStringBuilder==&quot;</span><span class="o">+</span><span class="n">localStringBuilder</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="circularimage">CircularImage（圆形图片）实现类</h2>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">CircularImage</span> <span class="n">extends</span> <span class="no">MaskedImage</span> <span class="p">{</span>
+	<span class="kp">public</span> <span class="no">CircularImage</span><span class="p">(</span><span class="no">Context</span> <span class="n">paramContext</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="p">(</span><span class="n">paramContext</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="no">CircularImage</span><span class="p">(</span><span class="no">Context</span> <span class="n">paramContext</span><span class="p">,</span> <span class="no">AttributeSet</span> <span class="n">paramAttributeSet</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="p">(</span><span class="n">paramContext</span><span class="p">,</span> <span class="n">paramAttributeSet</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="no">CircularImage</span><span class="p">(</span><span class="no">Context</span> <span class="n">paramContext</span><span class="p">,</span> <span class="no">AttributeSet</span> <span class="n">paramAttributeSet</span><span class="p">,</span> <span class="n">int</span> <span class="n">paramInt</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="p">(</span><span class="n">paramContext</span><span class="p">,</span> <span class="n">paramAttributeSet</span><span class="p">,</span> <span class="n">paramInt</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kp">public</span> <span class="no">Bitmap</span> <span class="n">createMask</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">getWidth</span><span class="p">();</span>
+		<span class="n">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">getHeight</span><span class="p">();</span>
+		<span class="no">Bitmap</span><span class="o">.</span><span class="n">Config</span> <span class="n">localConfig</span> <span class="o">=</span> <span class="no">Bitmap</span><span class="o">.</span><span class="n">Config</span><span class="o">.</span><span class="n">ARGB_8888</span><span class="p">;</span>
+		<span class="no">Bitmap</span> <span class="n">localBitmap</span> <span class="o">=</span> <span class="no">Bitmap</span><span class="o">.</span><span class="n">createBitmap</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">localConfig</span><span class="p">);</span>
+		<span class="no">Canvas</span> <span class="n">localCanvas</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Canvas</span><span class="p">(</span><span class="n">localBitmap</span><span class="p">);</span>
+		<span class="no">Paint</span> <span class="n">localPaint</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Paint</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="n">localPaint</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="o">-</span><span class="mi">16777216</span><span class="p">);</span>
+		<span class="n">float</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">getWidth</span><span class="p">();</span>
+		<span class="n">float</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">getHeight</span><span class="p">();</span>
+		<span class="no">RectF</span> <span class="n">localRectF</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">RectF</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">F</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">);</span>
+		<span class="n">localCanvas</span><span class="o">.</span><span class="n">drawOval</span><span class="p">(</span><span class="n">localRectF</span><span class="p">,</span> <span class="n">localPaint</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">localBitmap</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<h2 id="roundedcornersimage">RoundedCornersImage（圆角图片）实现类</h2>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml">public class RoundedCornersImage extends MaskedImage {
+	private static final int DEFAULT_CORNER_RADIUS = 8;
+	private int cornerRadius = DEFAULT_CORNER_RADIUS;
+
+	public RoundedCornersImage(Context paramContext) {
+		super(paramContext);
+	}
+
+	public RoundedCornersImage(Context paramContext, AttributeSet paramAttributeSet) {
+		super(paramContext, paramAttributeSet);
+		int[] arrayOfInt = R.styleable.RoundedCornersImage;
+		TypedArray a = paramContext.obtainStyledAttributes(paramAttributeSet, arrayOfInt);
+		int i = a.getDimensionPixelSize(0, DEFAULT_CORNER_RADIUS);
+		this.cornerRadius = i;
+		a.recycle();
+	}
+
+	public Bitmap createMask() {
+		int i = getWidth();
+		int j = getHeight();
+		Bitmap.Config localConfig = Bitmap.Config.ARGB_8888;
+		Bitmap localBitmap = Bitmap.createBitmap(i, j, localConfig);
+		Canvas localCanvas = new Canvas(localBitmap);
+		Paint localPaint = new Paint(1);
+		localPaint.setColor(-16777216);
+		float f1 = getWidth();
+		float f2 = getHeight();
+		RectF localRectF = new RectF(0.0F, 0.0F, f1, f2);
+		float f3 = this.cornerRadius;
+		float f4 = this.cornerRadius;
+		localCanvas.drawRoundRect(localRectF, f3, f4, localPaint);
+		return localBitmap;
+	}
+}</code></pre></div>
+
+<p>如果以后新增了椭圆图片，那么只须新建一个椭圆图片累继承自MaskedImage,然后重写createMask()方法即可。</p>
+
+<p>至此，代码实现已完成，只需要在xml中像使用android自带组件的方式使用我们的自定义组件即可，如：</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">com</span><span class="o">.</span><span class="n">boohee</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">RoundedCornersImage</span>
+    <span class="ss">android</span><span class="p">:</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;@+id/rounded_image&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">layout_width</span><span class="o">=</span><span class="s2">&quot;60dp&quot;</span>
+    <span class="ss">android</span><span class="p">:</span><span class="n">layout_height</span><span class="o">=</span><span class="s2">&quot;60dp&quot;</span> <span class="sr">/&gt;</span></code></pre></div>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#MaskedImage">MaskedImage <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/android/sqlite/2013/09/02/android-sqliteassethelper" title="Android SqliteAssetHelper">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/2013/09/21/android-autobg-imageview" title="Android自定义点击效果的ImageView">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/09/15/android-maskedimage" data-title="Android MaskedImage" data-url="/android/2013/09/15/android-maskedimage"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+

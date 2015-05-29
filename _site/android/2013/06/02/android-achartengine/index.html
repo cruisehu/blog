@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Android AChartEngine</title>
+    
+    
+    <meta name="author" content="stormzhang">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/typo.css" rel="stylesheet">
+    <link href="/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/solarized.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/datatables-bootstrap.css" rel="stylesheet">
+    <link href="/css/codepiano.css" rel="stylesheet">
+
+    <!-- javascript files -->
+    <script type="text/javascript" src="/js/jquery-2.0.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/datatables-bootstrap.js"></script>
+    <script type="text/javascript" src="/js/codepiano.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+    <script type="text/javascript">
+    </script>
+
+  </head>
+
+  <body id="scroll-pane" data-spy="scroll" data-target="#time-list-nav">
+    <div class="wrapper">
+      <!-- 导航条 -->
+      <div class="navbar">
+        <div class="navbar-inner row-fluid">
+          <div class="span2">
+          </div>
+          <div class="span8">
+            <a class="brand" href="/">
+              <span class="site-author"> stormzhang </span>
+              <span class="site-title"> /* 做好现在的事儿 */ </span>
+            </a>
+            <ul class="nav">
+              
+              
+              
+
+
+
+
+
+<li class="posts"><a href="/posts.html">目录</a></li>
+<li class="timeline"><a href="/timeline.html">时间线</a></li>
+<li class="categories"><a href="/categories.html">分类</a></li>
+<li class="about"><a href="/about.html">关于</a></li>
+
+            </ul>
+          </div>
+          <div class="span2">
+          </div>
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      
+
+<div class="row-fluid post-full typo">
+  <div class="span2"></div>
+  <div class="span8 typo">
+    <h2>Android AChartEngine </h2>
+    <div class="post_info">
+      
+      <ul class="tag_box inline">
+        <li><i class="icon-calendar"></i></li>
+        <li> 2013 年 06 月 02 日</li>
+        <li><i class="icon-folder-open"></i></li>
+        
+        
+ 
+  <li>
+    <a href="/categories.html#android-ref">
+      android 
+    </a>
+  </li>
+  
+
+
+
+      </ul>
+        
+    </div>
+    <div class="content">
+      
+<p>最近一段时间完成“体重记录”的功能，需要实现日历和曲线的效果。也花费不少精力吧，这里就先把曲线的实现分享出来，俗话说的好：“好记忆不如烂笔头”！</p>
+
+<h2 id="achartengine">AChartEngine是什么？</h2>
+
+<p>AChartEngine是一个android应用的图表库，他支持一些常见的一些图表，如线状图，区域图，散点图，时间图，柱状图，饼状图，气泡图等。当然这次只用到了线状图。项目地址在<a href="http://code.google.com/p/achartengine/">http://code.google.com/p/achartengine/</a></p>
+
+<p>下面先看下这次项目中实现的效果吧：</p>
+
+<p><img src="/image/weight_curve.png" /></p>
+
+<h2 id="section">实现</h2>
+
+<p>总的来说，AChartEngine提供的api还是很全的，使用起来是很方便的，但是唯一的缺点就是api文档描述的不够详细，很多自己想要的效果都只能自己根据api的命名去推测，更有甚者得必须自己亲自一点点尝试才能实现出自己想要的效果，为了以后用到，这次也在代码中用到的接口表明了清晰的注释，废话不多说，直接上代码。</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">WeightCurveActivity</span> <span class="n">extends</span> <span class="no">ActivityBase</span> <span class="p">{</span>
+
+	<span class="n">static</span> <span class="n">final</span> <span class="nb">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="no">WeightCurveActivity</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">getName</span><span class="p">();</span>
+
+	<span class="kp">private</span> <span class="no">LinearLayout</span> <span class="n">rootLayout</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">XYMultipleSeriesRenderer</span> <span class="n">mRenderer</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">XYMultipleSeriesDataset</span> <span class="n">mDataset</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">XYMultipleSeriesDataset</span><span class="p">();</span>
+	
+	<span class="kp">private</span> <span class="n">int</span> <span class="n">month</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">Date</span> <span class="n">date</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="no">ArrayList</span><span class="o">&lt;</span><span class="no">WeightRecord</span><span class="o">&gt;</span> <span class="n">records</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="n">double</span><span class="o">[]</span> <span class="n">xValues</span><span class="p">;</span>
+	<span class="kp">private</span> <span class="n">double</span><span class="o">[]</span> <span class="n">yValues</span><span class="p">;</span>
+
+	<span class="kp">public</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="no">Bundle</span> <span class="n">outState</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">super</span><span class="o">.</span><span class="n">onCreate</span><span class="p">(</span><span class="n">outState</span><span class="p">);</span>
+		<span class="n">setContentView</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">weight_curve</span><span class="p">);</span>
+		
+		<span class="n">handleIntent</span><span class="p">();</span>
+		<span class="n">initRender</span><span class="p">();</span>
+		<span class="n">initData</span><span class="p">();</span>
+		<span class="n">initUI</span><span class="p">();</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">handleIntent</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nb">String</span> <span class="n">dateString</span> <span class="o">=</span> <span class="n">getIntent</span><span class="p">()</span><span class="o">.</span><span class="n">getStringExtra</span><span class="p">(</span><span class="no">Const</span><span class="o">.</span><span class="n">DATE</span><span class="p">);</span>
+		<span class="n">date</span> <span class="o">=</span> <span class="no">DateHelper</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">dateString</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">initRender</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">mRenderer</span> <span class="o">=</span> <span class="n">buildRenderer</span><span class="p">();</span>
+		<span class="n">setChartSettings</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">120</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">initData</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">month</span> <span class="o">=</span> <span class="no">DateHelper</span><span class="o">.</span><span class="n">getMonth</span><span class="p">(</span><span class="n">date</span><span class="p">);</span>
+		<span class="no">WeightRecordDao</span> <span class="n">dao</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">WeightRecordDao</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+		<span class="n">records</span> <span class="o">=</span> <span class="n">dao</span><span class="o">.</span><span class="n">getMonthLists</span><span class="p">(</span><span class="n">date</span><span class="p">);</span>
+		<span class="no">Helper</span><span class="o">.</span><span class="n">showLog</span><span class="p">(</span><span class="no">TAG</span><span class="p">,</span> <span class="n">records</span><span class="o">.</span><span class="n">size</span><span class="p">());</span>
+		<span class="n">dao</span><span class="o">.</span><span class="n">closeDB</span><span class="p">();</span>
+		<span class="n">initValues</span><span class="p">();</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">initValues</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">size</span><span class="p">();</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">xValues</span> <span class="o">=</span> <span class="kp">new</span> <span class="n">double</span><span class="o">[</span><span class="n">count</span><span class="o">]</span><span class="p">;</span>
+			<span class="n">yValues</span> <span class="o">=</span> <span class="kp">new</span> <span class="n">double</span><span class="o">[</span><span class="n">count</span><span class="o">]</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="no">WeightRecord</span> <span class="n">record</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+				<span class="n">xValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="no">DateHelper</span><span class="o">.</span><span class="n">getDay</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">record_on</span><span class="p">);</span>
+				<span class="n">yValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="no">Math</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">weight</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="o">.</span><span class="mi">0</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="n">setXLabel</span><span class="p">();</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">initUI</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">addXYSeries</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+		<span class="n">rootLayout</span> <span class="o">=</span> <span class="p">(</span><span class="no">LinearLayout</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">root</span><span class="p">);</span>
+		<span class="no">View</span> <span class="n">view</span> <span class="o">=</span> <span class="no">ChartFactory</span><span class="o">.</span><span class="n">getLineChartView</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">mDataset</span><span class="p">,</span> <span class="n">mRenderer</span><span class="p">);</span>
+		<span class="n">rootLayout</span><span class="o">.</span><span class="n">addView</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">setXLabel</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">mRenderer</span><span class="o">.</span><span class="n">setXLabels</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置</span><span class="n">X</span><span class="err">轴标签不显示</span>
+		<span class="n">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">xValues</span><span class="o">.</span><span class="n">length</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">mRenderer</span><span class="o">.</span><span class="n">addXTextLabel</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">month</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span><span class="n">xValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="kp">private</span> <span class="no">XYMultipleSeriesRenderer</span> <span class="n">buildRenderer</span><span class="p">()</span> <span class="p">{</span>
+		<span class="no">XYMultipleSeriesRenderer</span> <span class="n">renderer</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">XYMultipleSeriesRenderer</span><span class="p">();</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setAxisTitleTextSize</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置坐标轴字体大小</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setChartTitleTextSize</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置标题大小</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setLabelsTextSize</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置标签字体大小</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setLegendTextSize</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置底部曲线说明字体大小</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setShowGridX</span><span class="p">(</span><span class="kp">true</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置</span><span class="n">X</span><span class="err">方向表格显示</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setShowLegend</span><span class="p">(</span><span class="kp">false</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置底部曲线说明显示</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setGridColor</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="n">LTGRAY</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置表格颜色</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">5</span><span class="n">f</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setMargins</span><span class="p">(</span><span class="kp">new</span> <span class="n">int</span><span class="o">[]</span> <span class="p">{</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span> <span class="p">});</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setPanEnabled</span><span class="p">(</span><span class="kp">true</span><span class="p">,</span> <span class="kp">false</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置曲线可滑动</span>
+
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setApplyBackgroundColor</span><span class="p">(</span><span class="kp">true</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置图表背景</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setBackgroundColor</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="n">TRANSPARENT</span><span class="p">);</span>
+
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setChartTitle</span><span class="p">(</span><span class="s2">&quot;体重曲线&quot;</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setXTitle</span><span class="p">(</span><span class="s2">&quot;日期&quot;</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setYTitle</span><span class="p">(</span><span class="s2">&quot;体重&quot;</span><span class="p">);</span>
+
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setXLabelsColor</span><span class="p">(</span><span class="n">getResources</span><span class="p">()</span><span class="o">.</span><span class="n">getColor</span><span class="p">(</span>
+				<span class="n">R</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">main_font_color</span><span class="p">));</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setXLabelsAlign</span><span class="p">(</span><span class="no">Align</span><span class="o">.</span><span class="n">CENTER</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setXLabelsPadding</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setYLabelsColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>
+				<span class="n">getResources</span><span class="p">()</span><span class="o">.</span><span class="n">getColor</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">main_font_color</span><span class="p">));</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setYLabelsPadding</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setYLabelsAlign</span><span class="p">(</span><span class="no">Align</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">);</span>
+
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setAxesColor</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="n">GRAY</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置坐标轴颜色</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setMarginsColor</span><span class="p">(</span><span class="n">getResources</span><span class="p">()</span><span class="o">.</span><span class="n">getColor</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">main_bg_color</span><span class="p">));</span> <span class="sr">//</span> <span class="err">设置图表周围颜色</span>
+		
+		<span class="n">renderer</span><span class="o">.</span><span class="n">setLabelsColor</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="n">GRAY</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置标签颜色</span>
+		
+		<span class="no">XYSeriesRenderer</span> <span class="n">r</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">XYSeriesRenderer</span><span class="p">();</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">getResources</span><span class="p">()</span><span class="o">.</span><span class="n">getColor</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">stress_font_color</span><span class="p">));</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setFillPoints</span><span class="p">(</span><span class="kp">true</span><span class="p">);</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setPointStyle</span><span class="p">(</span><span class="no">PointStyle</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">);</span>
+		<span class="n">renderer</span><span class="o">.</span><span class="n">addSeriesRenderer</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setDisplayChartValues</span><span class="p">(</span><span class="kp">true</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置显示图表值</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setDisplayChartValuesDistance</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setChartValuesTextSize</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setChartValuesSpacing</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+		<span class="n">r</span><span class="o">.</span><span class="n">setHighlighted</span><span class="p">(</span><span class="kp">true</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">renderer</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">setChartSettings</span><span class="p">(</span><span class="n">double</span> <span class="n">xMin</span><span class="p">,</span> <span class="n">double</span> <span class="n">xMax</span><span class="p">,</span> <span class="n">double</span> <span class="n">yMin</span><span class="p">,</span>
+			<span class="n">double</span> <span class="n">yMax</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">mRenderer</span><span class="o">.</span><span class="n">setXAxisMin</span><span class="p">(</span><span class="n">xMin</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置</span><span class="n">X</span><span class="err">轴最小值</span>
+		<span class="n">mRenderer</span><span class="o">.</span><span class="n">setXAxisMax</span><span class="p">(</span><span class="n">xMax</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置</span><span class="n">X</span><span class="err">轴最大值</span>
+		<span class="n">mRenderer</span><span class="o">.</span><span class="n">setYAxisMin</span><span class="p">(</span><span class="n">yMin</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置</span><span class="n">Y</span><span class="err">轴最小值</span>
+		<span class="n">mRenderer</span><span class="o">.</span><span class="n">setYAxisMax</span><span class="p">(</span><span class="n">yMax</span><span class="p">);</span> <span class="sr">//</span> <span class="err">设置</span><span class="n">Y</span><span class="err">轴最大值</span>
+	<span class="p">}</span>
+
+	<span class="kp">private</span> <span class="n">void</span> <span class="n">addXYSeries</span><span class="p">(</span><span class="n">int</span> <span class="n">scale</span><span class="p">)</span> <span class="p">{</span>
+		<span class="no">XYSeries</span> <span class="n">series</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">XYSeries</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">records</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">int</span> <span class="n">seriesLength</span> <span class="o">=</span> <span class="n">xValues</span><span class="o">.</span><span class="n">length</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">seriesLength</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">series</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">yValues</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="n">mDataset</span><span class="o">.</span><span class="n">addSeries</span><span class="p">(</span><span class="n">series</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>现在看来代码倒是很简单，但是为了实现现在这个样子，当初费了不少精力来一步步尝试。当然AChartEngine能实现的不止这些，可以充分发挥自己的想象力与创造力，实现更加复杂的效果与功能。</p>
+
+    </div>
+
+    
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+   
+    <li><a href="/posts.html#AChartEngine">AChartEngine <span>1</span></a></li>
+  
+
+
+
+    </ul>
+      
+
+    <hr>
+    <div class="pagination pull-right">
+      <ul>
+        
+        <li class="prev"><a href="/designpatterns/2013/05/01/singleton" title="设计模式之单例模式">&larr; Previous</a></li>
+        
+        <li><a href="/posts.html">Archive</a></li>
+        
+        <li class="next"><a href="/android/sqlite/2013/06/16/sqlite-encrypt" title="SQLite加密--SQLCipher">Next &rarr;</a></li>
+        
+      </ul>
+    </div>
+
+  <br />
+    <div id="comment-hook"></div>
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/android/2013/06/02/android-achartengine" data-title="Android AChartEngine" data-url="/android/2013/06/02/android-achartengine"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stormzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+  </div>
+  <div class="span2"></div>
+</div>
+
+
+
+    
+
+  </body>
+</html>
+
